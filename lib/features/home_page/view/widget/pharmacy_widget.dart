@@ -18,6 +18,7 @@ class PharmacyWidget extends StatelessWidget {
                         image: 'assets/test/pharmacy_img.jpeg',
                         tag: '$index',
                         pharmacyName: 'Pharmacy Name',
+                        pharmacyNo: '01064172976',
                       )),
             );
           },
