@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/layout/layout.dart';
+import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 
 import 'authentication/manager/auth_cubit.dart';
 import 'features/home_page/manager/home_page_cubit.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
             useMaterial3: true,
           ),
-          home: const Layout(),
+          home: const LoginPage(),
         ),
       ),
     );

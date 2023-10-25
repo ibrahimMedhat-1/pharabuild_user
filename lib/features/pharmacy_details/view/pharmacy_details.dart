@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/features/pharmacy_details/manager/pharmacy_details_cubit.dart';
+import 'package:intelligent_pharmacy/features/pharmacy_details/manager/pharmacy_details_cubit/pharmacy_details_cubit.dart';
+import 'package:intelligent_pharmacy/features/pharmacy_details/view/pharmacy_products.dart';
+import 'package:intelligent_pharmacy/features/pharmacy_details/view/widgets/pharmacy_details_widget/bottom_more_products.dart';
+import 'package:intelligent_pharmacy/features/pharmacy_details/view/widgets/pharmacy_details_widget/category_item.dart';
+import 'package:intelligent_pharmacy/features/pharmacy_details/view/widgets/pharmacy_details_widget/review_item.dart';
+import 'package:intelligent_pharmacy/features/pharmacy_details/view/widgets/pharmacy_details_widget/top_image.dart';
+import 'package:intelligent_pharmacy/shared/utils/icons.dart';
 
 class PharmacyDetails extends StatelessWidget {
   final String image;
@@ -27,50 +33,15 @@ class PharmacyDetails extends StatelessWidget {
           return Scaffold(
             body: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 10,
+                  right: 10,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                        child: Stack(
-                      children: [
-                        Hero(
-                          tag: tag,
-                          child: Container(
-                            clipBehavior: Clip.antiAlias,
-                            margin: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                            width: double.infinity,
-                            child: Image.asset(
-                              image,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: MediaQuery.sizeOf(context).width * 0.05,
-                            left: MediaQuery.sizeOf(context).width * 0.05,
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey.shade600,
-                                ),
-                                child: const Icon(
-                                  Icons.arrow_back,
-                                  size: 35,
-                                  color: Colors.white,
-                                )),
-                          ),
-                        ),
-                      ],
-                    )),
+                    Expanded(child: TopImageWidget(tag: tag, image: image)),
                     Expanded(
                       flex: 2,
                       child: Column(
@@ -91,13 +62,47 @@ class PharmacyDetails extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ),
-                          Row(
+                          Text(
+                            'Categories',
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  height: 3,
+                                ),
+                          ),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Container(
-                                decoration: const BoxDecoration(shape: BoxShape.circle),
-                              )
+                              CategoryItem(icon: IconsAsset.skinCareCategory),
+                              CategoryItem(icon: IconsAsset.medicineCategory),
+                              CategoryItem(icon: IconsAsset.firstAidCategory),
                             ],
-                          )
+                          ),
+                          Text(
+                            'Reviews',
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  height: 2,
+                                ),
+                          ),
+                          const SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                ReviewItem(),
+                                ReviewItem(),
+                                ReviewItem(),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          BottomMoreProductsWidget(
+                            text: 'More Products',
+                            buttonText: 'More',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (builder) => const PharmacyProductsPage()),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
