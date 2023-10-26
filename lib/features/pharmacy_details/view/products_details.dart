@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intelligent_pharmacy/features/payment/view/payment_page.dart';
 import 'package:intelligent_pharmacy/features/pharmacy_details/manager/pharmacy_products_cubit/pharmacy_products_cubit.dart';
 import 'package:intelligent_pharmacy/features/pharmacy_details/view/widgets/pharmacy_details_widget/bottom_more_products.dart';
 import 'package:intelligent_pharmacy/features/pharmacy_details/view/widgets/pharmacy_details_widget/top_image.dart';
@@ -90,7 +91,13 @@ class ProductsDetails extends StatelessWidget {
                     BottomMoreProductsWidget(
                       text: '\$$productPrice',
                       buttonText: 'Buy',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => const PaymentPage(),
+                            ));
+                      },
                     ),
                   ],
                 ),
