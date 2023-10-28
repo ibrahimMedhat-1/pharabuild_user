@@ -35,7 +35,7 @@ class WelcomeWidget extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
             Text(
-              "Pharmacy Shop",
+              "Intelligent Pharmacy",
               style: textTheme.titleLarge!.copyWith(color: logoColor),
             )
           ],
