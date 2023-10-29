@@ -71,9 +71,9 @@ class PharmacyDetails extends StatelessWidget {
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              CategoryItem(icon: IconsAsset.skinCareCategory),
-                              CategoryItem(icon: IconsAsset.medicineCategory),
-                              CategoryItem(icon: IconsAsset.firstAidCategory),
+                              CategoryItem(categoryName: 'Skin Care', icon: IconsAsset.skinCareCategory),
+                              CategoryItem(categoryName: 'Medicines', icon: IconsAsset.medicineCategory),
+                              CategoryItem(categoryName: 'First Aid', icon: IconsAsset.firstAidCategory),
                             ],
                           ),
                           Text(

@@ -3,10 +3,12 @@ import 'package:intelligent_pharmacy/features/pharmacy_details/view/pharmacy_cat
 
 class CategoryItem extends StatelessWidget {
   final String icon;
+  final String categoryName;
 
   const CategoryItem({
     super.key,
     required this.icon,
+    required this.categoryName,
   });
 
   @override
@@ -16,19 +18,33 @@ class CategoryItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (builder) => const PharmacyCategoriesPage(),
+              builder: (builder) => PharmacyCategoriesPage(
+                categoryName: categoryName,
+                tag: categoryName,
+              ),
             ));
       },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.grey),
-        ),
-        padding: const EdgeInsets.all(10),
-        child: ImageIcon(
-          AssetImage(icon),
-        ),
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.grey),
+            ),
+            padding: const EdgeInsets.all(10),
+            child: ImageIcon(
+              AssetImage(icon),
+            ),
+          ),
+          Hero(
+            tag: categoryName,
+            child: Text(
+              categoryName,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ],
       ),
     );
   }

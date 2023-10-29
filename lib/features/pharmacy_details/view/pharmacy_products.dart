@@ -90,7 +90,7 @@ class PharmacyProductsPage extends StatelessWidget {
                                 },
                               ))
                           .toList(),
-                    )
+                    ),
                   ],
                 ),
               ),
