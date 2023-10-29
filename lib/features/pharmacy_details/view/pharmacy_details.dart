@@ -65,7 +65,7 @@ class PharmacyDetails extends StatelessWidget {
                           Text(
                             'Categories',
                             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  height: 3,
+                                  height: 2,
                                 ),
                           ),
                           const Row(
