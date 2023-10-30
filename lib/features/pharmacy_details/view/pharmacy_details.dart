@@ -93,7 +93,7 @@ class PharmacyDetails extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          BottomMoreProductsWidget(
+                          BottomWidget(
                             text: 'More Products',
                             buttonText: 'More',
                             onTap: () {

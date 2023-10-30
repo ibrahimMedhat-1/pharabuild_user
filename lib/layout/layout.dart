@@ -28,8 +28,8 @@ class Layout extends StatelessWidget {
                 icon: Icon(Icons.home_outlined),
               ),
               BottomNavigationBarItem(
-                label: 'Doctors',
-                icon: Icon(Icons.local_pharmacy_outlined),
+                label: 'Cart',
+                icon: Icon(Icons.shopping_cart_outlined),
               ),
               BottomNavigationBarItem(
                 label: 'Chats',

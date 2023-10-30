@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class BottomMoreProductsWidget extends StatelessWidget {
+class BottomWidget extends StatelessWidget {
   final String text;
   final String buttonText;
   final Function() onTap;
-  const BottomMoreProductsWidget({
+  const BottomWidget({
     super.key,
     required this.text,
     required this.buttonText,
