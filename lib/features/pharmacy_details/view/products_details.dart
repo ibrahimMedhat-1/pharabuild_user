@@ -79,7 +79,20 @@ class ProductsDetails extends StatelessWidget {
                                       productName: productsCubit.similarProducts[e.key].productName!,
                                       productPrice: productsCubit.similarProducts[e.key].productPrice!,
                                       productDescription: productsCubit.similarProducts[e.key].productDescription!,
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (builder) => ProductsDetails(
+                                              tag: productsCubit.products[e.key].tag!,
+                                              image: productsCubit.products[e.key].productImage!,
+                                              productName: productsCubit.products[e.key].productName!,
+                                              productPrice: productsCubit.products[e.key].productPrice!,
+                                              productDescription: productsCubit.products[e.key].productDescription!,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   )
                                   .toList(),

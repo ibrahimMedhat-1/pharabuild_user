@@ -18,6 +18,7 @@ class PharmacyProductsPage extends StatelessWidget {
         builder: (context, state) {
           final PharmacyProductsCubit cubit = PharmacyProductsCubit.get(context);
           return Scaffold(
+            appBar: AppBar(),
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
