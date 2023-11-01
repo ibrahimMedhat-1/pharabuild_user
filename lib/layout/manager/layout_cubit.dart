@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intelligent_pharmacy/features/chat/view/chats_list_page.dart';
 import 'package:intelligent_pharmacy/features/payment/view/cart_view.dart';
+import 'package:intelligent_pharmacy/features/profile/view/profile_page.dart';
 
 import '../../features/home_page/view/home_page.dart';
 
@@ -12,6 +14,8 @@ class LayoutCubit extends Cubit<LayoutState> {
   List<Widget> pages = const [
     HomePage(),
     CartPage(),
+    ChatsList(),
+    ProfilePage(),
   ];
   int page = 0;
   void changePage(index) {

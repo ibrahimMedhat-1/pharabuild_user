@@ -18,28 +18,36 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           // HomePageCubit cubit = HomePageCubit.get(context);
           return SafeArea(
-              child: Column(
-            children: [
-              Container(
-                color: Colors.black87,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const WelcomeWidget(
-                      welcomeText: 'Welcome!',
-                      textColor: Colors.white,
-                      logoColor: Colors.white,
-                    ),
-                    Text(
-                      'Find your Pharmacy',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.grey),
-                    ),
-                    const HomePageSearchWidget(),
-                  ],
+              child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Container(
+                  color: Colors.black87,
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const WelcomeWidget(
+                        welcomeText: 'Welcome!',
+                        textColor: Colors.white,
+                        logoColor: Colors.white,
+                      ),
+                      Text(
+                        'Find your Pharmacy',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.grey),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const PharmacyWidget(),
+              const SliverAppBar(
+                pinned: true,
+                backgroundColor: Colors.black87,
+                expandedHeight: 100,
+                collapsedHeight: 80,
+                flexibleSpace: HomePageSearchWidget(),
+              ),
+              const SliverToBoxAdapter(child: PharmaciesList()),
             ],
           ));
         },

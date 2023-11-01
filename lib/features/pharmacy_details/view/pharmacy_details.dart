@@ -42,68 +42,71 @@ class PharmacyDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(child: TopImageWidget(tag: tag, image: image)),
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            pharmacyName,
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  height: 2,
-                                ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              cubit.callPharmacy(pharmacyNo);
-                            },
-                            child: Text(
-                              pharmacyNo,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                    SizedBox(
+                      width: double.infinity,
+                      height: MediaQuery.sizeOf(context).height * 0.62,
+                      child: SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              pharmacyName,
+                              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    height: 2,
+                                  ),
                             ),
-                          ),
-                          Text(
-                            'Categories',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  height: 2,
-                                ),
-                          ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              CategoryItem(categoryName: 'Skin Care', icon: IconsAsset.skinCareCategory),
-                              CategoryItem(categoryName: 'Medicines', icon: IconsAsset.medicineCategory),
-                              CategoryItem(categoryName: 'First Aid', icon: IconsAsset.firstAidCategory),
-                            ],
-                          ),
-                          Text(
-                            'Reviews',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  height: 2,
-                                ),
-                          ),
-                          const SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
+                            TextButton(
+                              onPressed: () {
+                                cubit.callPharmacy(pharmacyNo);
+                              },
+                              child: Text(
+                                pharmacyNo,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ),
+                            Text(
+                              'Categories',
+                              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    height: 2,
+                                  ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                ReviewItem(),
-                                ReviewItem(),
-                                ReviewItem(),
+                                CategoryItem(categoryName: 'Skin Care', icon: IconsAsset.skinCareCategory),
+                                CategoryItem(categoryName: 'Medicines', icon: IconsAsset.medicineCategory),
+                                CategoryItem(categoryName: 'First Aid', icon: IconsAsset.firstAidCategory),
                               ],
                             ),
-                          ),
-                          const Spacer(),
-                          BottomWidget(
-                            text: 'More Products',
-                            buttonText: 'More',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (builder) => const PharmacyProductsPage()),
-                              );
-                            },
-                          ),
-                        ],
+                            Text(
+                              'Reviews',
+                              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    height: 2,
+                                  ),
+                            ),
+                            const SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  ReviewItem(),
+                                  ReviewItem(),
+                                  ReviewItem(),
+                                ],
+                              ),
+                            ),
+                            BottomWidget(
+                              text: 'More Products',
+                              buttonText: 'More',
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (builder) => const PharmacyProductsPage()),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

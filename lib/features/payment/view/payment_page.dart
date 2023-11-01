@@ -16,9 +16,7 @@ class PaymentPage extends StatelessWidget {
             children: [
               Text(
                 'Total Amount: \$ 100',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -60,6 +58,16 @@ class PaymentPage extends StatelessWidget {
                     ),
                   )),
                 ],
+              ),
+              const SizedBox(height: 20),
+              Align(
+                alignment: Alignment.center,
+                child: MaterialButton(
+                  textColor: Colors.white,
+                  color: Colors.blueAccent,
+                  child: const Text('Pay'),
+                  onPressed: () {},
+                ),
               ),
             ],
           ),

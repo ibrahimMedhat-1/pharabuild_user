@@ -44,9 +44,11 @@ class CartItem extends StatelessWidget {
                           'Panadol',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        const Text(
-                            'This is a pain killer that will help reducing your pain wherever it was in your body'),
-                        const Spacer(),
+                        Expanded(
+                          child: const Text(
+                            'This is a pain killer that will help reducing your pain wherever it was in your body',
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

@@ -13,7 +13,7 @@ class HomePageSearchWidget extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.only(top: 14),
+          padding: const EdgeInsets.all(14),
           child: Container(
             padding: const EdgeInsets.all(9),
             decoration: BoxDecoration(

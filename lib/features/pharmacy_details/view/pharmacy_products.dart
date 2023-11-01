@@ -20,12 +20,10 @@ class PharmacyProductsPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(),
             body: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 10),
-                    CarouselSlider(
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: CarouselSlider(
                       items: const [
                         CarouselItem(image: 'assets/test/medicine_offers1.jpeg'),
                         CarouselItem(image: 'assets/test/medicine_offers2.jpeg'),
@@ -36,7 +34,13 @@ class PharmacyProductsPage extends StatelessWidget {
                         enlargeCenterPage: true,
                       ),
                     ),
-                    Padding(
+                  ),
+                  SliverAppBar(
+                    pinned: true,
+                    expandedHeight: 100,
+                    collapsedHeight: 100,
+                    leading: const SizedBox(),
+                    flexibleSpace: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,40 +64,38 @@ class PharmacyProductsPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    GridView.count(
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: cubit.products
-                          .asMap()
-                          .entries
-                          .map((e) => ProductItem(
-                                tag: cubit.products[e.key].tag!,
-                                productImage: cubit.products[e.key].productImage!,
-                                productName: cubit.products[e.key].productName!,
-                                productPrice: cubit.products[e.key].productPrice!,
-                                productDescription: cubit.products[e.key].productDescription!,
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (builder) => ProductsDetails(
-                                          tag: cubit.products[e.key].tag!,
-                                          image: cubit.products[e.key].productImage!,
-                                          productName: cubit.products[e.key].productName!,
-                                          productPrice: cubit.products[e.key].productPrice!,
-                                          productDescription: cubit.products[e.key].productDescription!,
-                                        ),
-                                      ));
-                                },
-                              ))
-                          .toList(),
-                    ),
-                  ],
-                ),
+                  ),
+                  SliverGrid.count(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    children: cubit.products
+                        .asMap()
+                        .entries
+                        .map((e) => ProductItem(
+                              tag: cubit.products[e.key].tag!,
+                              productImage: cubit.products[e.key].productImage!,
+                              productName: cubit.products[e.key].productName!,
+                              productPrice: cubit.products[e.key].productPrice!,
+                              productDescription: cubit.products[e.key].productDescription!,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (builder) => ProductsDetails(
+                                        tag: cubit.products[e.key].tag!,
+                                        image: cubit.products[e.key].productImage!,
+                                        productName: cubit.products[e.key].productName!,
+                                        productPrice: cubit.products[e.key].productPrice!,
+                                        productDescription: cubit.products[e.key].productDescription!,
+                                      ),
+                                    ));
+                              },
+                            ))
+                        .toList(),
+                  ),
+                ],
               ),
             ),
           );

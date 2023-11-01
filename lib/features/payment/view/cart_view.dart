@@ -23,7 +23,7 @@ class CartPage extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 itemBuilder: (context, index) => const AspectRatio(
-                  aspectRatio: 1 / .4,
+                  aspectRatio: 1 / .5,
                   child: CartItem(),
                 ),
                 separatorBuilder: (context, index) => const SizedBox(height: 10),
