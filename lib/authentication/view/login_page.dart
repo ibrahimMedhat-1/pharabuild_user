@@ -5,7 +5,7 @@ import 'package:intelligent_pharmacy/authentication/view/widgets/auth_button.dar
 import 'package:intelligent_pharmacy/authentication/view/widgets/custom_text_form.dart';
 import 'package:intelligent_pharmacy/authentication/view/widgets/welcome_widget.dart';
 
-import '../../layout/layout.dart';
+import '../../user/layout/layout.dart';
 import '../manager/auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
