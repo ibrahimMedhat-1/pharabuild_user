@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intelligent_pharmacy/user/features/profile/view/chats_page.dart';
+import 'package:intelligent_pharmacy/user/features/profile/view/edit_profile_page.dart';
 
 import 'widgets/profile_button.dart';
 
@@ -22,12 +24,24 @@ class ProfilePage extends StatelessWidget {
           ProfileButton(
             title: 'Edit Profile',
             icon: Icons.arrow_forward_ios_outlined,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (builder) => const EditProfilePage(),
+                  ));
+            },
           ),
           ProfileButton(
             title: 'Chats',
             icon: Icons.arrow_forward_ios_outlined,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (builder) => const ChatsPage(),
+                  ));
+            },
           ),
           ProfileButton(
             title: 'Sign Out',

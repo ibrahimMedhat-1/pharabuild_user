@@ -14,7 +14,7 @@ class DoctorListWidget extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (builder) => DoctorDetails(
-                image: 'assets/test/doctor_imagejpg.avif',
+                image: 'assets/test/doctor_img.jpg',
                 tag: '$index',
                 doctorName: 'Doctor Name',
                 doctorNo: '01064172976',
@@ -48,7 +48,7 @@ class DoctorListWidget extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: Image.asset(
-                        'assets/test/doctor_imagejpg.avif',
+                        'assets/test/doctor_img.jpg',
                         fit: BoxFit.fill,
                       ),
                     ),
