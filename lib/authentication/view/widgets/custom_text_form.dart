@@ -9,7 +9,7 @@ class CustomTextForm extends StatefulWidget {
   final String labelText;
   final String hintText;
   IconData? suffixIcon;
-  GestureTapCallback? suffixPressed;
+  Function()? suffixPressed;
   final bool obscure;
 
   CustomTextForm({
@@ -60,7 +60,9 @@ class _CustomTextFormState extends State<CustomTextForm> {
                     suffixIcon: widget.suffixIcon == null
                         ? null
                         : IconButton(
-                            onPressed: widget.suffixPressed,
+                            onPressed: () {
+                              widget.suffixPressed!();
+                            },
                             icon: Icon(
                               widget.suffixIcon,
                               color: Colors.grey,

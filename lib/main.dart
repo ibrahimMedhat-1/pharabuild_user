@@ -1,8 +1,9 @@
-import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
+import 'package:intelligent_pharmacy/firebase_options.dart';
 import 'package:intelligent_pharmacy/user/features/home_page/manager/home_page_cubit.dart';
 import 'package:intelligent_pharmacy/user/layout/manager/layout_cubit.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -11,8 +12,10 @@ import 'authentication/manager/auth_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Permission.camera.request();
-  runApp(DevicePreview(builder: (context) => const MyApp()));
+  Bloc.observer = MyBlocObserver();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -54,5 +57,31 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class MyBlocObserver extends BlocObserver {
+  @override
+  void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    print('onCreate -- ${bloc.runtimeType}');
+  }
+
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    print('onChange -- ${bloc.runtimeType}, $change');
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    print('onError -- ${bloc.runtimeType}, $error');
+    super.onError(bloc, error, stackTrace);
+  }
+
+  @override
+  void onClose(BlocBase bloc) {
+    super.onClose(bloc);
+    print('onClose -- ${bloc.runtimeType}');
   }
 }

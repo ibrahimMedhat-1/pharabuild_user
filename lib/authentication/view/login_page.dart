@@ -5,7 +5,6 @@ import 'package:intelligent_pharmacy/authentication/view/widgets/auth_button.dar
 import 'package:intelligent_pharmacy/authentication/view/widgets/custom_text_form.dart';
 import 'package:intelligent_pharmacy/authentication/view/widgets/welcome_widget.dart';
 
-import '../../user/layout/layout.dart';
 import '../manager/auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
@@ -74,13 +73,14 @@ class LoginPage extends StatelessWidget {
                               },
                               child: const Text('Forgot Password?'),
                             ),
-                            AuthButton(
-                              onTap: () {
-                                Navigator.pushReplacement(
-                                    context, MaterialPageRoute(builder: (builder) => const Layout()));
-                              },
-                              text: 'Login',
-                            ),
+                            state is LoginLoading
+                                ? const CircularProgressIndicator()
+                                : AuthButton(
+                                    onTap: () {
+                                      cubit.login(context);
+                                    },
+                                    text: 'Login',
+                                  ),
                           ],
                         ),
                       ),

@@ -62,10 +62,14 @@ class SignUp extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 24),
-                        child: AuthButton(
-                          onTap: () {},
-                          text: 'Create Account',
-                        ),
+                        child: state is CreateUserLoading
+                            ? const CircularProgressIndicator()
+                            : AuthButton(
+                                onTap: () {
+                                  cubit.signUp(context);
+                                },
+                                text: 'Create Account',
+                              ),
                       ),
                       Padding(
                         padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 0, 24),
