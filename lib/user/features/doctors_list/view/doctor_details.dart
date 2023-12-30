@@ -12,6 +12,7 @@ class DoctorDetails extends StatelessWidget {
   final String doctorName;
   final String doctorNo;
   final String address;
+  final String speciality;
 
   const DoctorDetails({
     super.key,
@@ -20,6 +21,7 @@ class DoctorDetails extends StatelessWidget {
     required this.doctorName,
     required this.doctorNo,
     required this.address,
+    required this.speciality,
   });
 
   @override
@@ -67,6 +69,16 @@ class DoctorDetails extends StatelessWidget {
                       address,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
+                  ),
+                  Text(
+                    'Speciality',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          height: 2,
+                        ),
+                  ),
+                  Text(
+                    speciality,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
                     'Reviews',

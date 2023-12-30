@@ -9,6 +9,7 @@ class CarouselItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         clipBehavior: Clip.antiAlias,
+        margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           boxShadow: const [

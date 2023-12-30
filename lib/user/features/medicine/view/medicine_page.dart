@@ -1,9 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/user/features/medicine/manager/medicine_cubit.dart';
 
 import '../../home_page/view/widget/home_page_search.dart';
 import '../../pharmacy_details/view/products_details.dart';
+import '../../pharmacy_details/view/widgets/pharmacy_products_widgets/carousel_item.dart';
 import '../../pharmacy_details/view/widgets/pharmacy_products_widgets/product_item.dart';
 
 class MedicinePage extends StatelessWidget {
@@ -21,40 +23,23 @@ class MedicinePage extends StatelessWidget {
             body: SafeArea(
               child: CustomScrollView(
                 slivers: [
-                  const SliverAppBar(
-                    pinned: true,
-                    collapsedHeight: 80,
-                    flexibleSpace: HomePageSearchWidget(),
-                  ),
-                  SliverAppBar(
-                    pinned: true,
-                    expandedHeight: 100,
-                    collapsedHeight: 100,
-                    leading: const SizedBox(),
-                    flexibleSpace: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Category',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          DropdownButton(
-                            isExpanded: true,
-                            value: cubit.dropDownMenuItemValue,
-                            items: [
-                              dropDownItem(context, 'Medicine'),
-                              dropDownItem(context, 'Skin Care'),
-                              dropDownItem(context, 'Medical Aid'),
-                            ],
-                            onChanged: (value) {
-                              cubit.changeDropDownItem(value);
-                            },
-                          ),
-                        ],
+                  SliverToBoxAdapter(
+                    child: CarouselSlider(
+                      items: const [
+                        CarouselItem(image: 'assets/test/medicine_offers1.jpeg'),
+                        CarouselItem(image: 'assets/test/medicine_offers2.jpeg'),
+                        CarouselItem(image: 'assets/test/medicine_offers3.jpeg'),
+                      ],
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        enlargeCenterPage: true,
                       ),
                     ),
+                  ),
+                  const SliverAppBar(
+                    collapsedHeight: 80,
+                    floating: true,
+                    flexibleSpace: HomePageSearchWidget(),
                   ),
                   SliverGrid.count(
                     crossAxisCount: 2,
