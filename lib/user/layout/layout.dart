@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intelligent_pharmacy/shared/utils/icons.dart';
 
 import '../../shared/styles/colors.dart';
 import 'manager/layout_cubit.dart';
@@ -25,8 +26,12 @@ class Layout extends StatelessWidget {
             },
             items: const [
               BottomNavigationBarItem(
-                label: 'Home',
-                icon: Icon(Icons.home_outlined),
+                label: 'Pharmacy',
+                icon: Icon(Icons.local_pharmacy_outlined),
+              ),
+              BottomNavigationBarItem(
+                label: 'Medicine',
+                icon: Icon(Icons.medical_information_outlined),
               ),
               BottomNavigationBarItem(
                 label: 'Cart',
@@ -38,7 +43,7 @@ class Layout extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 label: 'Doctors',
-                icon: Icon(Icons.local_hospital_outlined),
+                icon: ImageIcon(AssetImage(IconsAsset.doctorsIcon)),
               ),
               BottomNavigationBarItem(
                 label: 'Profile',

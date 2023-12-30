@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/user/features/chatbot/chatbot_view.dart';
 import 'package:intelligent_pharmacy/user/features/doctors_list/view/doctors_list_view.dart';
+import 'package:intelligent_pharmacy/user/features/medicine/view/medicine_page.dart';
 
 import '../../features/home_page/view/home_page.dart';
 import '../../features/payment/view/cart_view.dart';
@@ -13,7 +14,8 @@ class LayoutCubit extends Cubit<LayoutState> {
   LayoutCubit() : super(LayoutInitial());
   static LayoutCubit get(context) => BlocProvider.of(context);
   List<Widget> pages = const [
-    HomePage(),
+    PharmaciesPage(),
+    MedicinePage(),
     CartPage(),
     ChatBotPage(),
     DoctorsListView(),

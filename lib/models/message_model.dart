@@ -6,7 +6,8 @@ class MessageModel {
   String? type;
   String? text;
   String? sender;
-
+  bool? isRead;
+  bool? isLastMessage;
   MessageModel({
     required this.date,
     required this.text,

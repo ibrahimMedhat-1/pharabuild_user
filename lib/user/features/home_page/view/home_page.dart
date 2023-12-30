@@ -6,8 +6,8 @@ import 'package:intelligent_pharmacy/user/features/home_page/view/widget/pharmac
 import '../../../../authentication/view/widgets/welcome_widget.dart';
 import '../manager/home_page_cubit.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class PharmaciesPage extends StatelessWidget {
+  const PharmaciesPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -2,8 +2,8 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 import 'package:intelligent_pharmacy/user/features/home_page/manager/home_page_cubit.dart';
-import 'package:intelligent_pharmacy/user/layout/layout.dart';
 import 'package:intelligent_pharmacy/user/layout/manager/layout_cubit.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           themeMode: ThemeMode.light,
-          home: const Layout(),
+          home: const LoginPage(),
         ),
       ),
     );
