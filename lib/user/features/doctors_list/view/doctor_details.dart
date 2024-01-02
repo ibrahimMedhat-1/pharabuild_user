@@ -46,8 +46,8 @@ class DoctorDetails extends StatelessWidget {
                     doctorName,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  TextButton(
-                    onPressed: () async {
+                  InkWell(
+                    onTap: () async {
                       await launchUrl(Uri.parse('tel://$doctorNo'));
                     },
                     child: Text(
@@ -57,13 +57,11 @@ class DoctorDetails extends StatelessWidget {
                   ),
                   Text(
                     'Address',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          height: 2,
-                        ),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(),
                   ),
-                  TextButton(
-                    onPressed: () async {
-                      // await launchUrl(Uri.parse('tel://$doctorNo'));
+                  InkWell(
+                    onTap: () async {
+                      await launchUrl(Uri.parse('tel://$doctorNo'));
                     },
                     child: Text(
                       address,
@@ -72,9 +70,7 @@ class DoctorDetails extends StatelessWidget {
                   ),
                   Text(
                     'Speciality',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          height: 2,
-                        ),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(),
                   ),
                   Text(
                     speciality,
