@@ -4,17 +4,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 import 'package:intelligent_pharmacy/firebase_options.dart';
+import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
+import 'package:intelligent_pharmacy/shared/network/chached_preference.dart';
+import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 import 'package:intelligent_pharmacy/user/features/home_page/manager/home_page_cubit.dart';
+import 'package:intelligent_pharmacy/user/layout/layout.dart';
 import 'package:intelligent_pharmacy/user/layout/manager/layout_cubit.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'authentication/manager/auth_cubit.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await Permission.camera.request();
   Bloc.observer = MyBlocObserver();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Future.wait([
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    CacheHelper.init(),
+  ]);
+  Constants.userId = CacheHelper.getData(key: CacheKeys.userId).toString();
   runApp(const MyApp());
 }
 
@@ -53,7 +59,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           themeMode: ThemeMode.light,
-          home: const LoginPage(),
+          home: Constants.userId == 'null' ? const LoginPage() : const Layout(),
         ),
       ),
     );

@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBoSNvaRupgGbT29I55BvdGycz9As4lPl8',
-    appId: '1:394466476018:web:42148ff7193c0de1be756b',
-    messagingSenderId: '394466476018',
-    projectId: 'intelligent-pharmacy',
-    authDomain: 'intelligent-pharmacy.firebaseapp.com',
-    storageBucket: 'intelligent-pharmacy.appspot.com',
-    measurementId: 'G-N4TNNJNFM0',
+    apiKey: 'AIzaSyBDF41_6oZhcWMXCFpIDkqINXsgXPyth7U',
+    appId: '1:567202365649:web:c6f4bf5dede4b8e5b585f0',
+    messagingSenderId: '567202365649',
+    projectId: 'intelligent-pharmacy-1830d',
+    authDomain: 'intelligent-pharmacy-1830d.firebaseapp.com',
+    storageBucket: 'intelligent-pharmacy-1830d.appspot.com',
+    measurementId: 'G-8BN23QK6ED',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDI59mcesF41_iKrh-CLZjIYI-4QqtOIUs',
-    appId: '1:394466476018:android:9e541135b91510c1be756b',
-    messagingSenderId: '394466476018',
-    projectId: 'intelligent-pharmacy',
-    storageBucket: 'intelligent-pharmacy.appspot.com',
+    apiKey: 'AIzaSyCwHkvzkgXuR1FQJhRJW3POJNyxbTXrMDw',
+    appId: '1:567202365649:android:2cd2a7664b446189b585f0',
+    messagingSenderId: '567202365649',
+    projectId: 'intelligent-pharmacy-1830d',
+    storageBucket: 'intelligent-pharmacy-1830d.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCpmeSN51yLTaovsIB-MCYVvCu7jrs0AEc',
-    appId: '1:394466476018:ios:4cc8fde6dc380ec9be756b',
-    messagingSenderId: '394466476018',
-    projectId: 'intelligent-pharmacy',
-    storageBucket: 'intelligent-pharmacy.appspot.com',
+    apiKey: 'AIzaSyBtEWCv-vC_BjV3pGGfUHmBMMEakgYLiuo',
+    appId: '1:567202365649:ios:1831b1abd95370d6b585f0',
+    messagingSenderId: '567202365649',
+    projectId: 'intelligent-pharmacy-1830d',
+    storageBucket: 'intelligent-pharmacy-1830d.appspot.com',
     iosBundleId: 'com.example.intelligentpharmacy.intelligentPharmacy',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCpmeSN51yLTaovsIB-MCYVvCu7jrs0AEc',
-    appId: '1:394466476018:ios:5ef9ae3e53deb625be756b',
-    messagingSenderId: '394466476018',
-    projectId: 'intelligent-pharmacy',
-    storageBucket: 'intelligent-pharmacy.appspot.com',
+    apiKey: 'AIzaSyBtEWCv-vC_BjV3pGGfUHmBMMEakgYLiuo',
+    appId: '1:567202365649:ios:deb233d07de68b37b585f0',
+    messagingSenderId: '567202365649',
+    projectId: 'intelligent-pharmacy-1830d',
+    storageBucket: 'intelligent-pharmacy-1830d.appspot.com',
     iosBundleId: 'com.example.intelligentpharmacy.intelligentPharmacy.RunnerTests',
   );
 }

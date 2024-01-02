@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/user/layout/layout.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
+import 'package:intelligent_pharmacy/shared/network/chached_preference.dart';
+
+import '../../user/layout/layout.dart';
 
 part 'auth_state.dart';
 
@@ -27,8 +31,14 @@ class AuthCubit extends Cubit<AuthState> {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddressController.text.trim(), password: passwordController.text)
         .then((value) {
+      Future.wait([
+        CacheHelper.setData(key: CacheKeys.userId, value: value.user!.uid),
+      ]);
       emit(LoginSuccessfully());
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
+    }).catchError((onError) {
+      emit(LoginError());
+      Fluttertoast.showToast(msg: onError.message.toString());
     });
   }
 
@@ -41,8 +51,7 @@ class AuthCubit extends Cubit<AuthState> {
       Navigator.pop(context);
     }).catchError((onError) {
       emit(CreateUserError());
-      print(onError.toString());
-      // Fluttertoast.showToast(msg: onError);
+      Fluttertoast.showToast(msg: onError.message.toString());
     });
   }
 

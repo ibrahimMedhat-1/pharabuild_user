@@ -51,8 +51,8 @@ class PharmacyDetails extends StatelessWidget {
                           pharmacyName,
                           style: Theme.of(context).textTheme.titleLarge!.copyWith(),
                         ),
-                        TextButton(
-                          onPressed: () {
+                        InkWell(
+                          onTap: () {
                             cubit.callPharmacy(pharmacyNo);
                           },
                           child: Text(
@@ -75,7 +75,7 @@ class PharmacyDetails extends StatelessWidget {
                         Text(
                           'Reviews',
                           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                height: 2,
+                                height: 1,
                               ),
                         ),
                         const SingleChildScrollView(

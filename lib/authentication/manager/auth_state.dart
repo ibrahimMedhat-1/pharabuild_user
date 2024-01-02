@@ -18,3 +18,5 @@ class CreateUserError extends AuthState {}
 class LoginLoading extends AuthState {}
 
 class LoginSuccessfully extends AuthState {}
+
+class LoginError extends AuthState {}
