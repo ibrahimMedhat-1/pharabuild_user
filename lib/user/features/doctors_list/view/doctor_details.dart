@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/bottom_more_products.dart';
-import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/review_item.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/top_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -77,20 +76,25 @@ class DoctorDetails extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
-                    'Reviews',
+                    'Bio',
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           height: 2,
                         ),
                   ),
-                  const SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        ReviewItem(),
-                        ReviewItem(),
-                        ReviewItem(),
-                      ],
-                    ),
+                  Container(
+                    width: MediaQuery.sizeOf(context).width - 40,
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
+                    clipBehavior: Clip.antiAlias,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(0, 0),
+                        blurRadius: 3,
+                      ),
+                    ]),
+                    child: Text('Ain shams unevirsit '),
                   ),
                   const Spacer(),
                   BottomWidget(

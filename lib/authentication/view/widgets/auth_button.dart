@@ -11,6 +11,7 @@ class AuthButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textSize = MediaQuery.of(context).size.width * 0.05;
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
@@ -23,7 +24,12 @@ class AuthButton extends StatelessWidget {
         elevation: 3,
         color: Colors.blueAccent,
         textColor: Colors.white,
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: textSize,
+          ),
+        ),
       ),
     );
   }
