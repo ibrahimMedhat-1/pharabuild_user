@@ -50,21 +50,18 @@ class MedicinePage extends StatelessWidget {
                         .asMap()
                         .entries
                         .map((e) => ProductItem(
-                              tag: cubit.products[e.key].tag!,
-                              productImage: cubit.products[e.key].productImage!,
-                              productName: cubit.products[e.key].productName!,
-                              productPrice: cubit.products[e.key].productPrice!,
-                              productDescription: cubit.products[e.key].productDescription!,
+                              tag: e.value.tag!,
+                              productImage: e.value.image!,
+                              productName: e.value.name!,
+                              productPrice: e.value.price!,
+                              productDescription: e.value.description!,
                               onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (builder) => ProductsDetails(
-                                        tag: cubit.products[e.key].tag!,
-                                        image: cubit.products[e.key].productImage!,
-                                        productName: cubit.products[e.key].productName!,
-                                        productPrice: cubit.products[e.key].productPrice!,
-                                        productDescription: cubit.products[e.key].productDescription!,
+                                        tag: e.value.tag!,
+                                        productsModel: e.value,
                                       ),
                                     ));
                               },

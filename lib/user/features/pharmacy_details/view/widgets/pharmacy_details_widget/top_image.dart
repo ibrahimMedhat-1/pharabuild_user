@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class TopImageWidget extends StatelessWidget {
@@ -22,9 +23,16 @@ class TopImageWidget extends StatelessWidget {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
             width: double.infinity,
             height: MediaQuery.sizeOf(context).height * 0.3,
-            child: Image.asset(
-              image,
+            child: CachedNetworkImage(
               fit: BoxFit.fill,
+              imageUrl: image,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) => const Icon(
+                Icons.error,
+                color: Colors.red,
+              ),
             ),
           ),
         ),

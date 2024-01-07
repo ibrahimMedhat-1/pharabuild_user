@@ -12,11 +12,11 @@ class PharmaciesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomePageCubit(),
+      create: (context) => HomePageCubit()..getAllPharmacies(),
       child: BlocConsumer<HomePageCubit, HomePageState>(
         listener: (context, state) {},
         builder: (context, state) {
-          // HomePageCubit cubit = HomePageCubit.get(context);
+          HomePageCubit cubit = HomePageCubit.get(context);
           return CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
@@ -46,7 +46,10 @@ class PharmaciesPage extends StatelessWidget {
                 collapsedHeight: 80,
                 flexibleSpace: HomePageSearchWidget(),
               ),
-              const SliverToBoxAdapter(child: PharmaciesList()),
+              SliverToBoxAdapter(
+                  child: state is GetPharmacyLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : PharmaciesList(cubit.pharmacies)),
             ],
           );
         },

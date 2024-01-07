@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intelligent_pharmacy/models/product_model.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/products_details.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_products_widgets/carousel_item.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_products_widgets/product_item.dart';
@@ -9,13 +10,13 @@ import '../../../../authentication/view/widgets/custom_text_form.dart';
 import '../manager/pharmacy_categories_cubit/pharmacy_categories_cubit.dart';
 
 class PharmacyCategoriesPage extends StatelessWidget {
-  final String categoryName;
   final String tag;
+  final List<ProductsModel> products;
 
   const PharmacyCategoriesPage({
     super.key,
-    required this.categoryName,
     required this.tag,
+    required this.products,
   });
 
   @override
@@ -34,7 +35,7 @@ class PharmacyCategoriesPage extends StatelessWidget {
                     title: Hero(
                       tag: tag,
                       child: Text(
-                        categoryName,
+                        tag,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
@@ -74,25 +75,22 @@ class PharmacyCategoriesPage extends StatelessWidget {
                   ),
                   SliverGrid.count(
                     crossAxisCount: 2,
-                    children: cubit.categories
+                    children: products
                         .asMap()
                         .entries
                         .map((e) => ProductItem(
-                              tag: cubit.categories[e.key].tag!,
-                              productImage: cubit.categories[e.key].productImage!,
-                              productName: cubit.categories[e.key].productName!,
-                              productPrice: cubit.categories[e.key].productPrice!,
-                              productDescription: cubit.categories[e.key].productDescription!,
+                              tag: e.value.tag!,
+                              productImage: e.value.image!,
+                              productName: e.value.name!,
+                              productPrice: e.value.price!,
+                              productDescription: e.value.description!,
                               onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (builder) => ProductsDetails(
-                                        tag: cubit.categories[e.key].tag!,
-                                        image: cubit.categories[e.key].productImage!,
-                                        productName: cubit.categories[e.key].productName!,
-                                        productPrice: cubit.categories[e.key].productPrice!,
-                                        productDescription: cubit.categories[e.key].productDescription!,
+                                        tag: e.value.tag!,
+                                        productsModel: e.value,
                                       ),
                                     ));
                               },

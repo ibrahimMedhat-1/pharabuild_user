@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intelligent_pharmacy/models/product_model.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/bottom_more_products.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/top_image.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_products_widgets/product_item.dart';
@@ -9,19 +10,9 @@ import '../manager/pharmacy_products_cubit/pharmacy_products_cubit.dart';
 
 class ProductsDetails extends StatelessWidget {
   final String tag;
-  final String image;
-  final String productName;
-  final String productPrice;
-  final String productDescription;
+  final ProductsModel productsModel;
 
-  const ProductsDetails({
-    super.key,
-    required this.tag,
-    required this.image,
-    required this.productPrice,
-    required this.productName,
-    required this.productDescription,
-  });
+  const ProductsDetails({super.key, required this.tag, required this.productsModel});
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +44,15 @@ class ProductsDetails extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                TopImageWidget(tag: tag, image: image),
+                                TopImageWidget(tag: tag, image: productsModel.image!),
                                 Text(
-                                  productName,
+                                  productsModel.name!,
                                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                                         height: 2,
                                       ),
                                 ),
                                 Text(
-                                  productDescription,
+                                  productsModel.description!,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 Text(
@@ -82,21 +73,18 @@ class ProductsDetails extends StatelessWidget {
                                       .entries
                                       .map(
                                         (e) => ProductItem(
-                                          tag: productsCubit.similarProducts[e.key].tag!,
-                                          productImage: productsCubit.similarProducts[e.key].productImage!,
-                                          productName: productsCubit.similarProducts[e.key].productName!,
-                                          productPrice: productsCubit.similarProducts[e.key].productPrice!,
-                                          productDescription: productsCubit.similarProducts[e.key].productDescription!,
+                                          tag: e.value.tag!,
+                                          productImage: e.value.image!,
+                                          productName: e.value.name!,
+                                          productPrice: e.value.price!,
+                                          productDescription: e.value.description!,
                                           onTap: () {
                                             Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (builder) => ProductsDetails(
-                                                  tag: productsCubit.products[e.key].tag!,
-                                                  image: productsCubit.products[e.key].productImage!,
-                                                  productName: productsCubit.products[e.key].productName!,
-                                                  productPrice: productsCubit.products[e.key].productPrice!,
-                                                  productDescription: productsCubit.products[e.key].productDescription!,
+                                                  tag: e.value.tag!,
+                                                  productsModel: e.value,
                                                 ),
                                               ),
                                             );
@@ -110,13 +98,13 @@ class ProductsDetails extends StatelessWidget {
                           ),
                         ),
                         BottomWidget(
-                          text: '\$$productPrice',
+                          text: '\$${productsModel.price}',
                           buttonText: detailsCubit.buttonName,
                           onTap: () {
                             if (detailsCubit.isInCart) {
-                              detailsCubit.removeFromCart();
+                              detailsCubit.removeFromCart(productsModel);
                             } else {
-                              detailsCubit.addToCart();
+                              detailsCubit.addToCart(productsModel);
                             }
                           },
                         ),

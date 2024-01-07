@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/shared/utils/icons.dart';
+import 'package:intelligent_pharmacy/models/pharmacy_model.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/pharmacy_products.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/bottom_more_products.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/category_item.dart';
@@ -10,17 +10,11 @@ import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets
 import '../manager/pharmacy_details_cubit/pharmacy_details_cubit.dart';
 
 class PharmacyDetails extends StatelessWidget {
-  final String image;
-  final String tag;
-  final String pharmacyName;
-  final String pharmacyNo;
+  final PharmacyModel pharmacyModel;
 
   const PharmacyDetails({
     super.key,
-    required this.image,
-    required this.tag,
-    required this.pharmacyName,
-    required this.pharmacyNo,
+    required this.pharmacyModel,
   });
 
   @override
@@ -41,66 +35,66 @@ class PharmacyDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SafeArea(child: TopImageWidget(tag: tag, image: image)),
+                  SafeArea(child: TopImageWidget(tag: pharmacyModel.id!, image: pharmacyModel.image!)),
                   Expanded(
                     flex: 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          pharmacyName,
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            cubit.callPharmacy(pharmacyNo);
-                          },
-                          child: Text(
-                            pharmacyNo,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            pharmacyModel.name!,
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(),
                           ),
-                        ),
-                        Text(
-                          'Categories',
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(),
-                        ),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            CategoryItem(categoryName: 'Skin Care', icon: IconsAsset.skinCareCategory),
-                            CategoryItem(categoryName: 'Medicines', icon: IconsAsset.medicineCategory),
-                            CategoryItem(categoryName: 'First Aid', icon: IconsAsset.firstAidCategory),
-                          ],
-                        ),
-                        Text(
-                          'Reviews',
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                height: 1,
-                              ),
-                        ),
-                        const SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              ReviewItem(),
-                              ReviewItem(),
-                              ReviewItem(),
-                            ],
+                          InkWell(
+                            onTap: () {
+                              cubit.callPharmacy(pharmacyModel.phoneNo!);
+                            },
+                            child: Text(
+                              pharmacyModel.phoneNo!,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        BottomWidget(
-                          text: 'More Products',
-                          buttonText: 'More',
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (builder) => const PharmacyProductsPage()),
-                            );
-                          },
-                        ),
-                      ],
+                          Text(
+                            'Categories',
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(),
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: pharmacyModel.categories!
+                                  .map((e) => CategoryItem(
+                                        categoryModel: e,
+                                        productsModel: pharmacyModel.products!,
+                                      ))
+                                  .toList(),
+                            ),
+                          ),
+                          Text(
+                            'Reviews',
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  height: 1,
+                                ),
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: pharmacyModel.reviews!.map((e) => ReviewItem(reviewModel: e)).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                  ),
+                  BottomWidget(
+                    text: 'More Products',
+                    buttonText: 'More',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (builder) => PharmacyProductsPage(pharmacyModel)),
+                      );
+                    },
                   ),
                 ],
               ),

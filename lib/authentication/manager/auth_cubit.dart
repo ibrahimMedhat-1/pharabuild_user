@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
-import 'package:intelligent_pharmacy/shared/network/chached_preference.dart';
+import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
 
 import '../../user/layout/layout.dart';
 

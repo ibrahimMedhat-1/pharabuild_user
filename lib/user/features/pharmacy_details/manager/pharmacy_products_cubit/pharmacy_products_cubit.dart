@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -53,51 +54,24 @@ class PharmacyProductsCubit extends Cubit<PharmacyProductsState> {
       'A pain Killer Medicine ',
     ),
   ];
-  List<ProductsModel> similarProducts = [
-    ProductsModel(
-      'similarProducts0',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts1',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts2',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts3',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts4',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts5',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-  ];
+  List<ProductsModel> similarProducts = [];
   String dropDownMenuItemValue = 'Medicine';
+
+  void getSimilarProducts(String effectiveMaterial) {
+    FirebaseFirestore.instance.collection('pharmacies').get().then((value) {
+      for (var element in value.docs) {
+        element.reference
+            .collection('products')
+            .where('effectiveMaterial', isEqualTo: effectiveMaterial)
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            similarProducts.add(ProductsModel.fromJson(element.data()));
+          }
+        });
+      }
+    });
+  }
 
   void changeDropDownItem(value) {
     dropDownMenuItemValue = value;

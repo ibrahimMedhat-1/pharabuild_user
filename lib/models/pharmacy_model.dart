@@ -1,16 +1,30 @@
+import 'package:intelligent_pharmacy/models/category_model.dart';
+import 'package:intelligent_pharmacy/models/offers_model.dart';
+import 'package:intelligent_pharmacy/models/product_model.dart';
 import 'package:intelligent_pharmacy/models/review_model.dart';
 
 class PharmacyModel {
-  final String pharmacyName;
-  final String pharmacyNo;
-  final String pharmacyAddress;
-  final List<Map<String, String>> categories;
-  final List<ReviewModel> reviews;
-  PharmacyModel({
-    required this.pharmacyName,
-    required this.pharmacyNo,
-    required this.pharmacyAddress,
-    required this.reviews,
-    required this.categories,
-  });
+  String? name;
+  String? image;
+  String? id;
+  String? phoneNo;
+  String? address;
+  List<CategoryModel>? categories;
+  List<ReviewModel>? reviews;
+  List<ProductsModel>? products;
+  List<OffersModel>? offers;
+
+  PharmacyModel.fromJson({
+    Map<String, dynamic>? json,
+    this.reviews,
+    this.products,
+    this.categories,
+    this.offers,
+  }) {
+    name = json!['name'];
+    phoneNo = json['phoneNo'];
+    address = json['address'];
+    image = json['image'];
+    id = json['id'];
+  }
 }

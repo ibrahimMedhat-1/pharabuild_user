@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
@@ -44,10 +45,17 @@ class ProductItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Image.asset(
-                  productImage,
-                  width: double.infinity,
+                child: CachedNetworkImage(
                   fit: BoxFit.fill,
+                  imageUrl: productImage,
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (context, url, error) => const Center(
+                      child: Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  )),
                 ),
               ),
               Text(

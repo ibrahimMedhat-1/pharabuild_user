@@ -1,15 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intelligent_pharmacy/models/category_model.dart';
+import 'package:intelligent_pharmacy/models/product_model.dart';
 
 import '../../pharmacy_categories.dart';
 
 class CategoryItem extends StatelessWidget {
-  final String icon;
-  final String categoryName;
+  final CategoryModel categoryModel;
+  final List<ProductsModel> productsModel;
 
   const CategoryItem({
     super.key,
-    required this.icon,
-    required this.categoryName,
+    required this.categoryModel,
+    required this.productsModel,
   });
 
   @override
@@ -20,32 +23,42 @@ class CategoryItem extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (builder) => PharmacyCategoriesPage(
-                categoryName: categoryName,
-                tag: categoryName,
+                tag: categoryModel.title!,
+                products: productsModel,
               ),
             ));
       },
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey),
+              ),
+              child: CachedNetworkImage(
+                fit: BoxFit.fill,
+                imageUrl: categoryModel.picture!,
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.close,
+                  color: Colors.red,
+                ),
+                imageBuilder: (context, imageProvider) => ImageIcon(CachedNetworkImageProvider(categoryModel.picture!)),
+              ),
             ),
-            padding: const EdgeInsets.all(10),
-            child: ImageIcon(
-              AssetImage(icon),
+            Hero(
+              tag: categoryModel.title!,
+              child: Text(
+                categoryModel.title!,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
-          ),
-          Hero(
-            tag: categoryName,
-            child: Text(
-              categoryName,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

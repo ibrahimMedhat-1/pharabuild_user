@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intelligent_pharmacy/models/review_model.dart';
 
 class ReviewItem extends StatelessWidget {
+  final ReviewModel reviewModel;
   const ReviewItem({
     super.key,
+    required this.reviewModel,
   });
 
   @override
@@ -27,15 +30,13 @@ class ReviewItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Name: Ibrahim Medhat',
+                  'Name: ${reviewModel.name}',
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                 ),
                 Text(
-                  'Perfect pharmacy that contains all medicine you may need'
-                  ' and it also provide what medicine to not to buy'
-                  ' if you believe in palestine',
+                  reviewModel.description!,
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -46,9 +47,9 @@ class ReviewItem extends StatelessWidget {
               ],
             ),
           ),
-          const CircleAvatar(
+          CircleAvatar(
             minRadius: 30,
-            backgroundImage: AssetImage('assets/test/profile_image.jpeg'),
+            backgroundImage: NetworkImage(reviewModel.profileImage!),
           )
         ],
       ),

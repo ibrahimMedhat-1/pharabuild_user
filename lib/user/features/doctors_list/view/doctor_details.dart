@@ -94,7 +94,7 @@ class DoctorDetails extends StatelessWidget {
                         blurRadius: 3,
                       ),
                     ]),
-                    child: Text('Ain shams unevirsit '),
+                    child: const Text('Ain shams university'),
                   ),
                   const Spacer(),
                   BottomWidget(

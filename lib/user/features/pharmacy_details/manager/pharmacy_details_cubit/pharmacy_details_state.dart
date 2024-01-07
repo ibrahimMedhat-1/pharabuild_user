@@ -5,6 +5,20 @@ abstract class PharmacyDetailsState {}
 
 class PharmacyDetailsInitial extends PharmacyDetailsState {}
 
-class AddProductToCart extends PharmacyDetailsState {}
+class AddProductToCartLoading extends PharmacyDetailsState {}
 
-class RemoveProductFromCart extends PharmacyDetailsState {}
+class AddProductToCartSuccessfully extends PharmacyDetailsState {}
+
+class AddProductToCartError extends PharmacyDetailsState {}
+
+class RemoveProductFromCartLoading extends PharmacyDetailsState {}
+
+class RemoveProductFromCartSuccessfully extends PharmacyDetailsState {}
+
+class RemoveProductFromCartError extends PharmacyDetailsState {}
+
+class GetAllCartProductsLoading extends PharmacyDetailsState {}
+
+class GetAllCartProductsSuccessfully extends PharmacyDetailsState {}
+
+class GetAllCartProductsError extends PharmacyDetailsState {}

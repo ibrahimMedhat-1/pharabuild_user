@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intelligent_pharmacy/models/pharmacy_model.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/products_details.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_products_widgets/carousel_item.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_products_widgets/product_item.dart';
@@ -8,7 +9,9 @@ import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets
 import '../manager/pharmacy_products_cubit/pharmacy_products_cubit.dart';
 
 class PharmacyProductsPage extends StatelessWidget {
-  const PharmacyProductsPage({super.key});
+  final PharmacyModel pharmacyModel;
+
+  const PharmacyProductsPage(this.pharmacyModel, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +26,22 @@ class PharmacyProductsPage extends StatelessWidget {
             body: SafeArea(
               child: CustomScrollView(
                 slivers: [
-                  SliverToBoxAdapter(
-                    child: CarouselSlider(
-                      items: const [
-                        CarouselItem(image: 'assets/test/medicine_offers1.jpeg'),
-                        CarouselItem(image: 'assets/test/medicine_offers2.jpeg'),
-                        CarouselItem(image: 'assets/test/medicine_offers3.jpeg'),
-                      ],
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        enlargeCenterPage: true,
+                  if (pharmacyModel.offers != null)
+                    SliverToBoxAdapter(
+                      child: CarouselSlider(
+                        items: pharmacyModel.offers!
+                            .asMap()
+                            .entries
+                            .map(
+                              (e) => CarouselItem(image: e.value.banner!),
+                            )
+                            .toList(),
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                        ),
                       ),
                     ),
-                  ),
                   SliverAppBar(
                     pinned: true,
                     expandedHeight: 100,
@@ -53,11 +59,13 @@ class PharmacyProductsPage extends StatelessWidget {
                           DropdownButton(
                             isExpanded: true,
                             value: cubit.dropDownMenuItemValue,
-                            items: [
-                              dropDownItem(context, 'Medicine'),
-                              dropDownItem(context, 'Skin Care'),
-                              dropDownItem(context, 'Medical Aid'),
-                            ],
+                            items: pharmacyModel.categories!
+                                .asMap()
+                                .entries
+                                .map(
+                                  (e) => dropDownItem(context, e.value.title!),
+                                )
+                                .toList(),
                             onChanged: (value) {
                               cubit.changeDropDownItem(value);
                             },
@@ -71,25 +79,22 @@ class PharmacyProductsPage extends StatelessWidget {
                     childAspectRatio: 1,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    children: cubit.products
+                    children: pharmacyModel.products!
                         .asMap()
                         .entries
                         .map((e) => ProductItem(
-                              tag: cubit.products[e.key].tag!,
-                              productImage: cubit.products[e.key].productImage!,
-                              productName: cubit.products[e.key].productName!,
-                              productPrice: cubit.products[e.key].productPrice!,
-                              productDescription: cubit.products[e.key].productDescription!,
+                              tag: e.value.tag!,
+                              productImage: e.value.image!,
+                              productName: e.value.name!,
+                              productPrice: e.value.price!,
+                              productDescription: e.value.description!,
                               onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (builder) => ProductsDetails(
                                         tag: cubit.products[e.key].tag!,
-                                        image: cubit.products[e.key].productImage!,
-                                        productName: cubit.products[e.key].productName!,
-                                        productPrice: cubit.products[e.key].productPrice!,
-                                        productDescription: cubit.products[e.key].productDescription!,
+                                        productsModel: e.value,
                                       ),
                                     ));
                               },

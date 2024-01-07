@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intelligent_pharmacy/models/pharmacy_model.dart';
 
 import '../../../pharmacy_details/view/pharmacy_details.dart';
 
 class PharmaciesList extends StatelessWidget {
-  const PharmaciesList({super.key});
+  final List<PharmacyModel> pharmacies;
+  PharmacyModel pharmacy(index) => pharmacies[index];
+  const PharmaciesList(this.pharmacies, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +20,12 @@ class PharmaciesList extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (builder) => PharmacyDetails(
-                      image: 'assets/test/pharmacy_img.jpeg',
-                      tag: '$index',
-                      pharmacyName: 'Pharmacy Name',
-                      pharmacyNo: '01064172976',
+                      pharmacyModel: pharmacy(index),
                     )),
           );
         },
         child: Hero(
-          tag: index.toString(),
+          tag: pharmacy(index).id!,
           child: AspectRatio(
             aspectRatio: 1 / 1.1,
             child: Container(
@@ -47,26 +48,29 @@ class PharmaciesList extends StatelessWidget {
                   Expanded(
                     child: SizedBox(
                       width: double.infinity,
-                      child: Image.asset(
-                        'assets/test/pharmacy_img.jpeg',
+                      child: CachedNetworkImage(
                         fit: BoxFit.fill,
+                        imageUrl: pharmacy(index).image!,
+                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'pharmacy Name',
+                          pharmacy(index).name!,
                           style: Theme.of(context).textTheme.titleLarge!.copyWith(height: 2),
                         ),
                         Text(
-                          'pharmacy phone',
+                          pharmacy(index).phoneNo!,
                           style: Theme.of(context).textTheme.titleMedium!.copyWith(height: 2),
                         ),
                         Text(
-                          'pharmacy Address',
+                          pharmacy(index).address!,
+                          maxLines: 1,
                           style: Theme.of(context).textTheme.titleSmall!.copyWith(height: 3),
                         ),
                       ],
@@ -78,7 +82,7 @@ class PharmaciesList extends StatelessWidget {
           ),
         ),
       ),
-      itemCount: 5,
+      itemCount: pharmacies.length,
     );
   }
 }
