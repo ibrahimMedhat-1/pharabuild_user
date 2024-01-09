@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intelligent_pharmacy/models/user_model.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
@@ -21,6 +23,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordSignUpController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   bool obscure = true;
   bool obscureSignUp = true;
@@ -32,10 +36,10 @@ class AuthCubit extends Cubit<AuthState> {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddressController.text.trim(), password: passwordController.text)
         .then((value) {
-      Future.wait([
-        CacheHelper.setData(key: CacheKeys.userId, value: value.user!.uid),
-      ]);
-      Constants.userId = value.user!.uid;
+      FirebaseFirestore.instance.collection('users').doc(value.user!.uid).get().then((value) async {
+        Constants.userModel = UserModel.fromJson(value.data());
+        await CacheHelper.setData(key: CacheKeys.userId, value: value.data());
+      });
       emit(LoginSuccessfully());
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
     }).catchError((onError) {
@@ -48,9 +52,24 @@ class AuthCubit extends Cubit<AuthState> {
     emit(CreateUserLoading());
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: emailAddressController.text.trim(), password: passwordController.text)
-        .then((value) {
-      emit(CreateUserSuccessfully());
-      Navigator.pop(context);
+        .then((value) async {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(value.user!.uid)
+          .set(UserModel(
+            value.user!.uid,
+            nameController.text,
+            emailAddressController.text,
+            phoneController.text,
+            null,
+          ).toMap())
+          .then((value) {
+        emit(CreateUserSuccessfully());
+        Navigator.pop(context);
+      }).catchError((onError) {
+        emit(CreateUserError());
+        Fluttertoast.showToast(msg: onError.message.toString());
+      });
     }).catchError((onError) {
       emit(CreateUserError());
       Fluttertoast.showToast(msg: onError.message.toString());

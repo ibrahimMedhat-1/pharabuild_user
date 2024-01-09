@@ -20,7 +20,12 @@ class PharmacyDetailsCubit extends Cubit<PharmacyDetailsState> {
   }
 
   void isProductInCart(String id) {
-    FirebaseFirestore.instance.collection('users').doc(Constants.userId).collection('cart').get().then((value) async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(Constants.userModel.id)
+        .collection('cart')
+        .get()
+        .then((value) async {
       for (var element in value.docs) {
         if (element.id == id) {
           buttonName = 'Remove From Cart';
@@ -40,7 +45,7 @@ class PharmacyDetailsCubit extends Cubit<PharmacyDetailsState> {
     emit(AddProductToCartLoading());
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(Constants.userId)
+        .doc(Constants.userModel.id)
         .collection('cart')
         .doc(productsModel.tag)
         .set({'reference': reference}).then((value) {
@@ -58,7 +63,7 @@ class PharmacyDetailsCubit extends Cubit<PharmacyDetailsState> {
     emit(RemoveProductFromCartLoading());
     FirebaseFirestore.instance
         .collection('users')
-        .doc(Constants.userId)
+        .doc(Constants.userModel.id)
         .collection('cart')
         .doc(productsModel.tag)
         .delete()

@@ -16,7 +16,7 @@ class CartCubit extends Cubit<CartState> {
     emit(GetAllCartProductsLoading());
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(Constants.userId)
+        .doc(Constants.userModel.id)
         .collection('cart')
         .get()
         .then((value) async {
@@ -37,7 +37,7 @@ class CartCubit extends Cubit<CartState> {
     emit(RemoveProductFromCartLoading());
     FirebaseFirestore.instance
         .collection('users')
-        .doc(Constants.userId)
+        .doc(Constants.userModel.id)
         .collection('cart')
         .doc(productsModel.tag)
         .delete()

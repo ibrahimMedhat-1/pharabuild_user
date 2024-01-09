@@ -20,4 +20,12 @@ class ReviewModel {
     reviewerId = json['reviewerId'];
     id = json['id'];
   }
+
+  Map<String, dynamic> toMap() => {
+        'name': name,
+        'profileImage': profileImage,
+        'description': description,
+        'reviewerId': reviewerId,
+        'id': id,
+      };
 }

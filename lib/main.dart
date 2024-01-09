@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 import 'package:intelligent_pharmacy/firebase_options.dart';
+import 'package:intelligent_pharmacy/models/user_model.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
@@ -16,12 +17,17 @@ void main() async {
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
     CacheHelper.init(),
   ]);
-  Constants.userId = CacheHelper.getData(key: CacheKeys.userId).toString();
-  runApp(const MyApp());
+  bool login = false;
+  if ((await CacheHelper.getData(key: CacheKeys.userId)) != null) {
+    Constants.userModel = UserModel.fromJson(await CacheHelper.getData(key: CacheKeys.userId) as Map<String, dynamic>);
+    login = true;
+  }
+  runApp(MyApp(login: login));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool login;
+  const MyApp({required this.login, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +55,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         themeMode: ThemeMode.light,
-        home: Constants.userId == 'null' ? const LoginPage() : const Layout(),
+        home: login ? const Layout() : const LoginPage(),
       ),
     );
   }

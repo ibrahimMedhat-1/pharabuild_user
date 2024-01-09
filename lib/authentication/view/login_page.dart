@@ -54,6 +54,7 @@ class LoginPage extends StatelessWidget {
                           obscure: false,
                           labelText: 'Email Address',
                           hintText: 'Enter your email here...',
+                          keyboardType: TextInputType.emailAddress,
                         ),
                         CustomTextForm(
                           controller: cubit.passwordController,
@@ -62,6 +63,7 @@ class LoginPage extends StatelessWidget {
                           hintText: 'Enter your password here...',
                           suffixIcon: cubit.suffixIcon,
                           suffixPressed: cubit.suffixPressed,
+                          keyboardType: TextInputType.visiblePassword,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 24),

@@ -8,13 +8,14 @@ class CustomTextForm extends StatelessWidget {
   IconData? suffixIcon;
   Function()? suffixPressed;
   final bool obscure;
-
+  final TextInputType keyboardType;
   CustomTextForm({
     super.key,
     required this.controller,
     required this.obscure,
     required this.labelText,
     required this.hintText,
+    required this.keyboardType,
     this.suffixIcon,
     this.suffixPressed,
   });
@@ -31,6 +32,7 @@ class CustomTextForm extends StatelessWidget {
         children: [
           Expanded(
             child: TextFormField(
+              keyboardType: keyboardType,
               controller: controller,
               obscureText: obscure,
               decoration: InputDecoration(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/models/pharmacy_model.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/pharmacy_products.dart';
+import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/review_page.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/bottom_more_products.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/category_item.dart';
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/review_item.dart';
@@ -71,11 +72,29 @@ class PharmacyDetails extends StatelessWidget {
                                   .toList(),
                             ),
                           ),
-                          Text(
-                            'Reviews',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  height: 1,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Reviews',
+                                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                      height: 1,
+                                    ),
+                              ),
+                              MaterialButton(
+                                shape: const CircleBorder(side: BorderSide(color: Colors.blueAccent)),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: Colors.blue,
                                 ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => AddReviewPage(pharmacyModel: pharmacyModel)));
+                                },
+                              )
+                            ],
                           ),
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,

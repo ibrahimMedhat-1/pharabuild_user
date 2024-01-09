@@ -49,10 +49,25 @@ class SignUp extends StatelessWidget {
                           welcomeText: 'Get Started Below',
                         ),
                         CustomTextForm(
+                          controller: cubit.nameController,
+                          obscure: false,
+                          labelText: 'Name',
+                          hintText: 'Enter your name here...',
+                          keyboardType: TextInputType.name,
+                        ),
+                        CustomTextForm(
+                          controller: cubit.phoneController,
+                          obscure: false,
+                          labelText: 'Phone',
+                          hintText: 'Enter your phone here...',
+                          keyboardType: TextInputType.phone,
+                        ),
+                        CustomTextForm(
                           controller: cubit.emailAddressSignUpController,
                           obscure: false,
                           labelText: 'Email Address',
                           hintText: 'Enter your email here...',
+                          keyboardType: TextInputType.emailAddress,
                         ),
                         CustomTextForm(
                           controller: cubit.passwordSignUpController,
@@ -61,6 +76,7 @@ class SignUp extends StatelessWidget {
                           hintText: 'Enter your password here...',
                           suffixIcon: cubit.suffixIconSignUp,
                           suffixPressed: cubit.suffixPressedSignUp,
+                          keyboardType: TextInputType.visiblePassword,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 24),
