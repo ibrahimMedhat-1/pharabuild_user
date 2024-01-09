@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intelligent_pharmacy/models/category_model.dart';
+import 'package:intelligent_pharmacy/models/offers_model.dart';
 import 'package:intelligent_pharmacy/models/product_model.dart';
 
 import '../../pharmacy_categories.dart';
@@ -8,11 +9,13 @@ import '../../pharmacy_categories.dart';
 class CategoryItem extends StatelessWidget {
   final CategoryModel categoryModel;
   final List<ProductsModel> productsModel;
+  final List<OffersModel> offers;
 
   const CategoryItem({
     super.key,
     required this.categoryModel,
     required this.productsModel,
+    required this.offers,
   });
 
   @override
@@ -25,6 +28,7 @@ class CategoryItem extends StatelessWidget {
               builder: (builder) => PharmacyCategoriesPage(
                 tag: categoryModel.title!,
                 products: productsModel,
+                offers: offers,
               ),
             ));
       },

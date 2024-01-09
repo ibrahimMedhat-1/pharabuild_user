@@ -1,7 +1,13 @@
 class OffersModel {
-  String? banner;
+  String? id;
+  String? pharmacyId;
+  String? category;
+  String? image;
 
   OffersModel.fromJson(Map<String, dynamic>? json) {
-    banner = json!['banner'];
+    id = json!['id'];
+    pharmacyId = json['pharmacyId'];
+    category = json['category'];
+    image = json['image'];
   }
 }

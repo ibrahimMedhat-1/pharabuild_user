@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/models/category_model.dart';
+import 'package:intelligent_pharmacy/models/offers_model.dart';
 import 'package:intelligent_pharmacy/models/product_model.dart';
 import 'package:intelligent_pharmacy/models/review_model.dart';
 import 'package:intelligent_pharmacy/shared/toast.dart';
@@ -14,7 +16,8 @@ class HomePageCubit extends Cubit<HomePageState> {
 
   static HomePageCubit get(context) => BlocProvider.of(context);
   List<PharmacyModel> pharmacies = [];
-
+  List<PharmacyModel> searchPharmacyList = [];
+  TextEditingController searchPharmacyController = TextEditingController();
   void getAllPharmacies() async {
     if (pharmacies.isEmpty) {
       emit(GetPharmacyLoading());
@@ -23,6 +26,7 @@ class HomePageCubit extends Cubit<HomePageState> {
           List<ReviewModel> reviews = [];
           List<ProductsModel> products = [];
           List<CategoryModel> categories = [];
+          List<OffersModel> offers = [];
           for (var category in element.data()['categories']) {
             categories.add(CategoryModel.fromJson(category));
           }
@@ -36,11 +40,17 @@ class HomePageCubit extends Cubit<HomePageState> {
               products.add(ProductsModel.fromJson(element.data()));
             }
           });
+          await element.reference.collection('offers').get().then((value) {
+            for (var element in value.docs) {
+              offers.add(OffersModel.fromJson(element.data()));
+            }
+          });
           pharmacies.add(PharmacyModel.fromJson(
             json: element.data(),
             reviews: reviews,
             categories: categories,
             products: products,
+            offers: offers,
           ));
           emit(GetPharmacySuccessfully());
         }
@@ -48,6 +58,25 @@ class HomePageCubit extends Cubit<HomePageState> {
         emit(GetPharmacyError());
         showToast(onError.message);
       });
+    }
+  }
+
+  void searchPharmacies(String value) {
+    searchPharmacyList = [];
+    for (PharmacyModel pharmacy in pharmacies) {
+      if (pharmacy.name!.toLowerCase().contains(value.toLowerCase())) {
+        searchPharmacyList.add(pharmacy);
+      }
+    }
+    emit(IsSearchingInMedicineInCategory());
+  }
+
+  void isSearching(bool isSearching) {
+    if (isSearching) {
+      emit(IsSearchingInMedicineInCategory());
+    } else {
+      searchPharmacyList = [];
+      emit(IsNotSearchingInMedicineInCategory());
     }
   }
 }

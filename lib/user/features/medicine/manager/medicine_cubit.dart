@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:intelligent_pharmacy/models/offers_model.dart';
+import 'package:intelligent_pharmacy/shared/toast.dart';
 
 import '../../../../models/product_model.dart';
 
@@ -7,145 +10,60 @@ part 'medicine_state.dart';
 
 class MedicineCubit extends Cubit<MedicineState> {
   MedicineCubit() : super(MedicineInitial());
+
   static MedicineCubit get(context) => BlocProvider.of(context);
-  List<ProductsModel> products = [
-    ProductsModel(
-      'product0',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product1',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product2',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product3',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product4',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product5',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product6',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product7',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product8',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product9',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product10',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product11',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product12',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-  ];
-  List<ProductsModel> similarProducts = [
-    ProductsModel(
-      'similarProducts0',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts1',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts2',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts3',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts4',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'similarProducts5',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-  ];
+  TextEditingController searchController = TextEditingController();
+  List<ProductsModel> products = [];
+  List<OffersModel> offers = [];
+  List<ProductsModel> searchMedicineProducts = [];
+  List<ProductsModel> similarProducts = [];
   String dropDownMenuItemValue = 'Medicine';
+
+  void getAllProducts() {
+    emit(GetAllMedicineProductsLoading());
+    FirebaseFirestore.instance.collection('allProducts').get().then((value) async {
+      for (var element in value.docs) {
+        var product = await element.data()['reference'].get();
+        products.add(ProductsModel.fromJson(product.data()));
+      }
+      emit(GetAllMedicineProductsSuccessfully());
+    }).catchError((onError) {
+      emit(GetAllMedicineProductsError());
+      showToast(onError.message);
+    });
+  }
+
+  void getAllOffers() {
+    emit(GetAllOffersLoading());
+    FirebaseFirestore.instance.collection('allOffers').get().then((value) async {
+      for (var element in value.docs) {
+        var offer = await element.data()['reference'].get();
+        offers.add(OffersModel.fromJson(offer.data()));
+      }
+      emit(GetAllOffersSuccessfully());
+    }).catchError((onError) {
+      emit(GetAllOffersError());
+      showToast(onError.message);
+    });
+  }
+
+  void searchMedicine(String value) {
+    for (ProductsModel product in products) {
+      if (product.name!.toLowerCase().contains(value.toLowerCase())) {
+        searchMedicineProducts.add(product);
+      }
+    }
+    emit(IsSearchingInMedicineInCategory());
+  }
+
+  void isSearching(bool isSearching) {
+    if (isSearching) {
+      emit(IsSearchingInMedicineInCategory());
+    } else {
+      searchMedicineProducts = [];
+      emit(IsNotSearchingInMedicineInCategory());
+    }
+  }
 
   void changeDropDownItem(value) {
     dropDownMenuItemValue = value;

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/models/product_model.dart';
 import 'package:intelligent_pharmacy/shared/toast.dart';
-import 'package:meta/meta.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../shared/utils/constants.dart';
@@ -35,15 +34,20 @@ class PharmacyDetailsCubit extends Cubit<PharmacyDetailsState> {
   }
 
   void addToCart(ProductsModel productsModel) async {
+    DocumentReference reference = FirebaseFirestore.instance
+        .collection('pharmacies')
+        .doc(productsModel.pharmacyId)
+        .collection('products')
+        .doc(productsModel.tag);
     emit(AddProductToCartLoading());
     await FirebaseFirestore.instance
         .collection('users')
         .doc(Constants.userId)
         .collection('cart')
         .doc(productsModel.tag)
-        .set(productsModel.toMap())
-        .then((value) {
-      print(Constants.userId);
+        .set({
+      'reference': [reference]
+    }).then((value) {
       buttonName = 'Remove From Cart';
       isInCart = true;
       emit(AddProductToCartSuccessfully());

@@ -18,7 +18,8 @@ class ProductsDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<PharmacyProductsCubit>(create: (context) => PharmacyProductsCubit()),
+        BlocProvider<PharmacyProductsCubit>(
+            create: (context) => PharmacyProductsCubit()..getSimilarProducts(productsModel)),
         BlocProvider<PharmacyDetailsCubit>(create: (context) => PharmacyDetailsCubit()),
       ],
       child: BlocConsumer<PharmacyDetailsCubit, PharmacyDetailsState>(

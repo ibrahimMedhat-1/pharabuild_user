@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:intelligent_pharmacy/shared/toast.dart';
 
 import '../../../../../models/product_model.dart';
 
@@ -10,71 +11,80 @@ class PharmacyProductsCubit extends Cubit<PharmacyProductsState> {
   PharmacyProductsCubit() : super(PharmacyProductsInitial());
 
   static PharmacyProductsCubit get(context) => BlocProvider.of(context);
-  List<ProductsModel> products = [
-    ProductsModel(
-      'product0',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product1',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product2',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product3',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product4',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-    ProductsModel(
-      'product5',
-      'assets/test/product_image.jpeg',
-      'panadol',
-      '99',
-      'A pain Killer Medicine ',
-    ),
-  ];
   List<ProductsModel> similarProducts = [];
+  List<ProductsModel> categoryFilterProducts = [];
+  List<ProductsModel> searchProductsList = [];
   String dropDownMenuItemValue = 'Medicine';
-
-  void getSimilarProducts(String effectiveMaterial) {
-    FirebaseFirestore.instance.collection('pharmacies').get().then((value) {
+  TextEditingController searchController = TextEditingController();
+  void getSimilarProducts(ProductsModel productsModel) {
+    emit(GetSimilarProductsLoading());
+    FirebaseFirestore.instance.collection('allProducts').get().then((value) {
       for (var element in value.docs) {
-        element.reference
-            .collection('products')
-            .where('effectiveMaterial', isEqualTo: effectiveMaterial)
-            .get()
-            .then((value) {
-          for (var element in value.docs) {
-            similarProducts.add(ProductsModel.fromJson(element.data()));
+        element.data()['reference'].get().then((value) {
+          if (value.data()['effectiveMaterial'] == productsModel.effectiveMaterial &&
+              value.data()['id'] != productsModel.tag) {
+            similarProducts.add(ProductsModel.fromJson(value.data()));
+            emit(GetSimilarProductsSuccessfully());
           }
+        }).catchError((onError) {
+          emit(GetSimilarProductsError());
+          showToast(onError.message);
         });
       }
+    }).catchError((onError) {
+      emit(GetSimilarProductsError());
+      showToast(onError.message);
     });
   }
 
-  void changeDropDownItem(value) {
-    dropDownMenuItemValue = value;
+  void changeDropDownItem({
+    required String pharmacyId,
+    required category,
+  }) {
+    categoryFilterProducts = [];
+    dropDownMenuItemValue = category;
     emit(ChangeDropDownMenuItemValue());
+    if (category != 'All') {
+      print(pharmacyId);
+      emit(CategoryFilterInAllProductsLoading());
+      FirebaseFirestore.instance
+          .collection('pharmacies')
+          .doc(pharmacyId.trim())
+          .collection('products')
+          .where('category', isEqualTo: category)
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          categoryFilterProducts.add(ProductsModel.fromJson(element.data()));
+        }
+        print(value.docs);
+        print(category);
+        emit(CategoryFilterInAllProductsSuccessfully());
+      }).catchError((onError) {
+        emit(CategoryFilterInAllProductsError());
+        showToast(onError.message);
+      });
+    } else {
+      emit(ShowAllProducts());
+    }
+  }
+
+  void searchProducts(String value, List<ProductsModel> products) {
+    searchProductsList = [];
+    for (ProductsModel product in products) {
+      if (product.name!.toLowerCase().contains(value.toLowerCase())) {
+        searchProductsList.add(product);
+      }
+    }
+    emit(IsSearchingInMedicineInCategory());
+  }
+
+  void isSearching(bool isSearching) {
+    if (isSearching) {
+      emit(IsSearchingInMedicineInCategory());
+    } else {
+      searchProductsList = [];
+      emit(IsNotSearchingInMedicineInCategory());
+    }
   }
 }

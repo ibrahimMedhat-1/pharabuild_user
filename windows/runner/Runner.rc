@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "intelligent_pharmacy" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "intelligent_pharmacy" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com.example.intelligent_pharmacy. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.example.intelligent_pharmacy. All rights reserved." "\0"
             VALUE "OriginalFilename", "intelligent_pharmacy.exe" "\0"
             VALUE "ProductName", "intelligent_pharmacy" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

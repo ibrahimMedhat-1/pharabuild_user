@@ -9,3 +9,11 @@ class GetPharmacySuccessfully extends HomePageState {}
 class GetPharmacyLoading extends HomePageState {}
 
 class GetPharmacyError extends HomePageState {}
+
+class PharmacySearchLoading extends HomePageState {}
+
+class PharmacySearchDone extends HomePageState {}
+
+class IsSearchingInMedicineInCategory extends HomePageState {}
+
+class IsNotSearchingInMedicineInCategory extends HomePageState {}

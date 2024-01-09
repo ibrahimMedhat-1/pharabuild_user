@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
+import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 
 import '../../user/layout/layout.dart';
 
@@ -34,6 +35,7 @@ class AuthCubit extends Cubit<AuthState> {
       Future.wait([
         CacheHelper.setData(key: CacheKeys.userId, value: value.user!.uid),
       ]);
+      Constants.userId = value.user!.uid;
       emit(LoginSuccessfully());
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
     }).catchError((onError) {

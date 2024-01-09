@@ -66,6 +66,7 @@ class PharmacyDetails extends StatelessWidget {
                                   .map((e) => CategoryItem(
                                         categoryModel: e,
                                         productsModel: pharmacyModel.products!,
+                                        offers: pharmacyModel.offers!,
                                       ))
                                   .toList(),
                             ),

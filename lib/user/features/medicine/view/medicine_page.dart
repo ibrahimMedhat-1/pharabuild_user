@@ -14,7 +14,9 @@ class MedicinePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MedicineCubit(),
+      create: (context) => MedicineCubit()
+        ..getAllProducts()
+        ..getAllOffers(),
       child: BlocConsumer<MedicineCubit, MedicineState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -23,51 +25,67 @@ class MedicinePage extends StatelessWidget {
             body: SafeArea(
               child: CustomScrollView(
                 slivers: [
-                  SliverToBoxAdapter(
-                    child: CarouselSlider(
-                      items: const [
-                        CarouselItem(image: 'assets/test/medicine_offers1.jpeg'),
-                        CarouselItem(image: 'assets/test/medicine_offers2.jpeg'),
-                        CarouselItem(image: 'assets/test/medicine_offers3.jpeg'),
-                      ],
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        enlargeCenterPage: true,
-                      ),
+                  if (cubit.offers.isNotEmpty)
+                    SliverToBoxAdapter(
+                      child: state is GetAllOffersLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : CarouselSlider(
+                              items:
+                                  cubit.offers.asMap().entries.map((e) => CarouselItem(image: e.value.image!)).toList(),
+                              options: CarouselOptions(
+                                autoPlay: true,
+                                enlargeCenterPage: true,
+                              ),
+                            ),
                     ),
-                  ),
-                  const SliverAppBar(
+                  SliverAppBar(
                     collapsedHeight: 80,
                     floating: true,
-                    flexibleSpace: HomePageSearchWidget(),
+                    flexibleSpace: SearchWidget(
+                      controller: cubit.searchController,
+                      search: () {
+                        cubit.searchMedicine(cubit.searchController.text);
+                      },
+                      onChange: (value) {
+                        if (value.isEmpty) {
+                          cubit.isSearching(false);
+                        } else {
+                          cubit.isSearching(true);
+                        }
+                      },
+                    ),
                   ),
-                  SliverGrid.count(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    children: cubit.products
-                        .asMap()
-                        .entries
-                        .map((e) => ProductItem(
-                              tag: e.value.tag!,
-                              productImage: e.value.image!,
-                              productName: e.value.name!,
-                              productPrice: e.value.price!,
-                              productDescription: e.value.description!,
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (builder) => ProductsDetails(
-                                        tag: e.value.tag!,
-                                        productsModel: e.value,
-                                      ),
-                                    ));
-                              },
-                            ))
-                        .toList(),
-                  ),
+                  if (state is GetAllMedicineProductsLoading)
+                    const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()))
+                  else
+                    SliverGrid.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      children:
+                          (state is IsSearchingInMedicineInCategory ? cubit.searchMedicineProducts : cubit.products)
+                              .asMap()
+                              .entries
+                              .map((e) => ProductItem(
+                                    tag: e.value.tag!,
+                                    productImage: e.value.image!,
+                                    productName: e.value.name!,
+                                    productPrice: e.value.price!,
+                                    productDescription: e.value.description!,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (builder) => ProductsDetails(
+                                              tag: e.value.tag!,
+                                              productsModel: e.value,
+                                            ),
+                                          ));
+                                    },
+                                  ))
+                              .toList(),
+                    ),
                 ],
               ),
             ),

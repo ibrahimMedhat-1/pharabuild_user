@@ -39,17 +39,31 @@ class PharmaciesPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SliverAppBar(
+              SliverAppBar(
                 pinned: true,
                 backgroundColor: Colors.black87,
                 expandedHeight: 100,
                 collapsedHeight: 80,
-                flexibleSpace: HomePageSearchWidget(),
+                flexibleSpace: SearchWidget(
+                  controller: cubit.searchPharmacyController,
+                  search: () {
+                    cubit.searchPharmacies(cubit.searchPharmacyController.text);
+                  },
+                  onChange: (value) {
+                    if (value.isEmpty) {
+                      cubit.isSearching(false);
+                    } else {
+                      cubit.isSearching(true);
+                    }
+                  },
+                ),
               ),
               SliverToBoxAdapter(
-                  child: state is GetPharmacyLoading
+                  child: (state is GetPharmacyLoading || state is PharmacySearchLoading)
                       ? const Center(child: CircularProgressIndicator())
-                      : PharmaciesList(cubit.pharmacies)),
+                      : state is IsSearchingInMedicineInCategory
+                          ? PharmaciesList(cubit.searchPharmacyList)
+                          : PharmaciesList(cubit.pharmacies)),
             ],
           );
         },
