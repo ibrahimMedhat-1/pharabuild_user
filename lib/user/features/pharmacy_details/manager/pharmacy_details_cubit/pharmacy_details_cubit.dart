@@ -12,7 +12,6 @@ class PharmacyDetailsCubit extends Cubit<PharmacyDetailsState> {
   PharmacyDetailsCubit() : super(PharmacyDetailsInitial());
 
   static PharmacyDetailsCubit get(context) => BlocProvider.of(context);
-  List<ProductsModel> cartProducts = [];
   String buttonName = 'Add To Cart';
   bool isInCart = false;
 
@@ -20,34 +19,31 @@ class PharmacyDetailsCubit extends Cubit<PharmacyDetailsState> {
     await launchUrl(Uri.parse('tel://$phoneNo'));
   }
 
-  void getCartItems() async {
-    emit(GetAllCartProductsLoading());
-    await FirebaseFirestore.instance.collection('users').doc(Constants.userId).collection('cart').get().then((value) {
+  void isProductInCart(String id) {
+    FirebaseFirestore.instance.collection('users').doc(Constants.userId).collection('cart').get().then((value) async {
       for (var element in value.docs) {
-        cartProducts.add(ProductsModel.fromJson(element.data()));
+        if (element.id == id) {
+          buttonName = 'Remove From Cart';
+          isInCart = true;
+          emit(ProductIsInCart());
+        }
       }
-      emit(GetAllCartProductsSuccessfully());
-    }).catchError((onError) {
-      emit(GetAllCartProductsError());
-      showToast(onError.message);
     });
   }
 
   void addToCart(ProductsModel productsModel) async {
     DocumentReference reference = FirebaseFirestore.instance
         .collection('pharmacies')
-        .doc(productsModel.pharmacyId)
+        .doc(productsModel.pharmacyId!.trim())
         .collection('products')
-        .doc(productsModel.tag);
+        .doc(productsModel.tag!.trim());
     emit(AddProductToCartLoading());
     await FirebaseFirestore.instance
         .collection('users')
         .doc(Constants.userId)
         .collection('cart')
         .doc(productsModel.tag)
-        .set({
-      'reference': [reference]
-    }).then((value) {
+        .set({'reference': reference}).then((value) {
       buttonName = 'Remove From Cart';
       isInCart = true;
       emit(AddProductToCartSuccessfully());

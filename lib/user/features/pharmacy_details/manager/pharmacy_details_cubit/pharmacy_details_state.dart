@@ -21,3 +21,5 @@ class GetAllCartProductsLoading extends PharmacyDetailsState {}
 class GetAllCartProductsSuccessfully extends PharmacyDetailsState {}
 
 class GetAllCartProductsError extends PharmacyDetailsState {}
+
+class ProductIsInCart extends PharmacyDetailsState {}

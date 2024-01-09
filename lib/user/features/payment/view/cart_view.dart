@@ -12,42 +12,56 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CartCubit(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Your Cart'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(
-            top: 8,
-            left: 8,
-            right: 8,
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) => const AspectRatio(
-                    aspectRatio: 1 / .5,
-                    child: CartItem(),
+      create: (context) => CartCubit()..getCartItems(),
+      child: BlocConsumer<CartCubit, CartState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          final CartCubit cubit = CartCubit.get(context);
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Your Cart'),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.only(
+                top: 8,
+                left: 8,
+                right: 8,
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: state is GetAllCartProductsLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ListView.separated(
+                            itemBuilder: (context, index) => AspectRatio(
+                              aspectRatio: 1 / .5,
+                              child: CartItem(
+                                  cartItem: cubit.cartProducts[index],
+                                  onTap: () {
+                                    cubit.removeItemFromCart(cubit.cartProducts[index]);
+                                  }),
+                            ),
+                            separatorBuilder: (context, index) => const SizedBox(height: 10),
+                            itemCount: cubit.cartProducts.length,
+                          ),
                   ),
-                  separatorBuilder: (context, index) => const SizedBox(height: 10),
-                  itemCount: 3,
-                ),
+                  BottomWidget(
+                    text: 'Total: 100\$',
+                    buttonText: 'CheckOut',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (builder) => PaymentPage()),
+                      );
+                    },
+                  ),
+                ],
               ),
-              BottomWidget(
-                text: 'Total: 100\$',
-                buttonText: 'CheckOut',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (builder) => PaymentPage()),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

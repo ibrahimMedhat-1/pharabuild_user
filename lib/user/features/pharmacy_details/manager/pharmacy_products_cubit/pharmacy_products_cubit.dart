@@ -16,6 +16,7 @@ class PharmacyProductsCubit extends Cubit<PharmacyProductsState> {
   List<ProductsModel> searchProductsList = [];
   String dropDownMenuItemValue = 'Medicine';
   TextEditingController searchController = TextEditingController();
+
   void getSimilarProducts(ProductsModel productsModel) {
     emit(GetSimilarProductsLoading());
     FirebaseFirestore.instance.collection('allProducts').get().then((value) {

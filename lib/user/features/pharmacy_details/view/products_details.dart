@@ -20,7 +20,8 @@ class ProductsDetails extends StatelessWidget {
       providers: [
         BlocProvider<PharmacyProductsCubit>(
             create: (context) => PharmacyProductsCubit()..getSimilarProducts(productsModel)),
-        BlocProvider<PharmacyDetailsCubit>(create: (context) => PharmacyDetailsCubit()),
+        BlocProvider<PharmacyDetailsCubit>(
+            create: (context) => PharmacyDetailsCubit()..isProductInCart(productsModel.tag!)),
       ],
       child: BlocConsumer<PharmacyDetailsCubit, PharmacyDetailsState>(
         listener: (context, state) {},
