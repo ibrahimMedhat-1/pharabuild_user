@@ -25,79 +25,79 @@ class DoctorDetails extends StatelessWidget {
           children: [
             SafeArea(child: TopImageWidget(tag: doctorModel.id!, image: doctorModel.image!)),
             Expanded(
-              flex: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    doctorModel.name!,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await launchUrl(Uri.parse('tel://${doctorModel.phoneNo}'));
-                    },
-                    child: Text(
-                      doctorModel.phoneNo!,
-                      style: Theme.of(context).textTheme.bodyLarge,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      doctorModel.name!,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ),
-                  Text(
-                    'Address',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(),
-                  ),
-                  InkWell(
-                    onTap: () async {},
-                    child: Text(
-                      doctorModel.address!,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ),
-                  Text(
-                    'Speciality',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(),
-                  ),
-                  Text(
-                    doctorModel.speciality!,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  Text(
-                    'Bio',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          height: 2,
-                        ),
-                  ),
-                  Container(
-                    width: MediaQuery.sizeOf(context).width - 40,
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(10),
-                    clipBehavior: Clip.antiAlias,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0, 0),
-                        blurRadius: 3,
+                    InkWell(
+                      onTap: () async {
+                        await launchUrl(Uri.parse('tel://${doctorModel.phoneNo}'));
+                      },
+                      child: Text(
+                        doctorModel.phoneNo!,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                    ]),
-                    child: Text(doctorModel.bio!),
-                  ),
-                  const Spacer(),
-                  BottomWidget(
-                    text: 'Let\'s Chat',
-                    buttonText: 'Chat Now',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => DoctorChatPage(
-                                  doctorName: doctorModel.name!,
-                                )),
-                      );
-                    },
-                  ),
-                ],
+                    ),
+                    Text(
+                      'Address',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(),
+                    ),
+                    InkWell(
+                      onTap: () async {},
+                      child: Text(
+                        doctorModel.address!,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ),
+                    Text(
+                      'Speciality',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(),
+                    ),
+                    Text(
+                      doctorModel.speciality!,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    Text(
+                      'Bio',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            height: 2,
+                          ),
+                    ),
+                    Container(
+                      width: MediaQuery.sizeOf(context).width - 40,
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
+                      clipBehavior: Clip.antiAlias,
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0, 0),
+                          blurRadius: 3,
+                        ),
+                      ]),
+                      child: Text(doctorModel.bio!),
+                    ),
+                  ],
+                ),
               ),
+            ),
+            BottomWidget(
+              text: 'Let\'s Chat',
+              buttonText: 'Chat Now',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (builder) => DoctorChatPage(
+                            doctorName: doctorModel.name!,
+                          )),
+                );
+              },
             ),
           ],
         ),
