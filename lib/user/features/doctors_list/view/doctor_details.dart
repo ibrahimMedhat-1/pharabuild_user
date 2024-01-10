@@ -3,25 +3,13 @@ import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets
 import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/top_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../models/doctor_model.dart';
 import 'doctor_chat_page.dart';
 
 class DoctorDetails extends StatelessWidget {
-  final String image;
-  final String tag;
-  final String doctorName;
-  final String doctorNo;
-  final String address;
-  final String speciality;
+  final DoctorModel doctorModel;
 
-  const DoctorDetails({
-    super.key,
-    required this.image,
-    required this.tag,
-    required this.doctorName,
-    required this.doctorNo,
-    required this.address,
-    required this.speciality,
-  });
+  const DoctorDetails({super.key, required this.doctorModel});
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +23,22 @@ class DoctorDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SafeArea(child: TopImageWidget(tag: tag, image: image)),
+            SafeArea(child: TopImageWidget(tag: doctorModel.id!, image: doctorModel.image!)),
             Expanded(
               flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    doctorName,
+                    doctorModel.name!,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   InkWell(
                     onTap: () async {
-                      await launchUrl(Uri.parse('tel://$doctorNo'));
+                      await launchUrl(Uri.parse('tel://${doctorModel.phoneNo}'));
                     },
                     child: Text(
-                      doctorNo,
+                      doctorModel.phoneNo!,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
@@ -59,11 +47,9 @@ class DoctorDetails extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(),
                   ),
                   InkWell(
-                    onTap: () async {
-                      await launchUrl(Uri.parse('tel://$doctorNo'));
-                    },
+                    onTap: () async {},
                     child: Text(
-                      address,
+                      doctorModel.address!,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
@@ -72,7 +58,7 @@ class DoctorDetails extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(),
                   ),
                   Text(
-                    speciality,
+                    doctorModel.speciality!,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
@@ -94,7 +80,7 @@ class DoctorDetails extends StatelessWidget {
                         blurRadius: 3,
                       ),
                     ]),
-                    child: const Text('Ain shams university'),
+                    child: Text(doctorModel.bio!),
                   ),
                   const Spacer(),
                   BottomWidget(
@@ -105,7 +91,7 @@ class DoctorDetails extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (builder) => DoctorChatPage(
-                                  doctorName: doctorName,
+                                  doctorName: doctorModel.name!,
                                 )),
                       );
                     },

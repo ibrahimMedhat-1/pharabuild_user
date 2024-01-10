@@ -18,6 +18,7 @@ class AddReviewPage extends StatefulWidget {
 class _AddReviewPageState extends State<AddReviewPage> {
   bool isLoading = false;
   TextEditingController controller = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +43,21 @@ class _AddReviewPageState extends State<AddReviewPage> {
                     ),
                   ],
                 ),
-                child: TextFormField(
-                  maxLines: 10,
-                  controller: controller,
-                  decoration: const InputDecoration(
-                    hintText: 'Please Write Your Review...',
-                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                child: Form(
+                  key: formKey,
+                  child: TextFormField(
+                    maxLines: 10,
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      hintText: 'Please Write Your Review...',
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return '';
+                      }
+                      return null;
+                    },
                   ),
                 ),
               ),
@@ -65,32 +75,34 @@ class _AddReviewPageState extends State<AddReviewPage> {
                     ),
                     child: const Text('Submit Review'),
                     onPressed: () {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      FirebaseFirestore.instance
-                          .collection('pharmacies')
-                          .doc(widget.pharmacyModel.id!)
-                          .collection('reviews')
-                          .add({}).then((value) {
-                        value.set(ReviewModel(
-                          name: Constants.userModel!.name,
-                          profileImage: Constants.userModel!.image,
-                          description: controller.text,
-                          reviewerId: Constants.userModel!.id,
-                          id: value.id,
-                        ).toMap());
-                      }).then((value) {
+                      if (formKey.currentState!.validate()) {
                         setState(() {
-                          isLoading = false;
-                          controller.clear();
+                          isLoading = true;
                         });
-                      }).catchError((onError) {
-                        setState(() {
-                          isLoading = false;
+                        FirebaseFirestore.instance
+                            .collection('pharmacies')
+                            .doc(widget.pharmacyModel.id!)
+                            .collection('reviews')
+                            .add({}).then((value) {
+                          value.set(ReviewModel(
+                            name: Constants.userModel!.name,
+                            profileImage: Constants.userModel!.image,
+                            description: controller.text,
+                            reviewerId: Constants.userModel!.id,
+                            id: value.id,
+                          ).toMap());
+                        }).then((value) {
+                          setState(() {
+                            isLoading = false;
+                            controller.clear();
+                          });
+                        }).catchError((onError) {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          showToast(onError.message);
                         });
-                        showToast(onError.message);
-                      });
+                      }
                     },
                   )
           ],

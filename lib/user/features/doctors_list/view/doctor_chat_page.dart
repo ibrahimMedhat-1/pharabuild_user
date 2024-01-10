@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/user/features/doctors_list/manager/doctor_chat_cubit/doctor_chat_cubit.dart';
 
 import '../../../../shared/styles/colors.dart';
-import '../../chatbot/widgets/chat_bubble.dart';
+import '../../chatbot/view/widgets/chat_bubble.dart';
 
 class DoctorChatPage extends StatelessWidget {
   final String doctorName;

@@ -1,8 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intelligent_pharmacy/user/features/doctors_list/view/doctor_details.dart';
 
+import '../../../../../models/doctor_model.dart';
+
 class DoctorListWidget extends StatelessWidget {
-  const DoctorListWidget({super.key});
+  final List<DoctorModel> doctors;
+
+  const DoctorListWidget({required this.doctors, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +20,13 @@ class DoctorListWidget extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (builder) => DoctorDetails(
-                  image: 'assets/test/doctor_img.jpg',
-                  tag: '$index',
-                  doctorName: 'Doctor Name',
-                  doctorNo: '01064172976',
-                  address: 'Maadi - cairo - Egypt',
-                  speciality: 'Bones',
+                  doctorModel: doctors[index],
                 ),
               ),
             );
           },
           child: Hero(
-            tag: index.toString(),
+            tag: doctors[index].id!,
             child: AspectRatio(
               aspectRatio: 1 / 1.1,
               child: Container(
@@ -44,35 +44,40 @@ class DoctorListWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: SizedBox(
+                      child: CachedNetworkImage(
+                        fit: BoxFit.fill,
                         width: double.infinity,
-                        child: Image.asset(
-                          'assets/test/doctor_img.jpg',
-                          fit: BoxFit.fill,
+                        imageUrl: doctors[index].image!,
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        ),
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
                         ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Doctor Name',
+                            doctors[index].name!,
                             style: Theme.of(context).textTheme.titleLarge!.copyWith(height: 2),
                           ),
                           Text(
-                            'Doctor phone',
+                            doctors[index].phoneNo!,
                             style: Theme.of(context).textTheme.titleMedium!.copyWith(height: 2),
                           ),
                           Text(
-                            'Doctor Address',
+                            doctors[index].address!,
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(height: 3),
                           ),
                           Text(
-                            'Doctor Speciality',
+                            doctors[index].speciality!,
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(height: 3),
                           ),
                         ],
@@ -84,7 +89,7 @@ class DoctorListWidget extends StatelessWidget {
             ),
           ),
         ),
-        itemCount: 5,
+        itemCount: doctors.length,
       ),
     );
   }

@@ -48,12 +48,12 @@ class CartPage extends StatelessWidget {
                           ),
                   ),
                   BottomWidget(
-                    text: 'Total: 100\$',
+                    text: 'Total: ${cubit.price}\$',
                     buttonText: 'CheckOut',
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (builder) => PaymentPage()),
+                        MaterialPageRoute(builder: (builder) => PaymentPage(totalAmount: cubit.price)),
                       );
                     },
                   ),

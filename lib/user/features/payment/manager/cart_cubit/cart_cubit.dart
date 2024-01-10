@@ -11,9 +11,10 @@ class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartInitial());
   static CartCubit get(context) => BlocProvider.of(context);
   List<ProductsModel> cartProducts = [];
+  int price = 0;
   void getCartItems() async {
     cartProducts.clear();
-    print(Constants.userModel!.id);
+    price = 0;
     emit(GetAllCartProductsLoading());
     await FirebaseFirestore.instance
         .collection('users')
@@ -23,13 +24,12 @@ class CartCubit extends Cubit<CartState> {
         .then((value) async {
       for (var element in value.docs) {
         var product = await element.data()['reference'].get();
-        print(product.data());
         cartProducts.add(ProductsModel.fromJson(product.data()));
+        price += int.parse(product.data()['price']);
       }
       emit(GetAllCartProductsSuccessfully());
     }).catchError((onError) {
       emit(GetAllCartProductsError());
-      print(onError);
       showToast(onError.message.toString());
     });
   }

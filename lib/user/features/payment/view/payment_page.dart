@@ -2,7 +2,8 @@ import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:flutter/material.dart';
 
 class PaymentPage extends StatelessWidget {
-  const PaymentPage({super.key});
+  final int totalAmount;
+  const PaymentPage({required this.totalAmount, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class PaymentPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Total Amount: \$ 100',
+                'Total Amount: \$ $totalAmount',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               TextFormField(

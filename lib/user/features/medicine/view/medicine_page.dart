@@ -23,13 +23,13 @@ class MedicinePage extends StatelessWidget {
           final MedicineCubit cubit = MedicineCubit.get(context);
           return Scaffold(
             body: SafeArea(
-              child: CustomScrollView(
-                slivers: [
-                  if (cubit.offers.isNotEmpty)
-                    SliverToBoxAdapter(
-                      child: state is GetAllOffersLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : CarouselSlider(
+              child: (state is GetAllOffersLoading || state is GetAllMedicineProductsLoading)
+                  ? const Center(child: CircularProgressIndicator())
+                  : CustomScrollView(
+                      slivers: [
+                        if (cubit.offers.isNotEmpty)
+                          SliverToBoxAdapter(
+                            child: CarouselSlider(
                               items:
                                   cubit.offers.asMap().entries.map((e) => CarouselItem(image: e.value.image!)).toList(),
                               options: CarouselOptions(
@@ -37,57 +37,54 @@ class MedicinePage extends StatelessWidget {
                                 enlargeCenterPage: true,
                               ),
                             ),
+                          ),
+                        SliverAppBar(
+                          collapsedHeight: 80,
+                          floating: true,
+                          flexibleSpace: SearchWidget(
+                            controller: cubit.searchController,
+                            search: () {
+                              cubit.searchMedicine(cubit.searchController.text);
+                            },
+                            onChange: (value) {
+                              if (value.isEmpty) {
+                                cubit.isSearching(false);
+                              } else {
+                                cubit.isSearching(true);
+                              }
+                            },
+                          ),
+                        ),
+                        SliverGrid.count(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          children:
+                              (state is IsSearchingInMedicineInCategory ? cubit.searchMedicineProducts : cubit.products)
+                                  .asMap()
+                                  .entries
+                                  .map((e) => ProductItem(
+                                        tag: e.value.tag!,
+                                        productImage: e.value.image!,
+                                        productName: e.value.name!,
+                                        productPrice: e.value.price!,
+                                        productDescription: e.value.description!,
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (builder) => ProductsDetails(
+                                                  tag: e.value.tag!,
+                                                  productsModel: e.value,
+                                                ),
+                                              ));
+                                        },
+                                      ))
+                                  .toList(),
+                        ),
+                      ],
                     ),
-                  SliverAppBar(
-                    collapsedHeight: 80,
-                    floating: true,
-                    flexibleSpace: SearchWidget(
-                      controller: cubit.searchController,
-                      search: () {
-                        cubit.searchMedicine(cubit.searchController.text);
-                      },
-                      onChange: (value) {
-                        if (value.isEmpty) {
-                          cubit.isSearching(false);
-                        } else {
-                          cubit.isSearching(true);
-                        }
-                      },
-                    ),
-                  ),
-                  if (state is GetAllMedicineProductsLoading)
-                    const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()))
-                  else
-                    SliverGrid.count(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      children:
-                          (state is IsSearchingInMedicineInCategory ? cubit.searchMedicineProducts : cubit.products)
-                              .asMap()
-                              .entries
-                              .map((e) => ProductItem(
-                                    tag: e.value.tag!,
-                                    productImage: e.value.image!,
-                                    productName: e.value.name!,
-                                    productPrice: e.value.price!,
-                                    productDescription: e.value.description!,
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (builder) => ProductsDetails(
-                                              tag: e.value.tag!,
-                                              productsModel: e.value,
-                                            ),
-                                          ));
-                                    },
-                                  ))
-                              .toList(),
-                    ),
-                ],
-              ),
             ),
           );
         },

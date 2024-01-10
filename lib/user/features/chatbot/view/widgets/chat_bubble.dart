@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intelligent_pharmacy/shared/utils/icons.dart';
 
-import '../../../../shared/styles/colors.dart';
+import '../../../../../shared/styles/colors.dart';
 
 class ChatBubble extends StatelessWidget {
   final String text;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../chatbot/chatbot_model/chatbot_model.dart';
+import '../../../../../models/chatbot_model.dart';
 
 part 'doctor_chat_state.dart';
 

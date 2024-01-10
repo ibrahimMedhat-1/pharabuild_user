@@ -1,15 +1,29 @@
-import 'package:intelligent_pharmacy/models/review_model.dart';
-
 class DoctorModel {
-  final String doctorName;
-  final String doctorNo;
-  final String doctorAddress;
-  final List<ReviewModel> reviews;
+  String? id;
+  String? name;
+  String? phoneNo;
+  String? address;
+  String? speciality;
+  String? bio;
+  String? image;
 
   DoctorModel(
-    this.doctorName,
-    this.doctorNo,
-    this.doctorAddress,
-    this.reviews,
+    this.id,
+    this.name,
+    this.phoneNo,
+    this.address,
+    this.speciality,
+    this.bio,
+    this.image,
   );
+
+  DoctorModel.fromJson(Map<String, dynamic>? json) {
+    id = json!['id'];
+    name = json['name'];
+    phoneNo = json['phoneNo'];
+    address = json['address'];
+    speciality = json['speciality'];
+    bio = json['bio'];
+    image = json['image'];
+  }
 }

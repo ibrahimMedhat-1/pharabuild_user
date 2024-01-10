@@ -63,38 +63,42 @@ class ProductsDetails extends StatelessWidget {
                                         height: 3,
                                       ),
                                 ),
-                                GridView.count(
-                                  crossAxisCount: 2,
-                                  shrinkWrap: true,
-                                  childAspectRatio: 1,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  children: productsCubit.similarProducts
-                                      .asMap()
-                                      .entries
-                                      .map(
-                                        (e) => ProductItem(
-                                          tag: e.value.tag!,
-                                          productImage: e.value.image!,
-                                          productName: e.value.name!,
-                                          productPrice: e.value.price!,
-                                          productDescription: e.value.description!,
-                                          onTap: () {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (builder) => ProductsDetails(
-                                                  tag: e.value.tag!,
-                                                  productsModel: e.value,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
+                                state is GetSimilarProductsLoading
+                                    ? const Center(
+                                        child: CircularProgressIndicator(),
                                       )
-                                      .toList(),
-                                ),
+                                    : GridView.count(
+                                        crossAxisCount: 2,
+                                        shrinkWrap: true,
+                                        childAspectRatio: 1,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        children: productsCubit.similarProducts
+                                            .asMap()
+                                            .entries
+                                            .map(
+                                              (e) => ProductItem(
+                                                tag: e.value.tag!,
+                                                productImage: e.value.image!,
+                                                productName: e.value.name!,
+                                                productPrice: e.value.price!,
+                                                productDescription: e.value.description!,
+                                                onTap: () {
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (builder) => ProductsDetails(
+                                                        tag: e.value.tag!,
+                                                        productsModel: e.value,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            )
+                                            .toList(),
+                                      ),
                               ],
                             ),
                           ),
