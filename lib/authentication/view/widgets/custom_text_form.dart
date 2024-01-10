@@ -9,6 +9,7 @@ class CustomTextForm extends StatelessWidget {
   Function()? suffixPressed;
   final bool obscure;
   final TextInputType keyboardType;
+  final String validationText;
   CustomTextForm({
     super.key,
     required this.controller,
@@ -16,6 +17,7 @@ class CustomTextForm extends StatelessWidget {
     required this.labelText,
     required this.hintText,
     required this.keyboardType,
+    required this.validationText,
     this.suffixIcon,
     this.suffixPressed,
   });
@@ -35,15 +37,18 @@ class CustomTextForm extends StatelessWidget {
               keyboardType: keyboardType,
               controller: controller,
               obscureText: obscure,
+              style: textTheme.titleSmall,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return validationText;
+                }
+                return null;
+              },
               decoration: InputDecoration(
                 labelText: labelText,
-                labelStyle: textTheme.bodyMedium!.copyWith(
-                  color: Colors.grey,
-                ),
+                labelStyle: textTheme.bodyMedium!.copyWith(color: Colors.grey),
                 hintText: hintText,
-                hintStyle: textTheme.bodyMedium!.copyWith(
-                  color: Colors.grey,
-                ),
+                hintStyle: textTheme.bodyMedium!.copyWith(color: Colors.grey),
                 suffixIcon: suffixIcon == null
                     ? null
                     : IconButton(
@@ -85,7 +90,6 @@ class CustomTextForm extends StatelessWidget {
                 ),
                 contentPadding: const EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
               ),
-              style: textTheme.titleSmall,
             ),
           ),
         ],

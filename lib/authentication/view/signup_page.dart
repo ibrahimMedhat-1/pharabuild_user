@@ -12,6 +12,7 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    final GlobalKey<FormState> formKey = GlobalKey();
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit, AuthState>(
@@ -40,80 +41,89 @@ class SignUp extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const WelcomeWidget(
-                          welcomeText: 'Get Started Below',
-                        ),
-                        CustomTextForm(
-                          controller: cubit.nameController,
-                          obscure: false,
-                          labelText: 'Name',
-                          hintText: 'Enter your name here...',
-                          keyboardType: TextInputType.name,
-                        ),
-                        CustomTextForm(
-                          controller: cubit.phoneController,
-                          obscure: false,
-                          labelText: 'Phone',
-                          hintText: 'Enter your phone here...',
-                          keyboardType: TextInputType.phone,
-                        ),
-                        CustomTextForm(
-                          controller: cubit.emailAddressSignUpController,
-                          obscure: false,
-                          labelText: 'Email Address',
-                          hintText: 'Enter your email here...',
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        CustomTextForm(
-                          controller: cubit.passwordSignUpController,
-                          obscure: cubit.obscureSignUp,
-                          labelText: 'Password',
-                          hintText: 'Enter your password here...',
-                          suffixIcon: cubit.suffixIconSignUp,
-                          suffixPressed: cubit.suffixPressedSignUp,
-                          keyboardType: TextInputType.visiblePassword,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 24),
-                          child: state is CreateUserLoading
-                              ? const CircularProgressIndicator()
-                              : AuthButton(
-                                  onTap: () {
-                                    cubit.signUp(context);
-                                  },
-                                  text: 'Create Account',
-                                ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 0, 24),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Already have an account?',
-                                style: textTheme.bodyMedium!.copyWith(
-                                  fontFamily: 'Lexend Deca',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Login'),
-                              ),
-                            ],
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const WelcomeWidget(
+                            welcomeText: 'Get Started Below',
                           ),
-                        ),
-                      ],
+                          CustomTextForm(
+                            controller: cubit.nameController,
+                            obscure: false,
+                            labelText: 'Name',
+                            hintText: 'Enter your name here...',
+                            keyboardType: TextInputType.name,
+                            validationText: 'Please enter your name',
+                          ),
+                          CustomTextForm(
+                            controller: cubit.phoneController,
+                            obscure: false,
+                            labelText: 'Phone',
+                            hintText: 'Enter your phone here...',
+                            keyboardType: TextInputType.phone,
+                            validationText: 'Please enter your phone',
+                          ),
+                          CustomTextForm(
+                            controller: cubit.emailAddressSignUpController,
+                            obscure: false,
+                            labelText: 'Email Address',
+                            hintText: 'Enter your email here...',
+                            keyboardType: TextInputType.emailAddress,
+                            validationText: 'Please enter your email',
+                          ),
+                          CustomTextForm(
+                            controller: cubit.passwordSignUpController,
+                            obscure: cubit.obscureSignUp,
+                            labelText: 'Password',
+                            hintText: 'Enter your password here...',
+                            suffixIcon: cubit.suffixIconSignUp,
+                            suffixPressed: cubit.suffixPressedSignUp,
+                            keyboardType: TextInputType.visiblePassword,
+                            validationText: 'Please enter your password',
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: state is CreateUserLoading
+                                ? const CircularProgressIndicator()
+                                : AuthButton(
+                                    onTap: () {
+                                      if (formKey.currentState!.validate()) {
+                                        cubit.signUp(context);
+                                      }
+                                    },
+                                    text: 'Create Account',
+                                  ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 0, 24),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Already have an account?',
+                                  style: textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'Lexend Deca',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Login'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

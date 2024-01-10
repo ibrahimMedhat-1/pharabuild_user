@@ -38,7 +38,7 @@ class AuthCubit extends Cubit<AuthState> {
         .then((value) {
       FirebaseFirestore.instance.collection('users').doc(value.user!.uid).get().then((value) async {
         Constants.userModel = UserModel.fromJson(value.data());
-        await CacheHelper.setData(key: CacheKeys.userId, value: value.data());
+        cachingUser(value, CacheKeys.userId);
       });
       emit(LoginSuccessfully());
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
@@ -51,7 +51,8 @@ class AuthCubit extends Cubit<AuthState> {
   void signUp(BuildContext context) {
     emit(CreateUserLoading());
     FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: emailAddressController.text.trim(), password: passwordController.text)
+        .createUserWithEmailAndPassword(
+            email: emailAddressSignUpController.text.trim(), password: passwordSignUpController.text)
         .then((value) async {
       await FirebaseFirestore.instance
           .collection('users')
@@ -59,7 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
           .set(UserModel(
             value.user!.uid,
             nameController.text,
-            emailAddressController.text,
+            emailAddressSignUpController.text,
             phoneController.text,
             null,
           ).toMap())
@@ -74,6 +75,35 @@ class AuthCubit extends Cubit<AuthState> {
       emit(CreateUserError());
       Fluttertoast.showToast(msg: onError.message.toString());
     });
+  }
+
+  Future<void> cachingUser(DocumentSnapshot<Map<String, dynamic>> value, String userType) async {
+    List<String> map = [];
+    dynamic array = value.data().toString().split('');
+    await array.removeAt(0);
+    await array.removeLast();
+    array = await array.join('');
+    array = await array.split(',');
+    await CacheHelper.setData(key: userType, value: (handlingMapResponse(array, map).toString()));
+  }
+
+  String handlingMapResponse(List array, List<String> map) {
+    for (int i = 0; i < array.length; i++) {
+      dynamic key = array[i].toString().trim().split(" ")[0].split("");
+      var value = array[i].toString().trim().split(" ").last == array[i].toString().trim().split(" ")[0]
+          ? ''
+          : array[i].toString().trim().split(":").last.trim();
+      debugPrint(array[i].toString().trim().split(":").last.trim());
+      key.removeLast();
+      key = key.join();
+      map.add('"$key" : "$value",');
+    }
+    String last = (map.last.split('')..removeLast()).join();
+    map
+      ..removeLast()
+      ..insert(map.length, last);
+    debugPrint(map.join());
+    return '{${map.join().toString()}}';
   }
 
   void suffixPressed() {

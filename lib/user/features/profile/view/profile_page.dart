@@ -1,4 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
+import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
+import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
+import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/chats_page.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/edit_profile_page.dart';
 
@@ -46,7 +51,18 @@ class ProfilePage extends StatelessWidget {
           ProfileButton(
             title: 'Sign Out',
             icon: Icons.arrow_forward_ios_outlined,
-            onTap: () {},
+            onTap: () {
+              CacheHelper.removeData(key: CacheKeys.userId).then((value) {
+                FirebaseAuth.instance.signOut().then((value) {
+                  Constants.userModel = null;
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (builder) => const LoginPage()),
+                    (route) => false,
+                  );
+                });
+              });
+            },
           ),
         ],
       ),
