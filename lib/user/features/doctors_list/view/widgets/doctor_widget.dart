@@ -44,6 +44,7 @@ class DoctorListWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: CachedNetworkImage(
