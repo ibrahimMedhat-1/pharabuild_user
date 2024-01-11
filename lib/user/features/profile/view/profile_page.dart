@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
+import 'package:intelligent_pharmacy/shared/utils/images.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/chats_page.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/edit_profile_page.dart';
 
@@ -15,56 +17,72 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            radius: MediaQuery.sizeOf(context).width * 0.2,
-            backgroundImage: const AssetImage('assets/test/profile_image.jpeg'),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: MediaQuery.sizeOf(context).width * 0.2,
+                backgroundImage: Constants.userModel!.image == null
+                    ? const AssetImage(ImagesAsset.profileImage)
+                    : CachedNetworkImage(
+                        imageUrl: Constants.userModel!.image!,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        imageBuilder: (context, imageProvider) => Image(
+                            image: CachedNetworkImageProvider(
+                          Constants.userModel!.image!,
+                        )),
+                      ) as ImageProvider,
+              ),
+              Text(
+                'Ibrahim Medhat',
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),
+              ),
+              ProfileButton(
+                title: 'Edit Profile',
+                icon: Icons.arrow_forward_ios_outlined,
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (builder) => const EditProfilePage(),
+                      ));
+                },
+              ),
+              ProfileButton(
+                title: 'Chats',
+                icon: Icons.arrow_forward_ios_outlined,
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (builder) => const ChatsPage(),
+                      ));
+                },
+              ),
+              ProfileButton(
+                title: 'Sign Out',
+                icon: Icons.arrow_forward_ios_outlined,
+                onTap: () {
+                  CacheHelper.removeData(key: CacheKeys.userId).then((value) {
+                    FirebaseAuth.instance.signOut().then((value) {
+                      Constants.userModel = null;
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (builder) => const LoginPage()),
+                        (route) => false,
+                      );
+                    });
+                  });
+                },
+              ),
+            ],
           ),
-          Text(
-            'Ibrahim Medhat',
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),
-          ),
-          ProfileButton(
-            title: 'Edit Profile',
-            icon: Icons.arrow_forward_ios_outlined,
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (builder) => const EditProfilePage(),
-                  ));
-            },
-          ),
-          ProfileButton(
-            title: 'Chats',
-            icon: Icons.arrow_forward_ios_outlined,
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (builder) => const ChatsPage(),
-                  ));
-            },
-          ),
-          ProfileButton(
-            title: 'Sign Out',
-            icon: Icons.arrow_forward_ios_outlined,
-            onTap: () {
-              CacheHelper.removeData(key: CacheKeys.userId).then((value) {
-                FirebaseAuth.instance.signOut().then((value) {
-                  Constants.userModel = null;
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (builder) => const LoginPage()),
-                    (route) => false,
-                  );
-                });
-              });
-            },
-          ),
-        ],
+        ),
       ),
     );
   }
