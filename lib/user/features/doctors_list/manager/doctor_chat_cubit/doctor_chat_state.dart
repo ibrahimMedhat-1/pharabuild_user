@@ -4,3 +4,5 @@ part of 'doctor_chat_cubit.dart';
 abstract class DoctorChatState {}
 
 class DoctorChatInitial extends DoctorChatState {}
+
+class GetAllMessagesSuccessfully extends DoctorChatState {}

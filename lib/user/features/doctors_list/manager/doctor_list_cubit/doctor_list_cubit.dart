@@ -15,8 +15,31 @@ class DoctorListCubit extends Cubit<DoctorListState> {
   List<DoctorModel> doctorsList = [];
 
   void changeDropDownItem(value) {
+    doctorsList.clear();
     dropDownMenuItemValue = value;
     emit(ChangeDropDownMenuItemValue());
+    emit(GetDoctorBySpecialityLoading());
+    if (value != 'All') {
+      FirebaseFirestore.instance.collection('doctors').where('speciality', isEqualTo: value).get().then((value) {
+        value.docs.forEach((element) {
+          doctorsList.add(DoctorModel.fromJson(element.data()));
+        });
+        emit(GetDoctorBySpecialitySuccessfully());
+      }).catchError((onError) {
+        emit(GetDoctorBySpecialityError());
+        showToast(onError.message);
+      });
+    } else {
+      FirebaseFirestore.instance.collection('doctors').get().then((value) {
+        value.docs.forEach((element) {
+          doctorsList.add(DoctorModel.fromJson(element.data()));
+        });
+        emit(GetDoctorBySpecialitySuccessfully());
+      }).catchError((onError) {
+        emit(GetDoctorBySpecialityError());
+        showToast(onError.message);
+      });
+    }
   }
 
   void getAllDoctors() {

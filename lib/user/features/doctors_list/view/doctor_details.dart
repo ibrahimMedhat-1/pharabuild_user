@@ -47,9 +47,14 @@ class DoctorDetails extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(),
                     ),
                     InkWell(
-                      onTap: () async {},
+                      onTap: () async {
+                        launchUrl(
+                          Uri.parse(
+                              'https://www.google.com/maps/search/?api=1&query=${doctorModel.address!['latitude']},${doctorModel.address!['longitude']}'),
+                        );
+                      },
                       child: Text(
-                        doctorModel.address!,
+                        doctorModel.address!['text'],
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
@@ -67,20 +72,39 @@ class DoctorDetails extends StatelessWidget {
                             height: 2,
                           ),
                     ),
-                    Container(
-                      width: MediaQuery.sizeOf(context).width - 40,
-                      margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.all(10),
-                      clipBehavior: Clip.antiAlias,
-                      decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: const [
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0, 0),
-                          blurRadius: 3,
-                        ),
-                      ]),
-                      child: Text(doctorModel.bio!),
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                              child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              doctorModel.bio!,
+                              style: const TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          )),
+                        );
+                      },
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width - 40,
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(0, 0),
+                                blurRadius: 3,
+                              ),
+                            ]),
+                        child: Text(doctorModel.bio!),
+                      ),
                     ),
                   ],
                 ),
@@ -94,7 +118,7 @@ class DoctorDetails extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (builder) => DoctorChatPage(
-                            doctorName: doctorModel.name!,
+                            doctorModel: doctorModel,
                           )),
                 );
               },

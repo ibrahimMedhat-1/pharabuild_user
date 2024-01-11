@@ -42,6 +42,7 @@ class DoctorsListView extends StatelessWidget {
                         hint: const Text('Specialities'),
                         value: cubit.dropDownMenuItemValue,
                         items: [
+                          dropDownItem(context, 'All'),
                           dropDownItem(context, 'Bones'),
                           dropDownItem(context, 'General'),
                           dropDownItem(context, 'Dentist'),
@@ -53,7 +54,7 @@ class DoctorsListView extends StatelessWidget {
                     ],
                   ),
                 ),
-                state is GetAllDoctorsLoading
+                state is GetAllDoctorsLoading || state is GetDoctorBySpecialityLoading
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )

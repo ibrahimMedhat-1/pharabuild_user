@@ -74,7 +74,7 @@ class DoctorListWidget extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleMedium!.copyWith(height: 2),
                           ),
                           Text(
-                            doctors[index].address!,
+                            doctors[index].address!['text'],
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(height: 3),
                           ),
                           Text(

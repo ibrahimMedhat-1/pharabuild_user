@@ -2,7 +2,7 @@ class DoctorModel {
   String? id;
   String? name;
   String? phoneNo;
-  String? address;
+  Map<String, dynamic>? address;
   String? speciality;
   String? bio;
   String? image;
@@ -21,7 +21,7 @@ class DoctorModel {
     id = json!['id'];
     name = json['name'];
     phoneNo = json['phoneNo'];
-    address = json['address'];
+    address = json['address'] as Map<String, dynamic>;
     speciality = json['speciality'];
     bio = json['bio'];
     image = json['image'];
