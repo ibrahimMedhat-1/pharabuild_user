@@ -39,9 +39,9 @@ class AuthCubit extends Cubit<AuthState> {
       FirebaseFirestore.instance.collection('users').doc(value.user!.uid).get().then((value) async {
         Constants.userModel = UserModel.fromJson(value.data());
         cachingUser(value, CacheKeys.userId);
+        emit(LoginSuccessfully());
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
       });
-      emit(LoginSuccessfully());
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
     }).catchError((onError) {
       emit(LoginError());
       Fluttertoast.showToast(msg: onError.message.toString());

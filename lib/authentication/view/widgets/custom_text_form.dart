@@ -10,8 +10,11 @@ class CustomTextForm extends StatelessWidget {
   final bool obscure;
   final TextInputType keyboardType;
   final String validationText;
+
+  bool isEnabled;
   CustomTextForm({
     super.key,
+    this.isEnabled = true,
     required this.controller,
     required this.obscure,
     required this.labelText,
@@ -34,6 +37,7 @@ class CustomTextForm extends StatelessWidget {
         children: [
           Expanded(
             child: TextFormField(
+              enabled: isEnabled,
               keyboardType: keyboardType,
               controller: controller,
               obscureText: obscure,
