@@ -6,3 +6,7 @@ abstract class ProfileState {}
 class ProfileInitial extends ProfileState {}
 
 class GetUserDataSuccessfully extends ProfileState {}
+
+class ChangeProfileImageLoading extends ProfileState {}
+
+class ChangeProfileImageSuccessfully extends ProfileState {}

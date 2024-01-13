@@ -17,76 +17,73 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileCubit()..getUserData(),
-      child: BlocConsumer<ProfileCubit, ProfileState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          final ProfileCubit cubit = ProfileCubit.get(context);
-          return Scaffold(
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: MediaQuery.sizeOf(context).width * 0.2,
-                      backgroundImage: cubit.imageUrl == null
-                          ? const AssetImage(ImagesAsset.profileImage)
-                          : NetworkImage('https:${cubit.imageUrl!}') as ImageProvider,
-                    ),
-                    Text(
-                      cubit.name ?? '',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),
-                    ),
-                    ProfileButton(
-                      title: 'Edit Profile',
-                      icon: Icons.arrow_forward_ios_outlined,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builder) => const EditProfilePage(),
-                            )).then((value) {});
-                      },
-                    ),
-                    ProfileButton(
-                      title: 'Chats',
-                      icon: Icons.arrow_forward_ios_outlined,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builder) => const ChatsPage(),
-                            ));
-                      },
-                    ),
-                    ProfileButton(
-                      title: 'Sign Out',
-                      icon: Icons.arrow_forward_ios_outlined,
-                      onTap: () async {
-                        await CacheHelper.removeData(key: CacheKeys.userId).then((value) async {
-                          await FirebaseAuth.instance.signOut().then((value) {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (builder) => const LoginPage(),
-                                ),
-                                (route) => false).then((value) {
-                              Phoenix.rebirth(context);
-                            });
+    return BlocConsumer<ProfileCubit, ProfileState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        final ProfileCubit cubit = ProfileCubit.get(context);
+        return Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: MediaQuery.sizeOf(context).width * 0.2,
+                    backgroundImage: cubit.imageUrl == null
+                        ? const AssetImage(ImagesAsset.profileImage)
+                        : NetworkImage('https:${cubit.imageUrl!}') as ImageProvider,
+                  ),
+                  Text(
+                    cubit.nameController.text,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),
+                  ),
+                  ProfileButton(
+                    title: 'Edit Profile',
+                    icon: Icons.arrow_forward_ios_outlined,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builder) => EditProfilePage(),
+                          )).then((value) {});
+                    },
+                  ),
+                  ProfileButton(
+                    title: 'Chats',
+                    icon: Icons.arrow_forward_ios_outlined,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builder) => const ChatsPage(),
+                          ));
+                    },
+                  ),
+                  ProfileButton(
+                    title: 'Sign Out',
+                    icon: Icons.arrow_forward_ios_outlined,
+                    onTap: () async {
+                      await CacheHelper.removeData(key: CacheKeys.userId).then((value) async {
+                        await FirebaseAuth.instance.signOut().then((value) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builder) => const LoginPage(),
+                              ),
+                              (route) => false).then((value) {
+                            Phoenix.rebirth(context);
                           });
                         });
-                      },
-                    ),
-                  ],
-                ),
+                      });
+                    },
+                  ),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

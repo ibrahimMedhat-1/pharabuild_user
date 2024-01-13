@@ -10,6 +10,7 @@ import 'package:intelligent_pharmacy/firebase_options.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
+import 'package:intelligent_pharmacy/user/features/profile/manager/profile_cubit/profile_cubit.dart';
 import 'package:intelligent_pharmacy/user/layout/layout.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -36,30 +37,35 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
-      child: MaterialApp(
-        title: 'Pharmacy App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: Colors.black87,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()..getUserData()),
+        ],
+        child: MaterialApp(
+          title: 'Pharmacy App',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.black87,
+              ),
             ),
-          ),
-          textTheme: TextTheme(
-            titleLarge: TextStyle(
-              color: Colors.blueAccent,
-              fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width * 0.05,
+            textTheme: TextTheme(
+              titleLarge: TextStyle(
+                color: Colors.blueAccent,
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.of(context).size.width * 0.05,
+              ),
             ),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+            useMaterial3: true,
           ),
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-          useMaterial3: true,
+          themeMode: ThemeMode.light,
+          // home: const LoginPage(),
+          home: Constants.userModel != null ? const Layout() : const LoginPage(),
         ),
-        themeMode: ThemeMode.light,
-        // home: const LoginPage(),
-        home: Constants.userModel != null ? const Layout() : const LoginPage(),
       ),
     );
   }
