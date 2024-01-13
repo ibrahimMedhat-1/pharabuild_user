@@ -8,9 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intelligent_pharmacy/models/user_model.dart';
 
-import '../../../../shared/network/cache_keys.dart';
-import '../../../../shared/network/cached_preference.dart';
-import '../../../../shared/utils/constants.dart';
+import '../../../../../shared/network/cache_keys.dart';
+import '../../../../../shared/network/cached_preference.dart';
+import '../../../../../shared/utils/constants.dart';
 
 part 'edit_profile_state.dart';
 

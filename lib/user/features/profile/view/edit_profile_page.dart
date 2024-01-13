@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/authentication/view/widgets/custom_text_form.dart';
-import 'package:intelligent_pharmacy/user/features/profile/manager/edit_profile_cubit.dart';
+import 'package:intelligent_pharmacy/user/features/profile/manager/edit_profile_cubit/edit_profile_cubit.dart';
 
 import '../../../../shared/utils/images.dart';
 
