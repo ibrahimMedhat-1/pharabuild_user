@@ -10,3 +10,5 @@ class ChangeProfileImageLoading extends EditProfileState {}
 class ChangeProfileImageSuccessfully extends EditProfileState {}
 
 class ChangeProfileImageError extends EditProfileState {}
+
+class GetUserDataSuccessfully extends EditProfileState {}

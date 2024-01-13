@@ -24,7 +24,6 @@ void main() async {
   ]);
   Permission.camera.request();
   if ((await CacheHelper.getData(key: CacheKeys.userId)) != null) {
-    print(await CacheHelper.getData(key: CacheKeys.userId));
     Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
   }
   runApp(Phoenix(child: const MyApp()));

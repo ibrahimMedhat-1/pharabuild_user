@@ -85,7 +85,9 @@ class EditProfilePage extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                         elevation: 5,
-                        onPressed: () {},
+                        onPressed: () {
+                          cubit.changeUserData();
+                        },
                         child: const Text('Save'),
                       )
                     ],

@@ -6,7 +6,7 @@ import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
 import 'package:intelligent_pharmacy/shared/utils/images.dart';
-import 'package:intelligent_pharmacy/user/features/profile/manager/edit_profile_cubit/edit_profile_cubit.dart';
+import 'package:intelligent_pharmacy/user/features/profile/manager/profile_cubit/profile_cubit.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/chats_page.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/edit_profile_page.dart';
 
@@ -18,11 +18,11 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EditProfileCubit()..getUserData(),
-      child: BlocConsumer<EditProfileCubit, EditProfileState>(
+      create: (context) => ProfileCubit()..getUserData(),
+      child: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {},
         builder: (context, state) {
-          final EditProfileCubit cubit = EditProfileCubit.get(context);
+          final ProfileCubit cubit = ProfileCubit.get(context);
           return Scaffold(
             body: SafeArea(
               child: Padding(
@@ -37,7 +37,7 @@ class ProfilePage extends StatelessWidget {
                           : NetworkImage('https:${cubit.imageUrl!}') as ImageProvider,
                     ),
                     Text(
-                      cubit.nameController.text,
+                      cubit.name ?? '',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),
                     ),
                     ProfileButton(
@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (builder) => const EditProfilePage(),
-                            ));
+                            )).then((value) {});
                       },
                     ),
                     ProfileButton(

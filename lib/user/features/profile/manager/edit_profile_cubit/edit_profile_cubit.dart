@@ -21,13 +21,27 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  String? imageUrl = Constants.userModel!.image;
+  String? imageUrl;
 
   void getUserData() {
-    print(Constants.userModel!.image);
-    nameController.text = Constants.userModel!.name!;
-    phoneController.text = Constants.userModel!.phoneNo!;
-    emailController.text = Constants.userModel!.email!;
+    FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).get().then((value) async {
+      await cachingUser(value, CacheKeys.userId);
+      Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
+      nameController.text = Constants.userModel!.name!;
+      phoneController.text = Constants.userModel!.phoneNo!;
+      emailController.text = Constants.userModel!.email!;
+      imageUrl = Constants.userModel!.image!.split(':').last;
+      emit(GetUserDataSuccessfully());
+    });
+  }
+
+  void changeUserData() {
+    FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).update({
+      'name': nameController.text.trim(),
+      'phoneNo': phoneController.text.trim(),
+    }).then((value) {
+      getUserData();
+    });
   }
 
   void updateProfilePicture() async {
@@ -42,14 +56,10 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         p0.ref.getDownloadURL().then((value) {
           imageUrl = value.split(':').last;
           FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).update(
-            {'profilePicture': value},
+            {'image': value},
           ).then((value) {
-            FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).get().then((value) async {
-              await cachingUser(value, CacheKeys.userId);
-              Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
-              print(Constants.userModel);
-              emit(ChangeProfileImageSuccessfully());
-            });
+            emit(ChangeProfileImageSuccessfully());
+            getUserData();
           });
         });
       });

@@ -21,9 +21,9 @@ class DoctorListCubit extends Cubit<DoctorListState> {
     emit(GetDoctorBySpecialityLoading());
     if (value != 'All') {
       FirebaseFirestore.instance.collection('doctors').where('speciality', isEqualTo: value).get().then((value) {
-        value.docs.forEach((element) {
+        for (var element in value.docs) {
           doctorsList.add(DoctorModel.fromJson(element.data()));
-        });
+        }
         emit(GetDoctorBySpecialitySuccessfully());
       }).catchError((onError) {
         emit(GetDoctorBySpecialityError());
@@ -31,9 +31,9 @@ class DoctorListCubit extends Cubit<DoctorListState> {
       });
     } else {
       FirebaseFirestore.instance.collection('doctors').get().then((value) {
-        value.docs.forEach((element) {
+        for (var element in value.docs) {
           doctorsList.add(DoctorModel.fromJson(element.data()));
-        });
+        }
         emit(GetDoctorBySpecialitySuccessfully());
       }).catchError((onError) {
         emit(GetDoctorBySpecialityError());

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +39,10 @@ class AuthCubit extends Cubit<AuthState> {
         .signInWithEmailAndPassword(email: emailAddressController.text.trim(), password: passwordController.text)
         .then((value) {
       FirebaseFirestore.instance.collection('users').doc(value.user!.uid).get().then((value) async {
-        Constants.userModel = UserModel.fromJson(value.data());
-        cachingUser(value, CacheKeys.userId);
+        await cachingUser(value, CacheKeys.userId);
+        Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
         emit(LoginSuccessfully());
+      }).then((value) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
       });
     }).catchError((onError) {
