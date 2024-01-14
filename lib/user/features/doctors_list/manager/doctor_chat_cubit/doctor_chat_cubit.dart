@@ -16,18 +16,47 @@ class DoctorChatCubit extends Cubit<DoctorChatState> {
   ScrollController scrollController = ScrollController();
 
   void sendMessage(MessageModel message) {
-    FirebaseFirestore.instance.collection('users').doc(message.senderId).collection('chat').add(message.toMap());
-    FirebaseFirestore.instance.collection('doctors').doc(message.receiverId).collection('chat').add(message.toMap());
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(message.senderId)
+        .collection('chat')
+        .doc(message.receiverId)
+        .set({'lastMessage': message.text});
+    var inUserDocument = FirebaseFirestore.instance
+        .collection('users')
+        .doc(message.senderId)
+        .collection('chat')
+        .doc(message.receiverId)
+        .collection('messages')
+        .doc();
+    inUserDocument.set(message.toMap(inUserDocument.id));
+    FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(message.receiverId)
+        .collection('chat')
+        .doc(message.senderId)
+        .set({'lastMessage': message.text});
+    var inDoctorDocument = FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(message.receiverId)
+        .collection('chat')
+        .doc(message.senderId)
+        .collection('messages')
+        .doc();
+    inDoctorDocument.set(message.toMap(inDoctorDocument.id));
   }
 
-  void getMessages() {
+  void getMessages(doctorId) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(Constants.userModel!.id)
         .collection('chat')
+        .doc(doctorId)
+        .collection('messages')
         .orderBy('date')
         .snapshots()
         .listen((event) {
+      chatMessage.clear();
       for (var element in event.docs) {
         chatMessage.add(MessageModel.fromJson(element.data()));
       }

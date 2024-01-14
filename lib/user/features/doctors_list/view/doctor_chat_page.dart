@@ -19,7 +19,7 @@ class DoctorChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DoctorChatCubit()..getMessages(),
+      create: (context) => DoctorChatCubit()..getMessages(doctorModel.id),
       child: BlocConsumer<DoctorChatCubit, DoctorChatState>(
         listener: (context, state) {},
         builder: (context, state) {

@@ -27,7 +27,7 @@ class MessageModel {
     sender = json['sender'];
   }
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap(id) => {
         'id': id,
         'date': date,
         'receiverId': receiverId,

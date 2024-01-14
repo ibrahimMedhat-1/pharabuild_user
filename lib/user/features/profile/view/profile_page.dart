@@ -25,60 +25,62 @@ class ProfilePage extends StatelessWidget {
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: MediaQuery.sizeOf(context).width * 0.2,
-                    backgroundImage: cubit.imageUrl == null
-                        ? const AssetImage(ImagesAsset.profileImage)
-                        : NetworkImage('https:${cubit.imageUrl!}') as ImageProvider,
-                  ),
-                  Text(
-                    cubit.nameController.text,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),
-                  ),
-                  ProfileButton(
-                    title: 'Edit Profile',
-                    icon: Icons.arrow_forward_ios_outlined,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => EditProfilePage(),
-                          )).then((value) {});
-                    },
-                  ),
-                  ProfileButton(
-                    title: 'Chats',
-                    icon: Icons.arrow_forward_ios_outlined,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => const ChatsPage(),
-                          ));
-                    },
-                  ),
-                  ProfileButton(
-                    title: 'Sign Out',
-                    icon: Icons.arrow_forward_ios_outlined,
-                    onTap: () async {
-                      await CacheHelper.removeData(key: CacheKeys.userId).then((value) async {
-                        await FirebaseAuth.instance.signOut().then((value) {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (builder) => const LoginPage(),
-                              ),
-                              (route) => false).then((value) {
-                            Phoenix.rebirth(context);
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: MediaQuery.sizeOf(context).width * 0.2,
+                      backgroundImage: cubit.imageUrl == null
+                          ? const AssetImage(ImagesAsset.profileImage)
+                          : NetworkImage('https:${cubit.imageUrl!}') as ImageProvider,
+                    ),
+                    Text(
+                      cubit.nameController.text,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),
+                    ),
+                    ProfileButton(
+                      title: 'Edit Profile',
+                      icon: Icons.arrow_forward_ios_outlined,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => EditProfilePage(),
+                            )).then((value) {});
+                      },
+                    ),
+                    ProfileButton(
+                      title: 'Chats',
+                      icon: Icons.arrow_forward_ios_outlined,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => const AllChatsPage(),
+                            ));
+                      },
+                    ),
+                    ProfileButton(
+                      title: 'Sign Out',
+                      icon: Icons.arrow_forward_ios_outlined,
+                      onTap: () async {
+                        await CacheHelper.removeData(key: CacheKeys.userId).then((value) async {
+                          await FirebaseAuth.instance.signOut().then((value) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (builder) => const LoginPage(),
+                                ),
+                                (route) => false).then((value) {
+                              Phoenix.rebirth(context);
+                            });
                           });
                         });
-                      });
-                    },
-                  ),
-                ],
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

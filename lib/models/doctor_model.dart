@@ -6,6 +6,7 @@ class DoctorModel {
   String? speciality;
   String? bio;
   String? image;
+  String? lastMessage;
 
   DoctorModel(
     this.id,
@@ -17,7 +18,7 @@ class DoctorModel {
     this.image,
   );
 
-  DoctorModel.fromJson(Map<String, dynamic>? json) {
+  DoctorModel.fromJson(Map<String, dynamic>? json, {this.lastMessage}) {
     id = json!['id'];
     name = json['name'];
     phoneNo = json['phoneNo'];
