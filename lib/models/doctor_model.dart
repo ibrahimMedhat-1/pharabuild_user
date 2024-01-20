@@ -2,7 +2,9 @@ class DoctorModel {
   String? id;
   String? name;
   String? phoneNo;
-  Map<String, dynamic>? address;
+  String? addressLongitude;
+  String? addressLatitude;
+  String? address;
   String? speciality;
   String? bio;
   String? image;
@@ -13,6 +15,8 @@ class DoctorModel {
     this.name,
     this.phoneNo,
     this.address,
+    this.addressLatitude,
+    this.addressLongitude,
     this.speciality,
     this.bio,
     this.image,
@@ -22,7 +26,20 @@ class DoctorModel {
     id = json!['id'];
     name = json['name'];
     phoneNo = json['phoneNo'];
-    address = json['address'] as Map<String, dynamic>;
+    address = json['address']['text'];
+    addressLongitude = json['address']['longitude'];
+    addressLatitude = json['address']['latitude'];
+    speciality = json['speciality'];
+    bio = json['bio'];
+    image = json['image'];
+  }
+  DoctorModel.fromCache(Map<String, dynamic>? json, {this.lastMessage}) {
+    id = json!['id'];
+    name = json['name'];
+    phoneNo = json['phoneNo'];
+    address = json['address'];
+    addressLongitude = json['longitude'];
+    addressLatitude = json['latitude'];
     speciality = json['speciality'];
     bio = json['bio'];
     image = json['image'];

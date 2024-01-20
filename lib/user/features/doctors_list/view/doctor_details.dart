@@ -50,11 +50,11 @@ class DoctorDetails extends StatelessWidget {
                       onTap: () async {
                         launchUrl(
                           Uri.parse(
-                              'https://www.google.com/maps/search/?api=1&query=${doctorModel.address!['latitude']},${doctorModel.address!['longitude']}'),
+                              'https://www.google.com/maps/search/?api=1&query=${doctorModel.addressLatitude!},${doctorModel.addressLongitude!}'),
                         );
                       },
                       child: Text(
-                        doctorModel.address!['text'],
+                        doctorModel.address!,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),

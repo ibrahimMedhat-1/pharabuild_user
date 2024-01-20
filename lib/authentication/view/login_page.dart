@@ -70,6 +70,18 @@ class LoginPage extends StatelessWidget {
                             keyboardType: TextInputType.visiblePassword,
                             validationText: 'Please enter your password',
                           ),
+                          Row(
+                            children: [
+                              Checkbox(
+                                shape: const CircleBorder(),
+                                value: cubit.checkBoxValue,
+                                onChanged: (value) {
+                                  cubit.changeCheckBoxValue(value);
+                                },
+                              ),
+                              const Text('I am a doctor'),
+                            ],
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(top: 24),
                             child: Row(

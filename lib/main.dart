@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
+import 'package:intelligent_pharmacy/doctor/features/home_page/view/home_page.dart';
 import 'package:intelligent_pharmacy/firebase_options.dart';
+import 'package:intelligent_pharmacy/models/doctor_model.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
@@ -26,6 +28,8 @@ void main() async {
   Permission.camera.request();
   if ((await CacheHelper.getData(key: CacheKeys.userId)) != null) {
     Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
+  } else if ((await CacheHelper.getData(key: CacheKeys.doctorId)) != null) {
+    Constants.doctorModel = DoctorModel.fromCache(jsonDecode(await CacheHelper.getData(key: CacheKeys.doctorId)));
   }
   runApp(Phoenix(child: const MyApp()));
 }
@@ -64,7 +68,11 @@ class MyApp extends StatelessWidget {
           ),
           themeMode: ThemeMode.light,
           // home: const LoginPage(),
-          home: Constants.userModel != null ? const Layout() : const LoginPage(),
+          home: Constants.userModel == null && Constants.doctorModel == null
+              ? const LoginPage()
+              : Constants.userModel != null
+                  ? const Layout()
+                  : const DoctorHomePage(),
         ),
       ),
     );

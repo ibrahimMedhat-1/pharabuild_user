@@ -8,8 +8,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intelligent_pharmacy/models/user_model.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
+import 'package:intelligent_pharmacy/shared/toast.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 
+import '../../doctor/features/home_page/view/home_page.dart';
+import '../../models/doctor_model.dart';
 import '../../user/layout/layout.dart';
 
 part 'auth_state.dart';
@@ -28,23 +31,46 @@ class AuthCubit extends Cubit<AuthState> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
+  bool checkBoxValue = false;
   bool obscure = true;
   bool obscureSignUp = true;
   IconData suffixIcon = Icons.visibility_off;
   IconData suffixIconSignUp = Icons.visibility_off;
+  void changeCheckBoxValue(value) {
+    checkBoxValue = value;
+    emit(ChangeCheckBoxValue());
+  }
 
   void login(BuildContext context) {
     emit(LoginLoading());
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddressController.text.trim(), password: passwordController.text)
         .then((value) {
-      FirebaseFirestore.instance.collection('users').doc(value.user!.uid).get().then((value) async {
-        await cachingUser(value, CacheKeys.userId);
-        Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
-        emit(LoginSuccessfully());
-      }).then((value) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
-      });
+      if (checkBoxValue) {
+        FirebaseFirestore.instance.collection('doctors').doc(value.user!.uid).get().then((value) async {
+          if (value.data() != null) {
+            await cachingUser(value, CacheKeys.doctorId);
+            Constants.doctorModel = DoctorModel.fromJson(value.data());
+            emit(LoginSuccessfully());
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const DoctorHomePage()));
+          } else {
+            emit(LoginError());
+            showToast('Not a doctor');
+          }
+        });
+      } else {
+        FirebaseFirestore.instance.collection('users').doc(value.user!.uid).get().then((value) async {
+          if (value.data() != null) {
+            await cachingUser(value, CacheKeys.userId);
+            Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
+            emit(LoginSuccessfully());
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
+          } else {
+            emit(LoginError());
+            showToast('Not a user');
+          }
+        });
+      }
     }).catchError((onError) {
       emit(LoginError());
       Fluttertoast.showToast(msg: onError.message.toString());
