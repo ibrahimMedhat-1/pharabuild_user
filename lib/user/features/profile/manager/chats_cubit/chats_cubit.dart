@@ -25,9 +25,9 @@ class ChatsCubit extends Cubit<ChatsState> {
       for (var element in value.docs) {
         await FirebaseFirestore.instance.collection('doctors').doc(element.id).get().then((value) {
           doctorsList.add(DoctorModel.fromJson(value.data(), lastMessage: element.data()['lastMessage']));
+          emit(GetAllChatsSuccessfully());
         });
       }
-      emit(GetAllChatsSuccessfully());
     });
   }
 }

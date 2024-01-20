@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intelligent_pharmacy/shared/utils/icons.dart';
 
 import '../../../../../shared/styles/colors.dart';
 
@@ -21,10 +20,8 @@ class ChatBubble extends StatelessWidget {
               padding: EdgeInsets.only(top: 25.0),
               child: CircleAvatar(
                 backgroundColor: ColorsAsset.mainColor,
-                child: ImageIcon(
-                  AssetImage(
-                    IconsAsset.chatBotLogo,
-                  ),
+                child: Icon(
+                  Icons.person,
                   color: Colors.white,
                 ),
               ),

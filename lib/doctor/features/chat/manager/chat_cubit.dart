@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/models/message_model.dart';
-import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 import 'package:intl/intl.dart';
 
-part 'doctor_chat_state.dart';
+import '../../../../models/message_model.dart';
+import '../../../../shared/utils/constants.dart';
 
-class DoctorChatCubit extends Cubit<DoctorChatState> {
-  DoctorChatCubit() : super(DoctorChatInitial());
+part 'chat_state.dart';
 
-  static DoctorChatCubit get(context) => BlocProvider.of(context);
+class ChatCubit extends Cubit<ChatState> {
+  ChatCubit() : super(ChatInitial());
+
+  static ChatCubit get(context) => BlocProvider.of(context);
   final TextEditingController messageController = TextEditingController();
   List<MessageModel> chatMessage = [];
   List<MessageModel> reversedChatMessage = [];
@@ -18,47 +19,52 @@ class DoctorChatCubit extends Cubit<DoctorChatState> {
 
   void sendMessage(MessageModel message) {
     FirebaseFirestore.instance
-        .collection('users')
+        .collection('doctors')
         .doc(message.senderId)
         .collection('chat')
         .doc(message.receiverId)
-        .set({'lastMessage': message.text});
+        .set({
+      'lastMessage': message.text,
+      'lastMessageDate': DateFormat('hh:mm').format(DateTime.now()),
+    });
     var inUserDocument = FirebaseFirestore.instance
         .collection('users')
+        .doc(message.receiverId)
+        .collection('chat')
+        .doc(message.senderId)
+        .collection('messages')
+        .doc();
+    inUserDocument.set(message.toMap(inUserDocument.id));
+    var inDoctorDocument = FirebaseFirestore.instance
+        .collection('doctors')
         .doc(message.senderId)
         .collection('chat')
         .doc(message.receiverId)
         .collection('messages')
         .doc();
-    inUserDocument.set(message.toMap(inUserDocument.id));
+    inDoctorDocument.set(message.toMap(inDoctorDocument.id));
     FirebaseFirestore.instance
-        .collection('doctors')
+        .collection('users')
         .doc(message.receiverId)
         .collection('chat')
         .doc(message.senderId)
         .set({
       'lastMessage': message.text,
-      'name': Constants.userModel!.name,
-      'image': Constants.userModel!.image,
+      'name': Constants.doctorModel!.name,
+      'image': Constants.doctorModel!.image,
       'lastMessageDate': DateFormat('hh:mm').format(DateTime.now()),
-      'id': Constants.userModel!.id,
+      'id': Constants.doctorModel!.id,
     });
-    var inDoctorDocument = FirebaseFirestore.instance
-        .collection('doctors')
-        .doc(message.receiverId)
-        .collection('chat')
-        .doc(message.senderId)
-        .collection('messages')
-        .doc();
-    inDoctorDocument.set(message.toMap(inDoctorDocument.id));
   }
 
-  void getMessages(doctorId) {
+  void getMessages(userId) {
+    print(Constants.doctorModel!.id);
+    print(userId);
     FirebaseFirestore.instance
-        .collection('users')
-        .doc(Constants.userModel!.id)
+        .collection('doctors')
+        .doc(Constants.doctorModel!.id)
         .collection('chat')
-        .doc(doctorId)
+        .doc(userId)
         .collection('messages')
         .orderBy('date')
         .snapshots()
