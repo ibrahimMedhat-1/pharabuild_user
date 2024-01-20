@@ -29,12 +29,16 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter_phoenix:
-  cached_network_image:
   shared_preferences:
+  cached_network_image:
   firebase_core:
   firebase_auth:
   cloud_firestore:
   firebase_storage:
+  carousel_slider:
+  url_launcher:
+  bloc:
+  flutter_bloc:
   device_preview:
   cron:
   image_picker: ^1.0.4
@@ -46,10 +50,6 @@ dependencies:
   fluttertoast:
   sticky_headers:
   flutter_launcher_icons: ^0.13.1
-  carousel_slider:
-  url_launcher:
-  bloc:
-  flutter_bloc:
   flutter:
     sdk: flutter
 
