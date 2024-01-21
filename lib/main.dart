@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
-import 'package:intelligent_pharmacy/doctor/features/home_page/view/home_page.dart';
+import 'package:intelligent_pharmacy/doctor/layout/view/doctor_layout.dart';
 import 'package:intelligent_pharmacy/firebase_options.dart';
 import 'package:intelligent_pharmacy/models/doctor_model.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
@@ -71,8 +71,8 @@ class MyApp extends StatelessWidget {
           home: Constants.userModel == null && Constants.doctorModel == null
               ? const LoginPage()
               : Constants.userModel != null
-                  ? const Layout()
-                  : const DoctorHomePage(),
+                  ? const UserLayout()
+                  : const DoctorLayout(),
         ),
       ),
     );

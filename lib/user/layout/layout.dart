@@ -5,8 +5,8 @@ import 'package:intelligent_pharmacy/shared/utils/icons.dart';
 import '../../shared/styles/colors.dart';
 import 'manager/layout_cubit.dart';
 
-class Layout extends StatelessWidget {
-  const Layout({super.key});
+class UserLayout extends StatelessWidget {
+  const UserLayout({super.key});
 
   @override
   Widget build(BuildContext context) {

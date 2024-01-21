@@ -64,7 +64,7 @@ class AuthCubit extends Cubit<AuthState> {
             await cachingUser(value, CacheKeys.userId);
             Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
             emit(LoginSuccessfully());
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const Layout()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const UserLayout()));
           } else {
             emit(LoginError());
             showToast('Not a user');
