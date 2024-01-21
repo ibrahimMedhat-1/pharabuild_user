@@ -22,7 +22,10 @@ class DoctorChatCubit extends Cubit<DoctorChatState> {
         .doc(message.senderId)
         .collection('chat')
         .doc(message.receiverId)
-        .set({'lastMessage': message.text});
+        .update({
+      'lastMessage': message.text,
+      'lastMessageDate': DateFormat('hh:mm').format(DateTime.now()),
+    });
     var inUserDocument = FirebaseFirestore.instance
         .collection('users')
         .doc(message.senderId)
@@ -66,9 +69,9 @@ class DoctorChatCubit extends Cubit<DoctorChatState> {
       chatMessage.clear();
       for (var element in event.docs) {
         chatMessage.add(MessageModel.fromJson(element.data()));
+        emit(GetAllMessagesSuccessfully());
       }
       reversedChatMessage = chatMessage.reversed.toList();
-      emit(GetAllMessagesSuccessfully());
       scrollController.animateTo(
         double.minPositive,
         duration: const Duration(microseconds: 1),

@@ -23,7 +23,7 @@ class ChatCubit extends Cubit<ChatState> {
         .doc(message.senderId)
         .collection('chat')
         .doc(message.receiverId)
-        .set({
+        .update({
       'lastMessage': message.text,
       'lastMessageDate': DateFormat('hh:mm').format(DateTime.now()),
     });
