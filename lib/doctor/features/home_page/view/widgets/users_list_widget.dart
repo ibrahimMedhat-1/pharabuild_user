@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intelligent_pharmacy/models/chat_user_model.dart';
 
-import '../../../../../shared/custom_transitions/custom_transitions.dart';
+import '../../../../../shared/utils/custom_transitions/custom_transitions.dart';
 import '../../../chat/view/doctor_chat_page.dart';
 
 class UsersListWidget extends StatelessWidget {

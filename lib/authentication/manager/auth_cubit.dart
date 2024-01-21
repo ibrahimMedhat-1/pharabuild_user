@@ -5,13 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intelligent_pharmacy/doctor/layout/view/doctor_layout.dart';
 import 'package:intelligent_pharmacy/models/user_model.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
 import 'package:intelligent_pharmacy/shared/toast.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 
-import '../../doctor/features/home_page/view/home_page.dart';
 import '../../models/doctor_model.dart';
 import '../../user/layout/layout.dart';
 
@@ -50,9 +50,10 @@ class AuthCubit extends Cubit<AuthState> {
         FirebaseFirestore.instance.collection('doctors').doc(value.user!.uid).get().then((value) async {
           if (value.data() != null) {
             await cachingUser(value, CacheKeys.doctorId);
-            Constants.doctorModel = DoctorModel.fromJson(value.data());
+            Constants.doctorModel =
+                DoctorModel.fromCache(jsonDecode(await CacheHelper.getData(key: CacheKeys.doctorId)));
             emit(LoginSuccessfully());
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const DoctorHomePage()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const DoctorLayout()));
           } else {
             emit(LoginError());
             showToast('Not a doctor');

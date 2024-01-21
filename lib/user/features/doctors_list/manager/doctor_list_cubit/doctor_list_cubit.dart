@@ -51,7 +51,7 @@ class DoctorListCubit extends Cubit<DoctorListState> {
       emit(GetAllDoctorsSuccessfully());
     }).catchError((onError) {
       emit(GetAllDoctorsError());
-      showToast(onError.message);
+      print(onError);
     });
   }
 }
