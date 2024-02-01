@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intelligent_pharmacy/models/pharmacy_model.dart';
 
@@ -27,7 +26,7 @@ class PharmaciesList extends StatelessWidget {
         child: Hero(
           tag: pharmacy(index).id!,
           child: AspectRatio(
-            aspectRatio: 1 / 1.1,
+            aspectRatio: 1.4 / 1.1,
             child: Container(
               width: double.infinity,
               margin: const EdgeInsets.all(20),
@@ -48,32 +47,35 @@ class PharmaciesList extends StatelessWidget {
                   Expanded(
                     child: SizedBox(
                       width: double.infinity,
-                      child: CachedNetworkImage(
-                        fit: BoxFit.fill,
-                        imageUrl: pharmacy(index).image!,
-                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                      child: Image.asset(
+                         "assets/13.jpg",
+                        // pharmacy(index).image!,
+
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          pharmacy(index).name!,
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(height: 2),
-                        ),
-                        Text(
-                          pharmacy(index).phoneNo!,
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(height: 2),
-                        ),
-                        Text(
-                          pharmacy(index).address!,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(height: 3),
-                        ),
-                      ],
+                    padding: const EdgeInsets.symmetric( horizontal: 15,vertical: 5),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Contractor Name",
+                            // pharmacy(index).name!,
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(height: 2),
+                          ),
+                          Text(
+                            pharmacy(index).phoneNo!,
+                            style: Theme.of(context).textTheme.titleMedium!.copyWith(height: 2),
+                          ),
+                          // Text(
+                          //   pharmacy(index).address!,
+                          //   maxLines: 1,
+                          //   style: Theme.of(context).textTheme.titleSmall!.copyWith(height: 3),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

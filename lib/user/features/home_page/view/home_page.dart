@@ -32,7 +32,7 @@ class PharmaciesPage extends StatelessWidget {
                         logoColor: Colors.white,
                       ),
                       Text(
-                        'Find your Pharmacy',
+                        'Find Contractor',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.grey),
                       ),
                     ],

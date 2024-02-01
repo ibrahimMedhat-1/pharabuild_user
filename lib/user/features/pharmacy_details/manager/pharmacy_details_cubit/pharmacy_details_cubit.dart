@@ -77,4 +77,22 @@ class PharmacyDetailsCubit extends Cubit<PharmacyDetailsState> {
       showToast(onError.message);
     });
   }
+  List<String> imageList = [
+    'assets/33.jpg',
+    'assets/d02853fe5b5c492f3c2f6114491d035b (1).jpg',
+    'assets/13.jpg',
+
+  ];
+  List<ProductModel> productList = [
+    ProductModel(name: 'product name', price: '10 LE', imageUrl: 'assets/31072.jpeg'),
+    ProductModel(name: 'product name', price: '15 LE', imageUrl: 'assets/This-or-That-Ceramic-vs-Porcelain-_-Cover-7-8-23-ar-1102023-420x230.jpg'),
+    ProductModel(name: 'product name', price: '12 LE', imageUrl: 'assets/Cement_02_(cropped).jpg'),
+  ];
+}
+class ProductModel {
+  final String name;
+  final String price;
+  final String imageUrl;
+
+  ProductModel({required this.name, required this.price, required this.imageUrl});
 }

@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
             ),
             textTheme: TextTheme(
               titleLarge: TextStyle(
-                color: Colors.blueAccent,
+                color: const Color(0xFF004AAD),
                 fontWeight: FontWeight.bold,
                 fontSize: MediaQuery.of(context).size.width * 0.05,
               ),
