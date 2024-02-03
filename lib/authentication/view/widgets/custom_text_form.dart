@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class CustomTextForm extends StatelessWidget {
   final TextEditingController controller;
-  final String labelText;
+  final String? labelText;
   final String hintText;
   IconData? suffixIcon;
   Function()? suffixPressed;
   final bool obscure;
   final TextInputType keyboardType;
-  final String validationText;
+  final String? validationText;
 
   bool isEnabled;
   CustomTextForm({
@@ -17,10 +17,10 @@ class CustomTextForm extends StatelessWidget {
     this.isEnabled = true,
     required this.controller,
     required this.obscure,
-    required this.labelText,
+     this.labelText,
     required this.hintText,
     required this.keyboardType,
-    required this.validationText,
+     this.validationText,
     this.suffixIcon,
     this.suffixPressed,
   });

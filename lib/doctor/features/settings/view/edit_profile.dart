@@ -25,17 +25,17 @@ class DoctorEditProfile extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
-                        InkWell(
-                          onTap: () {
-                            cubit.changeImage(context);
-                          },
-                          child: CircleAvatar(
-                            radius: 80,
-                            foregroundImage: cubit.imageFile != null
-                                ? FileImage(cubit.imageFile!)
-                                : NetworkImage('https:${Constants.doctorModel!.image ?? ''}') as ImageProvider,
-                          ),
-                        ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     cubit.changeImage(context);
+                        //   },
+                        //   child: CircleAvatar(
+                        //     radius: 80,
+                        //     foregroundImage: cubit.imageFile != null
+                        //         ? FileImage(cubit.imageFile!)
+                        //         : NetworkImage('https:${Constants.doctorModel!.image ?? ''}') as ImageProvider,
+                        //   ),
+                        // ),
                         const SizedBox(height: 10),
                         TextFormField(
                           controller: cubit.nameController,
@@ -45,44 +45,38 @@ class DoctorEditProfile extends StatelessWidget {
                           controller: cubit.phoneController,
                         ),
                         const SizedBox(height: 10),
-                        TextFormField(
-                          controller: cubit.addressController,
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: DropdownButton(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                                  value: cubit.specialityValue,
-                                  items: const [
-                                    DropdownMenuItem(
-                                      value: 'other',
-                                      child: Text('other'),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 'Bones',
-                                      child: Text('Bones'),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 'General',
-                                      child: Text('General'),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 'Dentist',
-                                      child: Text('Dentist'),
-                                    ),
-                                  ],
-                                  onChanged: (value) {
-                                    cubit.changeSpeciality(value);
-                                  }),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        TextFormField(
-                          controller: cubit.bioController,
-                        ),
+
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: DropdownButton(
+                        //           padding: const EdgeInsets.symmetric(horizontal: 20),
+                        //           value: cubit.specialityValue,
+                        //           items: const [
+                        //             DropdownMenuItem(
+                        //               value: 'other',
+                        //               child: Text('other'),
+                        //             ),
+                        //             DropdownMenuItem(
+                        //               value: 'Bones',
+                        //               child: Text('Bones'),
+                        //             ),
+                        //             DropdownMenuItem(
+                        //               value: 'General',
+                        //               child: Text('General'),
+                        //             ),
+                        //             DropdownMenuItem(
+                        //               value: 'Dentist',
+                        //               child: Text('Dentist'),
+                        //             ),
+                        //           ],
+                        //           onChanged: (value) {
+                        //             cubit.changeSpeciality(value);
+                        //           }),
+                        //     ),
+                        //   ],
+                        // ),
+
                       ],
                     ),
                   ),

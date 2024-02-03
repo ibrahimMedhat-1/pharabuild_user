@@ -26,6 +26,10 @@ class DoctorLayout extends StatelessWidget {
                   icon: Icon(Icons.chat_bubble_outline),
                 ),
                 BottomNavigationBarItem(
+                  label: "Add Product",
+                  icon: Icon(Icons.add),
+                ),
+                BottomNavigationBarItem(
                   label: "Settings",
                   icon: Icon(Icons.settings_outlined),
                 ),

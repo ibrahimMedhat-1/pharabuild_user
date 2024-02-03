@@ -29,8 +29,6 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
   void initialize() {
     nameController.text = Constants.doctorModel!.name!;
     phoneController.text = Constants.doctorModel!.phoneNo!;
-    addressController.text = Constants.doctorModel!.address!;
-    bioController.text = Constants.doctorModel!.bio!;
     specialityValue = Constants.doctorModel!.speciality!;
   }
 
@@ -92,12 +90,6 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
     doctorDoc.update({
       'name': nameController.text,
       'phoneNo': phoneController.text,
-      'address': {
-        'address': addressController.text,
-        'addressLongitude': '',
-        'addressLatitude': '',
-      },
-      'bio': bioController.text,
       'speciality': specialityValue,
     }).then((value) {
       doctorDoc.get().then((value) async {

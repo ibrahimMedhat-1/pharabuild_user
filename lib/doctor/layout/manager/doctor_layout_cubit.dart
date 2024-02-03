@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intelligent_pharmacy/doctor/features/add_products/view/add_product_view.dart';
 import 'package:intelligent_pharmacy/doctor/features/home_page/view/home_page.dart';
 import 'package:intelligent_pharmacy/doctor/features/settings/view/settings_page.dart';
 
@@ -11,6 +12,7 @@ class DoctorLayoutCubit extends Cubit<DoctorLayoutState> {
   int page = 0;
   List<Widget> pages = const [
     DoctorHomePage(),
+    AddProductView(),
     DoctorSettingsPage(),
   ];
 

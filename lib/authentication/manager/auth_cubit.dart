@@ -45,7 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(LoginLoading());
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddressController.text.trim(), password: passwordController.text)
-        .then((value) {
+    .then((value) {
       if (checkBoxValue) {
         FirebaseFirestore.instance.collection('doctors').doc(value.user!.uid).get().then((value) async {
           if (value.data() != null) {

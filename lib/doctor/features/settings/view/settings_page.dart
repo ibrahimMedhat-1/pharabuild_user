@@ -21,11 +21,11 @@ class DoctorSettingsPage extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              CircleAvatar(
-                radius: 80,
-                backgroundImage: NetworkImage('https:${Constants.doctorModel!.image ?? ''}'),
-              ),
-              const Spacer(),
+              // CircleAvatar(
+              //   radius: 80,
+              //   backgroundImage: NetworkImage('https:${Constants.doctorModel!.image ?? ''}'),
+              // ),
+              // const Spacer(),
               ProfileButton(
                   title: 'Edit Profile',
                   icon: Icons.edit,
