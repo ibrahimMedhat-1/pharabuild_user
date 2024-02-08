@@ -19,7 +19,9 @@ class LoginPage extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           AuthCubit cubit = AuthCubit.get(context);
-          return Scaffold(
+          return
+
+            Scaffold(
             key: cubit.scaffoldKey,
             body: SafeArea(
               child: Container(
@@ -79,7 +81,7 @@ class LoginPage extends StatelessWidget {
                                   cubit.changeCheckBoxValue(value);
                                 },
                               ),
-                              const Text('I am a doctor'),
+                              const Text('I am a Contractor'),
                             ],
                           ),
                           Padding(

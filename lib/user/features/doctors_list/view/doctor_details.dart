@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/bottom_more_products.dart';
-import 'package:intelligent_pharmacy/user/features/pharmacy_details/view/widgets/pharmacy_details_widget/top_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../doctor/widgets/pharmacy_details_widget/bottom_more_products.dart';
 import '../../../../models/doctor_model.dart';
 import 'doctor_chat_page.dart';
 
@@ -23,7 +22,7 @@ class DoctorDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SafeArea(child: TopImageWidget(tag: doctorModel.id!, image: doctorModel.image!)),
+            // SafeArea(child: TopImageWidget(tag: doctorModel.id!, image: doctorModel.image!)),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(

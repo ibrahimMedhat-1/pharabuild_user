@@ -51,11 +51,7 @@ class CartItem extends StatelessWidget {
                     cartItem.name!,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  Expanded(
-                    child: Text(
-                      cartItem.description!,
-                    ),
-                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/user/features/medicine/manager/medicine_cubit.dart';
 
+import '../../../../doctor/widgets/pharmacy_products_widgets/carousel_item.dart';
 import '../../home_page/view/widget/home_page_search.dart';
-import '../../pharmacy_details/view/products_details.dart';
-import '../../pharmacy_details/view/widgets/pharmacy_products_widgets/carousel_item.dart';
-import '../../pharmacy_details/view/widgets/pharmacy_products_widgets/product_item.dart';
+
 
 class MedicinePage extends StatelessWidget {
   const MedicinePage({super.key});
@@ -55,34 +54,33 @@ class MedicinePage extends StatelessWidget {
                             },
                           ),
                         ),
-                        SliverGrid.count(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          children:
-                              (state is IsSearchingInMedicineInCategory ? cubit.searchMedicineProducts : cubit.products)
-                                  .asMap()
-                                  .entries
-                                  .map((e) => ProductItem(
-                                        tag: e.value.tag!,
-                                        productImage: e.value.image!,
-                                        productName: e.value.name!,
-                                        productPrice: e.value.price!,
-                                        productDescription: e.value.description!,
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (builder) => ProductsDetails(
-                                                  tag: e.value.tag!,
-                                                  productsModel: e.value,
-                                                ),
-                                              ));
-                                        },
-                                      ))
-                                  .toList(),
-                        ),
+                        // SliverGrid.count(
+                        //   crossAxisCount: 2,
+                        //   childAspectRatio: 1,
+                        //   crossAxisSpacing: 10,
+                        //   mainAxisSpacing: 10,
+                        //   children:
+                        //       (state is IsSearchingInMedicineInCategory ? cubit.searchMedicineProducts : cubit.products)
+                        //           .asMap()
+                        //           .entries
+                        //           .map((e) => ProductItem(
+                        //                 tag: e.value.tag!,
+                        //                 productImage: e.value.image!,
+                        //                 productName: e.value.name!,
+                        //                 productPrice: e.value.price!,
+                        //                 onTap: () {
+                        //                   // Navigator.push(
+                        //                   //     context,
+                        //                   //     MaterialPageRoute(
+                        //                   //       builder: (builder) => ProductsDetails(
+                        //                   //         tag: e.value.tag!,
+                        //                   //         productsModel: e.value,
+                        //                   //       ),
+                        //                   //     ));
+                        //                 },
+                        //               ))
+                        //           .toList(),
+                        // ),
                       ],
                     ),
             ),

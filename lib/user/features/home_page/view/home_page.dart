@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/user/features/home_page/view/widget/home_page_search.dart';
-import 'package:intelligent_pharmacy/user/features/home_page/view/widget/pharmacy_widget.dart';
 
 import '../../../../authentication/view/widgets/welcome_widget.dart';
 import '../manager/home_page_cubit.dart';
@@ -58,12 +57,12 @@ class PharmaciesPage extends StatelessWidget {
                   },
                 ),
               ),
-              SliverToBoxAdapter(
-                  child: (state is GetPharmacyLoading || state is PharmacySearchLoading)
-                      ? const Center(child: CircularProgressIndicator())
-                      : state is IsSearchingInMedicineInCategory
-                          ? PharmaciesList(cubit.searchPharmacyList)
-                          : PharmaciesList(cubit.pharmacies)),
+              // SliverToBoxAdapter(
+              //     child: (state is GetPharmacyLoading || state is PharmacySearchLoading)
+              //         ? const Center(child: CircularProgressIndicator())
+              //         : state is IsSearchingInMedicineInCategory
+              //             ? PharmaciesList(cubit.searchPharmacyList)
+              //             : PharmaciesList(cubit.pharmacies)),
             ],
           );
         },

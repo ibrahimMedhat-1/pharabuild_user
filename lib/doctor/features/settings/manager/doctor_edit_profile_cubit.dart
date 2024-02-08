@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 import 'package:intelligent_pharmacy/shared/utils/image_helper/image_helper.dart';
 
@@ -22,14 +23,12 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
   static DoctorEditProfileCubit get(context) => BlocProvider.of(context);
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
-  TextEditingController bioController = TextEditingController();
-  String specialityValue = 'none';
+  TextEditingController specialityController=TextEditingController();
 
   void initialize() {
     nameController.text = Constants.doctorModel!.name!;
     phoneController.text = Constants.doctorModel!.phoneNo!;
-    specialityValue = Constants.doctorModel!.speciality!;
+    specialityController.text = Constants.doctorModel!.speciality!;
   }
 
   File? imageFile;
@@ -73,24 +72,14 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
             ));
   }
 
-  void changeSpeciality(value) {
-    specialityValue = value;
-    emit(ChangeSpeciality());
-  }
+
 
   void saveData(context) {
-    if (imageFile != null) {
-      FirebaseStorage.instance.ref().child('doctors/${Constants.doctorModel!.id}').putFile(imageFile!).then((p0) {
-        p0.ref.getDownloadURL().then((value) {
-          FirebaseFirestore.instance.collection('doctors').doc(Constants.doctorModel!.id).update({'image': value});
-        });
-      });
-    }
     var doctorDoc = FirebaseFirestore.instance.collection('doctors').doc(Constants.doctorModel!.id);
     doctorDoc.update({
       'name': nameController.text,
       'phoneNo': phoneController.text,
-      'speciality': specialityValue,
+      'speciality': specialityController.text,
     }).then((value) {
       doctorDoc.get().then((value) async {
         await cachingUser(value, CacheKeys.doctorId);
@@ -129,4 +118,75 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
     debugPrint(map.join());
     return '{${map.join().toString()}}';
   }
-}
+
+
+  List<String> listImagesUrl = [];
+
+  static Future<String> uploadImage(File file, String name) async {
+    Reference reference =
+    FirebaseStorage.instance.ref('Portfolio/$name');
+    UploadTask uploadTask = reference.putFile(file);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    return await taskSnapshot.ref.getDownloadURL();
+  }
+
+  TextEditingController joDescribtionController = TextEditingController();
+
+  Future<void> uploadListImagesPost({
+    required List<String> images,
+    required String description,
+  }) async {
+    final ImagePicker picker = ImagePicker();
+    List<String> listImagesUrl = [];
+
+    await picker.pickMultiImage(imageQuality: 50, maxWidth: 800).then(
+          (listImages) async {
+        if (listImages.isEmpty) {
+        } else {
+          for (var oneFile in listImages) {
+            String imageName = oneFile.path.split('/').last;
+            File file = File(oneFile.path);
+            String imageUrl = await uploadImage(file, imageName);
+            listImagesUrl.add(imageUrl);
+          }
+
+          var portfolioData = {
+            'images': listImagesUrl,
+            'description': description,
+          };
+
+          await FirebaseFirestore.instance
+              .collection("doctors")
+              .doc(Constants.doctorModel!.id)
+              .collection('portfolio')
+              .add(portfolioData);
+
+          emit(UploadPortfolioImages());
+        }
+      },
+    );
+  }
+  List<Map<String, dynamic>> portfolioDataList = [];
+  Future<void> fetchPortfolioData() async {
+
+      var querySnapshot = await FirebaseFirestore.instance
+          .collection("doctors")
+          .doc(Constants.doctorModel!.id)
+          .collection('portfolio')
+          .get();
+
+      portfolioDataList = querySnapshot.docs.map((doc) {
+        var description = doc.data().containsKey('description')
+            ? doc['description']
+            : 'No description available';
+
+        return {
+          'images': List<String>.from(doc['images']),
+          'description': description,
+        };
+      }).toList();
+
+emit(GetPortfolioImages())  ;  }
+  }
+
+

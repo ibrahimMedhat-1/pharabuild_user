@@ -7,8 +7,8 @@ import 'package:intelligent_pharmacy/user/features/profile/view/widgets/profile_
 import '../../../../authentication/view/login_page.dart';
 import '../../../../shared/network/cache_keys.dart';
 import '../../../../shared/network/cached_preference.dart';
-import '../../../../shared/utils/constants.dart';
 import '../../../../shared/utils/custom_transitions/custom_transitions.dart';
+import '../../my_products/view/my_products_page.dart';
 
 class DoctorSettingsPage extends StatelessWidget {
   const DoctorSettingsPage({super.key});
@@ -31,6 +31,12 @@ class DoctorSettingsPage extends StatelessWidget {
                   icon: Icons.edit,
                   onTap: () {
                     Navigator.push(context, NavigateSlideTransition(child: const DoctorEditProfile()));
+                  }),
+              ProfileButton(
+                  title: 'My Products',
+                  icon: Icons.edit,
+                  onTap: () {
+                    Navigator.push(context, NavigateSlideTransition(child: const MyProductsPage()));
                   }),
               const SizedBox(height: 20),
               ProfileButton(

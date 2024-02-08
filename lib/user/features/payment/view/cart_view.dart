@@ -4,7 +4,8 @@ import 'package:intelligent_pharmacy/user/features/payment/manager/cart_cubit/ca
 import 'package:intelligent_pharmacy/user/features/payment/view/payment_page.dart';
 import 'package:intelligent_pharmacy/user/features/payment/view/widgets/cart_item_widget.dart';
 
-import '../../pharmacy_details/view/widgets/pharmacy_details_widget/bottom_more_products.dart';
+import '../../../../doctor/widgets/pharmacy_details_widget/bottom_more_products.dart';
+
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
