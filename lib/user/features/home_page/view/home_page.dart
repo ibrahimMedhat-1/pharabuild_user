@@ -11,59 +11,52 @@ class PharmaciesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomePageCubit()..getAllPharmacies(),
+      create: (context) => HomePageCubit()..getProducts(),
       child: BlocConsumer<HomePageCubit, HomePageState>(
         listener: (context, state) {},
         builder: (context, state) {
           HomePageCubit cubit = HomePageCubit.get(context);
-          return CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Container(
-                  color: Colors.black87,
-                  padding: const EdgeInsets.all(10),
+          return SizedBox(
+            height: 800,
+            child: GridView.builder(
+              itemCount: cubit.products.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 10.0,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                var product = cubit.products[index];
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const WelcomeWidget(
-                        welcomeText: 'Welcome!',
-                        textColor: Colors.white,
-                        logoColor: Colors.white,
-                      ),
+                      SizedBox(
+                          height: 100,
+                          child: Image.network(product.image!)),
+                      const SizedBox(height: 10.0),
                       Text(
-                        'Find Contractor',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.grey),
+                        product.name!,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 5.0),
+                      Text(
+                        "price ${ product.price!} LE",
+
+                        style: const TextStyle(fontSize: 14.0),
                       ),
                     ],
                   ),
-                ),
-              ),
-              SliverAppBar(
-                pinned: true,
-                backgroundColor: Colors.black87,
-                expandedHeight: 100,
-                collapsedHeight: 80,
-                flexibleSpace: SearchWidget(
-                  controller: cubit.searchPharmacyController,
-                  search: () {
-                    cubit.searchPharmacies(cubit.searchPharmacyController.text);
-                  },
-                  onChange: (value) {
-                    if (value.isEmpty) {
-                      cubit.isSearching(false);
-                    } else {
-                      cubit.isSearching(true);
-                    }
-                  },
-                ),
-              ),
-              // SliverToBoxAdapter(
-              //     child: (state is GetPharmacyLoading || state is PharmacySearchLoading)
-              //         ? const Center(child: CircularProgressIndicator())
-              //         : state is IsSearchingInMedicineInCategory
-              //             ? PharmaciesList(cubit.searchPharmacyList)
-              //             : PharmaciesList(cubit.pharmacies)),
-            ],
+                );
+              },
+            ),
           );
         },
       ),

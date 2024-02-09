@@ -51,7 +51,6 @@ class ChatCubit extends Cubit<ChatState> {
         .set({
       'lastMessage': message.text,
       'name': Constants.doctorModel!.name,
-      'image': Constants.doctorModel!.image,
       'lastMessageDate': DateFormat('hh:mm').format(DateTime.now()),
       'id': Constants.doctorModel!.id,
     });

@@ -23,33 +23,7 @@ class EditProfilePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        CircleAvatar(
-                          radius: MediaQuery.sizeOf(context).width * 0.2,
-                          backgroundImage: cubit.imageUrl == null
-                              ? const AssetImage(ImagesAsset.profileImage)
-                              : NetworkImage('https:${cubit.imageUrl!}') as ImageProvider,
-                        ),
-                        MaterialButton(
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          padding: EdgeInsets.zero,
-                          height: 0,
-                          minWidth: 0,
-                          onPressed: () {
-                            cubit.updateProfilePicture();
-                          },
-                          color: Colors.blue,
-                          textColor: Colors.white,
-                          shape: const CircleBorder(side: BorderSide(color: Colors.blueAccent)),
-                          child: const Icon(
-                            Icons.edit,
-                            size: 30,
-                          ),
-                        ),
-                      ],
-                    ),
+
                     CustomTextForm(
                       controller: cubit.nameController,
                       obscure: false,

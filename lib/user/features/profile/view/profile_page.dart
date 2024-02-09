@@ -29,12 +29,7 @@ class ProfilePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: MediaQuery.sizeOf(context).width * 0.2,
-                      backgroundImage: cubit.imageUrl == null
-                          ? const AssetImage(ImagesAsset.profileImage)
-                          : NetworkImage('https:${cubit.imageUrl!}') as ImageProvider,
-                    ),
+
                     Text(
                       cubit.nameController.text,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),

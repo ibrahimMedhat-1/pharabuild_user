@@ -18,3 +18,4 @@ class GetDoctorBySpecialityLoading extends DoctorListState {}
 class GetDoctorBySpecialitySuccessfully extends DoctorListState {}
 
 class GetDoctorBySpecialityError extends DoctorListState {}
+class DoctorsList extends DoctorListState {}

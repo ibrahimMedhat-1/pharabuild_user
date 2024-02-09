@@ -32,9 +32,9 @@ class AllChatsPage extends StatelessWidget {
                               ),
                             ));
                       },
-                      leading: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(cubit.doctorsList[index].image ?? ''),
-                      ),
+                      // leading: CircleAvatar(
+                      //   backgroundImage: CachedNetworkImageProvider(cubit.doctorsList[index].image ?? ''),
+                      // ),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

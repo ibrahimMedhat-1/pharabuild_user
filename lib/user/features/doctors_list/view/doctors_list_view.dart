@@ -10,60 +10,24 @@ class DoctorsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DoctorListCubit()..getAllDoctors(),
-      child: BlocConsumer<DoctorListCubit, DoctorListState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          final DoctorListCubit cubit = DoctorListCubit.get(context);
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(
-                'Doctors',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontSize: 30,
-                    ),
-              ),
-            ),
-            body: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Category',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      DropdownButton(
-                        isExpanded: true,
-                        hint: const Text('Specialities'),
-                        value: cubit.dropDownMenuItemValue,
-                        items: [
-                          dropDownItem(context, 'All'),
-                          dropDownItem(context, 'Bones'),
-                          dropDownItem(context, 'General'),
-                          dropDownItem(context, 'Dentist'),
-                        ],
-                        onChanged: (value) {
-                          cubit.changeDropDownItem(value);
-                        },
-                      ),
-                    ],
+
+
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              'Doctors',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontSize: 30,
                   ),
-                ),
-                state is GetAllDoctorsLoading || state is GetDoctorBySpecialityLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : DoctorListWidget(doctors: cubit.doctorsList),
-              ],
             ),
-          );
-        },
-      ),
-    );
+          ),
+          body: Column(
+            children: [
+             DoctorListWidget(),
+            ],
+          ),
+        );
+
   }
 }

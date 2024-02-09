@@ -79,4 +79,24 @@ class HomePageCubit extends Cubit<HomePageState> {
       emit(IsNotSearchingInMedicineInCategory());
     }
   }
+
+  List<ProductsModel>products =[];
+  void getProducts(){
+
+    FirebaseFirestore.instance.collection('doctors').get().then((value) {
+      value.docs.forEach((element) {
+        element.reference.collection('Product').get().then((value){
+          value.docs.forEach((element) {
+            element.reference.get().then((value){
+              products.add(ProductsModel.fromJson(value.data()));
+              emit(GetProducts());
+
+            });
+          });
+        });
+      });
+    });
+  }
+
+
 }

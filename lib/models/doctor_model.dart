@@ -2,46 +2,40 @@ class DoctorModel {
   String? id;
   String? name;
   String? phoneNo;
-  String? addressLongitude;
-  String? addressLatitude;
-  String? address;
   String? speciality;
-  String? bio;
-  String? image;
   String? lastMessage;
+   List<Portfolio>? portfolio;
+
 
   DoctorModel(
-    this.id,
-    this.name,
-    this.phoneNo,
-    this.address,
-    this.addressLatitude,
-    this.addressLongitude,
-    this.speciality,
-    this.bio,
-    this.image,
-  );
+      {this.id,
+      this.name,
+      this.phoneNo,
+        this.portfolio,
+
+      this.speciality,
+      this.lastMessage});
 
   DoctorModel.fromJson(Map<String, dynamic>? json, {this.lastMessage}) {
     id = json!['id'];
     name = json['name'];
     phoneNo = json['phoneNo'];
-    address = json['address']['address'];
-    addressLongitude = json['address']['addressLongitude'];
-    addressLatitude = json['address']['addressLatitude'];
+
     speciality = json['speciality'];
-    bio = json['bio'];
-    image = json['image'];
+
   }
   DoctorModel.fromCache(Map<String, dynamic>? json, {this.lastMessage}) {
     id = json!['id'];
     name = json['name'];
     phoneNo = json['phoneNo'];
-    address = json['address'];
-    addressLongitude = json['addressLongitude'];
-    addressLatitude = json['addressLatitude'];
+
     speciality = json['speciality'];
-    bio = json['bio'];
-    image = json['image'];
+
   }
+}
+class Portfolio {
+  final String description;
+  final List<String> images;
+
+  Portfolio({required this.description, required this.images});
 }
