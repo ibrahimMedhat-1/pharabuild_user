@@ -28,21 +28,15 @@ class UserLayout extends StatelessWidget {
               },
               items: const [
                 BottomNavigationBarItem(
-                  label: 'Pharmacy',
+                  label: 'Products',
                   icon: Icon(Icons.local_pharmacy_outlined),
                 ),
-                BottomNavigationBarItem(
-                  label: 'Medicine',
-                  icon: Icon(Icons.medical_information_outlined),
-                ),
+
                 BottomNavigationBarItem(
                   label: 'Cart',
                   icon: Icon(Icons.shopping_cart_outlined),
                 ),
-                BottomNavigationBarItem(
-                  label: 'ChatBot',
-                  icon: Icon(Icons.chat_bubble_outline),
-                ),
+
                 BottomNavigationBarItem(
                   label: 'Doctors',
                   icon: ImageIcon(AssetImage(IconsAsset.doctorsIcon)),

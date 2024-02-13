@@ -30,7 +30,7 @@ class CartCubit extends Cubit<CartState> {
       emit(GetAllCartProductsSuccessfully());
     }).catchError((onError) {
       emit(GetAllCartProductsError());
-      showToast(onError.message.toString());
+      // showToast(onError.message.toString());
     });
   }
 

@@ -18,3 +18,4 @@ class IsSearchingInMedicineInCategory extends HomePageState {}
 
 class IsNotSearchingInMedicineInCategory extends HomePageState {}
 class GetProducts extends HomePageState {}
+

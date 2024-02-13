@@ -4,14 +4,16 @@ class DoctorModel {
   String? phoneNo;
   String? speciality;
   String? lastMessage;
-   List<Portfolio>? portfolio;
+   List<dynamic>? images;
+   String? description;
 
 
   DoctorModel(
       {this.id,
       this.name,
       this.phoneNo,
-        this.portfolio,
+        this.images,
+        this.description,
 
       this.speciality,
       this.lastMessage});
@@ -20,7 +22,8 @@ class DoctorModel {
     id = json!['id'];
     name = json['name'];
     phoneNo = json['phoneNo'];
-
+    images = List<String>.from(json['images'] ?? []);
+    description = json['description'];
     speciality = json['speciality'];
 
   }
@@ -28,14 +31,9 @@ class DoctorModel {
     id = json!['id'];
     name = json['name'];
     phoneNo = json['phoneNo'];
-
+    images = List<String>.from(json['images'] ?? []);
+    description = json['description'];
     speciality = json['speciality'];
-
   }
 }
-class Portfolio {
-  final String description;
-  final List<String> images;
 
-  Portfolio({required this.description, required this.images});
-}

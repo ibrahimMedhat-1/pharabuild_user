@@ -8,6 +8,7 @@ import 'package:intelligent_pharmacy/models/review_model.dart';
 import 'package:intelligent_pharmacy/shared/toast.dart';
 
 import '../../../../models/pharmacy_model.dart';
+import '../../../../shared/utils/constants.dart';
 
 part 'home_page_state.dart';
 
@@ -17,7 +18,28 @@ class HomePageCubit extends Cubit<HomePageState> {
   static HomePageCubit get(context) => BlocProvider.of(context);
   List<PharmacyModel> pharmacies = [];
   List<PharmacyModel> searchPharmacyList = [];
-  TextEditingController searchPharmacyController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
+  List<ProductsModel> searchMedicineProducts = [];
+
+  void searchMedicine(String value) {
+    searchMedicineProducts = [];
+    for (ProductsModel product in products) {
+      if (product.name!.toLowerCase().contains(value.toLowerCase())) {
+        searchMedicineProducts.add(product);
+      }
+    }
+    emit(IsSearchingInMedicineInCategory());
+  }
+  void isSearching(bool isSearching) {
+    if (isSearching) {
+      emit(IsSearchingInMedicineInCategory());
+    } else {
+      searchMedicineProducts = [];
+      emit(IsNotSearchingInMedicineInCategory());
+    }
+  }
+
+
   void getAllPharmacies() async {
     if (pharmacies.isEmpty) {
       emit(GetPharmacyLoading());
@@ -71,32 +93,36 @@ class HomePageCubit extends Cubit<HomePageState> {
     emit(IsSearchingInMedicineInCategory());
   }
 
-  void isSearching(bool isSearching) {
-    if (isSearching) {
-      emit(IsSearchingInMedicineInCategory());
-    } else {
-      searchPharmacyList = [];
-      emit(IsNotSearchingInMedicineInCategory());
-    }
-  }
+
 
   List<ProductsModel>products =[];
   void getProducts(){
 
-    FirebaseFirestore.instance.collection('doctors').get().then((value) {
+    // FirebaseFirestore.instance.collection('doctors').get().then((value) {
+    //   value.docs.forEach((element) {
+    //     element.reference.collection('Product').get().then((value){
+    //       value.docs.forEach((element) {
+    //         element.reference.get().then((value){
+    //           products.add(ProductsModel.fromJson(value.data()));
+    //           emit(GetProducts());
+    //
+    //         });
+    //       });
+    //     });
+    //   });
+    // });
+    FirebaseFirestore.instance.collection("all products").get().then((value) {
       value.docs.forEach((element) {
-        element.reference.collection('Product').get().then((value){
-          value.docs.forEach((element) {
-            element.reference.get().then((value){
-              products.add(ProductsModel.fromJson(value.data()));
-              emit(GetProducts());
-
-            });
-          });
+        DocumentReference<Map<String,dynamic>> documentReference  =element.data()['reference'];
+        documentReference.get().then((value) {
+          products.add(ProductsModel.fromJson(value.data()));
+          emit(GetProducts());
         });
+
       });
     });
   }
+
 
 
 }

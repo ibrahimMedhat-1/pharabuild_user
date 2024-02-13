@@ -37,14 +37,14 @@ class DoctorDetails extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () async {
-                        await launchUrl(Uri.parse('tel://${doctorModel.phoneNo}'));
+                        await launchUrl(
+                            Uri.parse('tel://${doctorModel.phoneNo}'));
                       },
                       child: Text(
                         doctorModel.phoneNo!,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
-
                     Text(
                       'Speciality',
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(),
@@ -53,8 +53,27 @@ class DoctorDetails extends StatelessWidget {
                       doctorModel.speciality!,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
-
-
+                    SizedBox(
+                      width: 400,
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      child: Column(
+                        children: [
+                          Expanded(
+                              child: PageView.builder(
+                            itemCount: doctorModel.images!.length,
+                            itemBuilder: (context, index) {
+                              String imageUrl = doctorModel.images![index];
+                              return Center(
+                                child: Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.contain,
+                                ),
+                              );
+                            },
+                          )),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
