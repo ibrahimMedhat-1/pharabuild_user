@@ -19,17 +19,18 @@ class MedicineCubit extends Cubit<MedicineState> {
   List<ProductsModel> similarProducts = [];
   String dropDownMenuItemValue = 'Medicine';
 
-  void getAllProducts() {
-    emit(GetAllMedicineProductsLoading());
-    FirebaseFirestore.instance.collection('allProducts').get().then((value) async {
-      for (var element in value.docs) {
-        var product = await element.data()['reference'].get();
-        products.add(ProductsModel.fromJson(product.data()));
-      }
-      emit(GetAllMedicineProductsSuccessfully());
-    }).catchError((onError) {
-      emit(GetAllMedicineProductsError());
-      showToast(onError.message);
+  void getProducts() {
+    FirebaseFirestore.instance.collection('doctors').get().then((value) {
+      value.docs.forEach((element) {
+        element.reference.collection('Product').get().then((value) {
+          value.docs.forEach((element) {
+            element.reference.get().then((value) {
+              products.add(ProductsModel.fromJson(value.data()));
+              emit(GetAllMedicineProductsSuccessfully());
+            });
+          });
+        });
+      });
     });
   }
 

@@ -23,12 +23,15 @@ class CartCubit extends Cubit<CartState> {
         .get()
         .then((value) async {
       for (var element in value.docs) {
-        var product = await element.data()['reference'].get();
+        DocumentReference<Map<String, dynamic>> productReference = await element.data()['reference'];
+        var product = await productReference.get();
+        print(product.data());
         cartProducts.add(ProductsModel.fromJson(product.data()));
-        price += int.parse(product.data()['price']);
+        price += int.parse(product.data()!['price']);
       }
       emit(GetAllCartProductsSuccessfully());
     }).catchError((onError) {
+      print(onError);
       emit(GetAllCartProductsError());
       showToast(onError.message.toString());
     });

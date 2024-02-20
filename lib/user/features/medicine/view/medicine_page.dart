@@ -1,11 +1,9 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/user/features/medicine/manager/medicine_cubit.dart';
 
-import '../../../../doctor/widgets/pharmacy_products_widgets/carousel_item.dart';
+import '../../../../doctor/widgets/pharmacy_products_widgets/product_item.dart';
 import '../../home_page/view/widget/home_page_search.dart';
-
 
 class MedicinePage extends StatelessWidget {
   const MedicinePage({super.key});
@@ -14,7 +12,7 @@ class MedicinePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MedicineCubit()
-        ..getAllProducts()
+        ..getProducts()
         ..getAllOffers(),
       child: BlocConsumer<MedicineCubit, MedicineState>(
         listener: (context, state) {},
@@ -26,17 +24,20 @@ class MedicinePage extends StatelessWidget {
                   ? const Center(child: CircularProgressIndicator())
                   : CustomScrollView(
                       slivers: [
-                        if (cubit.offers.isNotEmpty)
-                          SliverToBoxAdapter(
-                            child: CarouselSlider(
-                              items:
-                                  cubit.offers.asMap().entries.map((e) => CarouselItem(image: e.value.image!)).toList(),
-                              options: CarouselOptions(
-                                autoPlay: true,
-                                enlargeCenterPage: true,
-                              ),
-                            ),
-                          ),
+                        // if (cubit.offers.isNotEmpty)
+                        //   SliverToBoxAdapter(
+                        //     child: CarouselSlider(
+                        //       items: cubit.offers
+                        //           .asMap()
+                        //           .entries
+                        //           .map((e) => CarouselItem(image: e.value.image!))
+                        //           .toList(),
+                        //       options: CarouselOptions(
+                        //         autoPlay: true,
+                        //         enlargeCenterPage: true,
+                        //       ),
+                        //     ),
+                        //   ),
                         SliverAppBar(
                           collapsedHeight: 80,
                           floating: true,
@@ -54,33 +55,35 @@ class MedicinePage extends StatelessWidget {
                             },
                           ),
                         ),
-                        // SliverGrid.count(
-                        //   crossAxisCount: 2,
-                        //   childAspectRatio: 1,
-                        //   crossAxisSpacing: 10,
-                        //   mainAxisSpacing: 10,
-                        //   children:
-                        //       (state is IsSearchingInMedicineInCategory ? cubit.searchMedicineProducts : cubit.products)
-                        //           .asMap()
-                        //           .entries
-                        //           .map((e) => ProductItem(
-                        //                 tag: e.value.tag!,
-                        //                 productImage: e.value.image!,
-                        //                 productName: e.value.name!,
-                        //                 productPrice: e.value.price!,
-                        //                 onTap: () {
-                        //                   // Navigator.push(
-                        //                   //     context,
-                        //                   //     MaterialPageRoute(
-                        //                   //       builder: (builder) => ProductsDetails(
-                        //                   //         tag: e.value.tag!,
-                        //                   //         productsModel: e.value,
-                        //                   //       ),
-                        //                   //     ));
-                        //                 },
-                        //               ))
-                        //           .toList(),
-                        // ),
+                        SliverGrid.count(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          children: (state is IsSearchingInMedicineInCategory
+                                  ? cubit.searchMedicineProducts
+                                  : cubit.products)
+                              .asMap()
+                              .entries
+                              .map((e) => ProductItem(
+                                    tag: e.value.tag!,
+                                    productImage: e.value.image!,
+                                    productName: e.value.name!,
+                                    productPrice: e.value.price!,
+                                    onTap: () {
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //       builder: (builder) => ProductsDetails(
+                                      //         tag: e.value.tag!,
+                                      //         productsModel: e.value,
+                                      //       ),
+                                      //     ));
+                                    },
+                                    productDescription: '',
+                                  ))
+                              .toList(),
+                        ),
                       ],
                     ),
             ),

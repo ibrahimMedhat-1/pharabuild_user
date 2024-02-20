@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/shared/utils/icons.dart';
 
 import '../../shared/styles/colors.dart';
 import 'manager/layout_cubit.dart';
@@ -27,25 +26,25 @@ class UserLayout extends StatelessWidget {
                 cubit.changePage(index);
               },
               items: const [
+                // BottomNavigationBarItem(
+                //   label: 'Stores',
+                //   icon: Icon(Icons.store),
+                // ),
                 BottomNavigationBarItem(
-                  label: 'Pharmacy',
-                  icon: Icon(Icons.local_pharmacy_outlined),
-                ),
-                BottomNavigationBarItem(
-                  label: 'Medicine',
-                  icon: Icon(Icons.medical_information_outlined),
+                  label: 'Shop',
+                  icon: Icon(Icons.store),
                 ),
                 BottomNavigationBarItem(
                   label: 'Cart',
                   icon: Icon(Icons.shopping_cart_outlined),
                 ),
                 BottomNavigationBarItem(
-                  label: 'ChatBot',
+                  label: 'Chat',
                   icon: Icon(Icons.chat_bubble_outline),
                 ),
                 BottomNavigationBarItem(
-                  label: 'Doctors',
-                  icon: ImageIcon(AssetImage(IconsAsset.doctorsIcon)),
+                  label: 'Contractors',
+                  icon: Icon(Icons.engineering_outlined),
                 ),
                 BottomNavigationBarItem(
                   label: 'Profile',

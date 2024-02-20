@@ -13,9 +13,9 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   List<DoctorModel> doctorsList = [];
 
-  void getAllChats() {
+  void getAllChats() async {
     emit(GetAllChatsLoading());
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(Constants.userModel!.id)
         .collection('chat')
