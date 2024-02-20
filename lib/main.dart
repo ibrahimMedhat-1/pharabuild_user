@@ -25,6 +25,8 @@ void main() async {
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
     CacheHelper.init(),
   ]);
+  // await CacheHelper.removeData(key: CacheKeys.doctorId);
+
   Permission.camera.request();
   if ((await CacheHelper.getData(key: CacheKeys.userId)) != null) {
     Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));

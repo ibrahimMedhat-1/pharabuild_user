@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/doctor/features/settings/manager/doctor_edit_profile_cubit.dart';
 
+import '../../../../shared/utils/constants.dart';
+
 class DoctorEditProfile extends StatelessWidget {
   const DoctorEditProfile({super.key});
 
@@ -62,13 +64,39 @@ class DoctorEditProfile extends StatelessWidget {
                       ),
                       controller: cubit.specialityController,
                     ),
+                  ElevatedButton(onPressed: (){
+                    cubit.uploadListImagesPost(description: cubit.joDescribtionController.text,images:cubit.listImagesUrl );
+
+                  }, child: const Text("Upload images")),
 
                     const SizedBox(height: 20),
                     const Text("My Portfolio",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
 
 
                     const SizedBox(height: 20),
-                    buildPortfolioView(cubit,context),
+
+                    SizedBox(
+                      width: 400,
+                      height: MediaQuery.of(context).size.height*0.6,
+                      child: Column(
+                        children: [
+                          Expanded(
+                              child: PageView.builder(
+                                itemCount: Constants.doctorModel!.images!.length,
+                                itemBuilder: (context, index) {
+                                  String imageUrl = Constants.doctorModel!.images![index];
+                                  return Center(
+                                    child: Image.network(
+                                      imageUrl,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  );
+                                },
+                              )
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 60,),
                     Align(
                       alignment: Alignment.center,
@@ -92,45 +120,25 @@ class DoctorEditProfile extends StatelessWidget {
     );
   }
   Widget buildPortfolioView(DoctorEditProfileCubit cubit,BuildContext context) {
-    if (cubit.portfolioDataList.isNotEmpty) {
-      return SizedBox(
+    if (Constants.doctorModel!.images!=null) {
+      return  SizedBox(
         width: 400,
         height: MediaQuery.of(context).size.height*0.6,
         child: Column(
           children: [
             Expanded(
-              child: PageView.builder(
-                itemCount: cubit.portfolioDataList.length,
-                itemBuilder: (context, index) {
-                  List<String> images = cubit.portfolioDataList[index]['images'];
-                  String description = cubit.portfolioDataList[index]['description'];
-
-                  return Container(
-                    margin: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height*0.45,
-                          child: PageView.builder(
-                            itemCount: images.length,
-                            itemBuilder: (context, imageIndex) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.network(images[imageIndex]),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        const Text("Jop Description",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
-                        const SizedBox(height: 5),
-                        Text(description),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                child: PageView.builder(
+                  itemCount: Constants.doctorModel!.images!.length,
+                  itemBuilder: (context, index) {
+                    String imageUrl = Constants.doctorModel!.images![index];
+                    return Center(
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.contain,
+                      ),
+                    );
+                  },
+                )
             ),
           ],
         ),

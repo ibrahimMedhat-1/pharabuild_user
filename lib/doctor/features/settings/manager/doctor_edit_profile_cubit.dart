@@ -153,13 +153,15 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
           var portfolioData = {
             'images': listImagesUrl,
             'description': description,
+
+
+
           };
 
           await FirebaseFirestore.instance
               .collection("doctors")
               .doc(Constants.doctorModel!.id)
-              .collection('portfolio')
-              .add(portfolioData);
+              .update(portfolioData);
 
           emit(UploadPortfolioImages());
         }
@@ -169,22 +171,14 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
   List<Map<String, dynamic>> portfolioDataList = [];
   Future<void> fetchPortfolioData() async {
 
-      var querySnapshot = await FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection("doctors")
           .doc(Constants.doctorModel!.id)
-          .collection('portfolio')
-          .get();
+          .get().then((value) {
+        Constants.doctorModel = DoctorModel.fromJson(value.data());
+      });
 
-      portfolioDataList = querySnapshot.docs.map((doc) {
-        var description = doc.data().containsKey('description')
-            ? doc['description']
-            : 'No description available';
 
-        return {
-          'images': List<String>.from(doc['images']),
-          'description': description,
-        };
-      }).toList();
 
 emit(GetPortfolioImages())  ;  }
   }

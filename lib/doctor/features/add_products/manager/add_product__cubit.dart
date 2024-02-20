@@ -31,6 +31,11 @@ class AddProductCubit extends Cubit<AddProductState> {
     collectionRef.add(product!.toMap()).then((DocumentReference docRef) {
       product!.tag = docRef.id;
       docRef.update(product!.toMap());
+      FirebaseFirestore.instance.collection("all products")
+      .doc(docRef.id).set({
+        "reference" : docRef
+      });
+
     });
   }
   String? imageUrl;

@@ -49,9 +49,10 @@ class AuthCubit extends Cubit<AuthState> {
       if (checkBoxValue) {
         FirebaseFirestore.instance.collection('doctors').doc(value.user!.uid).get().then((value) async {
           if (value.data() != null) {
-            await cachingUser(value, CacheKeys.doctorId);
+            // await CacheHelper.removeData(key: CacheKeys.doctorId);
+            // await cachingUser(value, CacheKeys.doctorId);
             Constants.doctorModel =
-                DoctorModel.fromCache(jsonDecode(await CacheHelper.getData(key: CacheKeys.doctorId)));
+                DoctorModel.fromJson(value.data());
             emit(LoginSuccessfully());
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const DoctorLayout()));
           } else {
@@ -60,6 +61,9 @@ class AuthCubit extends Cubit<AuthState> {
           }
         });
       } else {
+        DocumentReference user = FirebaseFirestore.instance.collection("products")
+        .doc(value.user!.uid);
+
         FirebaseFirestore.instance.collection('users').doc(value.user!.uid).get().then((value) async {
           if (value.data() != null) {
             await cachingUser(value, CacheKeys.userId);
