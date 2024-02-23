@@ -49,6 +49,8 @@ class CustomTextForm extends StatelessWidget {
                 return null;
               },
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 labelText: labelText,
                 labelStyle: textTheme.bodyMedium!.copyWith(color: Colors.grey),
                 hintText: hintText,

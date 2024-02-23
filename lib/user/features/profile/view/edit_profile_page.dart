@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/authentication/view/widgets/custom_text_form.dart';
+import 'package:intelligent_pharmacy/shared/styles/colors.dart';
 import 'package:intelligent_pharmacy/user/features/profile/manager/profile_cubit/profile_cubit.dart';
 
-import '../../../../shared/utils/images.dart';
 
 class EditProfilePage extends StatelessWidget {
   const EditProfilePage({super.key});
@@ -49,19 +49,17 @@ class EditProfilePage extends StatelessWidget {
                       validationText: '',
                       isEnabled: false,
                     ),
-                    MaterialButton(
-                      color: Colors.blue,
-                      textColor: Colors.white,
-                      shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                      elevation: 5,
-                      onPressed: () {
+                    const SizedBox(height: 10,),
+                    ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(ColorsAsset.mainColor),
+                          padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 60))),
+                      onPressed: (){
                         cubit.changeUserData();
                       },
-                      child: const Text('Save'),
+                      child: const Text("Save",style: TextStyle(color: Colors.white),),
                     )
+
                   ],
                 ),
               ),

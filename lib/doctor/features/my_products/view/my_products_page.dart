@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/doctor/features/my_products/manager/my_products_cubit.dart';
 
+import 'my_products_details.dart';
+
 class MyProductsPage extends StatelessWidget {
   const MyProductsPage({super.key});
 
@@ -30,32 +32,38 @@ class MyProductsPage extends StatelessWidget {
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       var product = cubit.products[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 100,
-                                child: Image.network(product.image!)),
-                            const SizedBox(height: 10.0),
-                            Text(
-                             product.name!,
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 5.0),
-                            Text(
-                              "price ${ product.price!} LE",
+                      return GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyProductDetailPage(product: product)));
 
-                              style: const TextStyle(fontSize: 14.0),
-                            ),
-                          ],
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 100,
+                                  child: Image.network(product.image!)),
+                              const SizedBox(height: 10.0),
+                              Text(
+                               product.name!,
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 5.0),
+                              Text(
+                                "price ${ product.price!} LE",
+
+                                style: const TextStyle(fontSize: 14.0),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

@@ -25,8 +25,8 @@ class UsersListWidget extends StatelessWidget {
               )),
             );
           },
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https:${users[index].image ?? ''}'),
+          leading: const CircleAvatar(
+            backgroundImage: AssetImage('assets/icons8-male-user-100.png'),
           ),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

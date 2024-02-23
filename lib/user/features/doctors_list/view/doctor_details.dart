@@ -14,7 +14,7 @@ class DoctorDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Contractor Details"),
+        title: const Text("Contractor Details"),
       ),
       body: Padding(
         padding: const EdgeInsets.only(
@@ -28,53 +28,83 @@ class DoctorDetails extends StatelessWidget {
             // SafeArea(child: TopImageWidget(tag: doctorModel.id!, image: doctorModel.image!)),
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      doctorModel.name!,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    InkWell(
-                      onTap: () async {
-                        await launchUrl(
-                            Uri.parse('tel://${doctorModel.phoneNo}'));
-                      },
-                      child: Text(
-                        doctorModel.phoneNo!,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
-                    Text(
-                      'Speciality',
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(),
-                    ),
-                    Text(
-                      doctorModel.speciality!,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    SizedBox(
-                      width: 400,
-                      height: MediaQuery.of(context).size.height * 0.6,
-                      child: Column(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          Expanded(
-                              child: PageView.builder(
-                            itemCount: doctorModel.images!.length,
-                            itemBuilder: (context, index) {
-                              String imageUrl = doctorModel.images![index];
-                              return Center(
-                                child: Image.network(
-                                  imageUrl,
-                                  fit: BoxFit.contain,
-                                ),
-                              );
-                            },
-                          )),
+                          Image.asset("assets/icons8-contractor-100.png",height: 35,),
+                          const SizedBox(width: 5,),
+                          Text("Name : ${doctorModel.name!}",
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
                         ],
                       ),
-                    )
-                  ],
+                      const SizedBox(height: 5,),
+                      Row(
+                        children: [
+                          Image.asset("assets/icons8-phone-100.png",height: 35,),
+                          const SizedBox(width: 5,),
+                          Text("Contact Now : ",
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await launchUrl(
+                                  Uri.parse('tel://${doctorModel.phoneNo}'));
+                            },
+                            child: Text(
+                              doctorModel.phoneNo!,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5,),
+                      Row(
+                        children: [
+                          Image.asset("assets/icons8-work-100.png",height: 35,),
+                          const SizedBox(width: 5,),
+                          Text(
+                            'Speciality : ${doctorModel.speciality!}',
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 50,),
+                      Row(
+                        children: [
+                          Image.asset("assets/icons8-gallery-100.png",height: 50,),
+                          const SizedBox(width: 5,),
+                          const Text("My Work",style: TextStyle(fontSize: 40),),
+                        ],
+                      ),
+                      const SizedBox(height: 20,),
+                      SizedBox(
+                        width: 400,
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                child: PageView.builder(
+                              itemCount: doctorModel.images!.length,
+                              itemBuilder: (context, index) {
+                                String imageUrl = doctorModel.images![index];
+                                return Center(
+                                  child: Image.network(
+                                    imageUrl,
+                                    fit: BoxFit.contain,
+                                  ),
+                                );
+                              },
+                            )),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

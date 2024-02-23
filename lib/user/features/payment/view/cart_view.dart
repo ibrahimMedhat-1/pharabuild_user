@@ -36,14 +36,11 @@ class CartPage extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           )
                         : ListView.separated(
-                            itemBuilder: (context, index) => AspectRatio(
-                              aspectRatio: 1 / .5,
-                              child: CartItem(
-                                  cartItem: cubit.cartProducts[index],
-                                  onTap: () {
-                                    cubit.removeItemFromCart(cubit.cartProducts[index]);
-                                  }),
-                            ),
+                            itemBuilder: (context, index) => CartItem(
+                                cartItem: cubit.cartProducts[index],
+                                onTap: () {
+                                  cubit.removeItemFromCart(cubit.cartProducts[index]);
+                                }),
                             separatorBuilder: (context, index) => const SizedBox(height: 10),
                             itemCount: cubit.cartProducts.length,
                           ),

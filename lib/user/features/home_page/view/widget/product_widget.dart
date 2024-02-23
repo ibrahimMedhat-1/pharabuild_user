@@ -5,12 +5,12 @@ import '../../../../../models/product_model.dart';
 class ProductsGridView extends StatelessWidget {
   final List<ProductsModel> products;
 
-  ProductsGridView({required this.products});
+  const ProductsGridView({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // You can adjust the number of columns as per your design
         crossAxisSpacing: 8.0,
         mainAxisSpacing: 8.0,
@@ -26,7 +26,7 @@ class ProductsGridView extends StatelessWidget {
 class ProductItem extends StatelessWidget {
   final ProductsModel product;
 
-  ProductItem({required this.product});
+  const ProductItem({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class ProductItem extends StatelessWidget {
               children: [
                 Text(
                   product.name ?? '',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text('Price: ${product.price ?? ''}'),
               ],

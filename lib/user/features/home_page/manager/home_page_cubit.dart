@@ -8,7 +8,6 @@ import 'package:intelligent_pharmacy/models/review_model.dart';
 import 'package:intelligent_pharmacy/shared/toast.dart';
 
 import '../../../../models/pharmacy_model.dart';
-import '../../../../shared/utils/constants.dart';
 
 part 'home_page_state.dart';
 
@@ -112,14 +111,14 @@ class HomePageCubit extends Cubit<HomePageState> {
     //   });
     // });
     FirebaseFirestore.instance.collection("all products").get().then((value) {
-      value.docs.forEach((element) {
+      for (var element in value.docs) {
         DocumentReference<Map<String,dynamic>> documentReference  =element.data()['reference'];
         documentReference.get().then((value) {
           products.add(ProductsModel.fromJson(value.data()));
           emit(GetProducts());
         });
 
-      });
+      }
     });
   }
 

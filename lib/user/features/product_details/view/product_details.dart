@@ -22,37 +22,47 @@ class ProductDetailPage extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text('Product Details'),
+              title: const Text('Product Details'),
             ),
             body: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-
                 children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                        height: 250,
-                        child: Image.network(product.image!)),
-                  ),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    product.name!,
-                    style: TextStyle(
-                        fontSize: 20.0, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'Price: ${product.price!} LE',
-                    style: TextStyle(fontSize: 16.0),
-                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                                height: 400,
+                                child: Image.network(product.image!)),
+                          ),
+                          const SizedBox(height: 16.0),
+                          Text("Product Name : ${product.name!}",
+                            style: const TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            'Price: ${product.price!} LE',
+                            style: const TextStyle(fontSize: 16.0),
+                          ),
+
+
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-                    decoration: const BoxDecoration(
-                        color: Colors.black87,
-                        borderRadius: BorderRadius.only(
+                    decoration:  BoxDecoration(
+                        color: Colors.amberAccent.shade100,
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20),
                         )),
@@ -69,14 +79,13 @@ class ProductDetailPage extends StatelessWidget {
                           color: Colors.blueAccent,
                           shape: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
                           onPressed: () {
-                           cubit.addToCart(product);
+                            cubit.addToCart(product);
                           },
-                          child: Text("add to cart"),
+                          child: const Text("add to cart"),
                         ),
                       ],
                     ),
                   )
-
                 ],
               ),
             ),

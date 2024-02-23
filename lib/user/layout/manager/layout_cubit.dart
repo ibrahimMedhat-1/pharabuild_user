@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/user/features/chatbot/view/chatbot_view.dart';
 import 'package:intelligent_pharmacy/user/features/doctors_list/view/doctors_list_view.dart';
 
 import '../../features/home_page/view/home_page.dart';

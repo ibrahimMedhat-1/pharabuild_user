@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/user/features/doctors_list/view/doctor_details.dart';
 
-import '../../../../../models/doctor_model.dart';
 import '../../manager/doctor_list_cubit/doctor_list_cubit.dart';
 
 class DoctorListWidget extends StatelessWidget {
@@ -35,7 +33,7 @@ class DoctorListWidget extends StatelessWidget {
           child: Hero(
             tag: cubit.doctorsList[index].id!,
             child: AspectRatio(
-              aspectRatio: 2.5/ 1.1,
+              aspectRatio: 2.4/ 2,
               child: Container(
                 width: double.infinity,
                 margin: const EdgeInsets.all(20),
@@ -50,33 +48,47 @@ class DoctorListWidget extends StatelessWidget {
                   ],
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                child:
+                    Column(
 
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            cubit.doctorsList[index].name!,
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(height: 2),
-                          ),
-                          Text(
-                            cubit.doctorsList[index].phoneNo!,
-                            style: Theme.of(context).textTheme.titleMedium!.copyWith(height: 2),
-                          ),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
 
-                          Text(
-                            cubit.doctorsList[index].speciality!,
-                            style: Theme.of(context).textTheme.titleSmall!.copyWith(height: 3),
+                            height: MediaQuery.of(context).size.height*0.25,
+                            width: MediaQuery.of(context).size.width*1,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(cubit.doctorsList[index].images![1]),
+                              )
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Row(
+                            children: [
+                              Image.asset("assets/icons8-contractor-100.png",height: 40,),
+                              const SizedBox(width: 5,),
+                              Text(
+                                "Name : ",
+                                style: Theme.of(context).textTheme.titleLarge!.copyWith(height: 2),
+                              ),
+                              Text(
+                                cubit.doctorsList[index].name!,
+                                style: Theme.of(context).textTheme.titleLarge!.copyWith(height: 2),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+
+                      ],
                     ),
-                  ],
-                ),
+
+
               ),
             ),
           ),

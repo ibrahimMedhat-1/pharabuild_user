@@ -5,3 +5,4 @@ abstract class MyProductsState {}
 
 class MyProductsInitial extends MyProductsState {}
 class GetProducts extends MyProductsState {}
+class UpdateProduct extends MyProductsState {}

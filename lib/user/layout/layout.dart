@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/shared/utils/icons.dart';
 
 import '../../shared/styles/colors.dart';
 import 'manager/layout_cubit.dart';
@@ -29,7 +28,7 @@ class UserLayout extends StatelessWidget {
               items: const [
                 BottomNavigationBarItem(
                   label: 'Products',
-                  icon: Icon(Icons.local_pharmacy_outlined),
+                  icon: Icon(Icons.featured_play_list_outlined),
                 ),
 
                 BottomNavigationBarItem(
@@ -38,8 +37,8 @@ class UserLayout extends StatelessWidget {
                 ),
 
                 BottomNavigationBarItem(
-                  label: 'Doctors',
-                  icon: ImageIcon(AssetImage(IconsAsset.doctorsIcon)),
+                  label: 'Contractors',
+                  icon: Icon(Icons.build),
                 ),
                 BottomNavigationBarItem(
                   label: 'Profile',

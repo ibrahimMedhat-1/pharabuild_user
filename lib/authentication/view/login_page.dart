@@ -20,128 +20,141 @@ class LoginPage extends StatelessWidget {
         builder: (context, state) {
           AuthCubit cubit = AuthCubit.get(context);
           return
+          Stack(
+            children: [
+              Container(
+
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage("assets/Green Minimalist World Earth Day Instagram Story (11).png")
+                  )
+                ),
+              ),
 
             Scaffold(
             key: cubit.scaffoldKey,
+            backgroundColor: Colors.transparent,
             body: SafeArea(
-              child: Container(
-                padding: const EdgeInsets.only(top: 20),
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 7,
-                      color: Color(0x4D090F13),
-                      offset: Offset(0, 3),
-                    )
-                  ],
-                  borderRadius: BorderRadius.horizontal(
-                    right: Radius.circular(16),
-                    left: Radius.circular(16),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: const EdgeInsets.only(top: 20),
+                  width: double.infinity,
+                  decoration:  BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                    borderRadius: const BorderRadius.horizontal(
+                      right: Radius.circular(16),
+                      left: Radius.circular(16),
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const WelcomeWidget(
-                            welcomeText: 'Welcome Back',
-                          ),
-                          CustomTextForm(
-                            controller: cubit.emailAddressController,
-                            obscure: false,
-                            labelText: 'Email Address',
-                            hintText: 'Enter your email here...',
-                            keyboardType: TextInputType.emailAddress,
-                            validationText: 'Please enter your email',
-                          ),
-                          CustomTextForm(
-                            controller: cubit.passwordController,
-                            obscure: cubit.obscure,
-                            labelText: 'Password',
-                            hintText: 'Enter your password here...',
-                            suffixIcon: cubit.suffixIcon,
-                            suffixPressed: cubit.suffixPressed,
-                            keyboardType: TextInputType.visiblePassword,
-                            validationText: 'Please enter your password',
-                          ),
-                          Row(
-                            children: [
-                              Checkbox(
-                                shape: const CircleBorder(),
-                                value: cubit.checkBoxValue,
-                                onChanged: (value) {
-                                  cubit.changeCheckBoxValue(value);
-                                },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const WelcomeWidget(
+                              welcomeText: 'Welcome Back',
+                            ),
+                            CustomTextForm(
+                              controller: cubit.emailAddressController,
+                              obscure: false,
+                              labelText: 'Email Address',
+                              hintText: 'Enter your email here...',
+                              keyboardType: TextInputType.emailAddress,
+                              validationText: 'Please enter your email',
+                            ),
+                            CustomTextForm(
+                              controller: cubit.passwordController,
+                              obscure: cubit.obscure,
+                              labelText: 'Password',
+                              hintText: 'Enter your password here...',
+                              suffixIcon: cubit.suffixIcon,
+                              suffixPressed: cubit.suffixPressed,
+                              keyboardType: TextInputType.visiblePassword,
+                              validationText: 'Please enter your password',
+                            ),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  shape: const CircleBorder(),
+                                  value: cubit.checkBoxValue,
+                                  onChanged: (value) {
+                                    cubit.changeCheckBoxValue(value);
+                                  },
+                                ),
+                                const Text('I am a Contractor'),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 24),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      cubit.clearTextFormFields();
+                                    },
+                                    child: const Text('Forgot Password?'),
+                                  ),
+                                  state is LoginLoading
+                                      ? const CircularProgressIndicator()
+                                      : AuthButton(
+
+                                    onTap: () {
+                                      if (formKey.currentState!.validate()) {
+                                        cubit.login(context);
+                                      }
+                                    },
+                                    text: 'Login',
+                                  ),
+                                ],
                               ),
-                              const Text('I am a Contractor'),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 24),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    cubit.clearTextFormFields();
-                                  },
-                                  child: const Text('Forgot Password?'),
-                                ),
-                                state is LoginLoading
-                                    ? const CircularProgressIndicator()
-                                    : AuthButton(
-                                        onTap: () {
-                                          if (formKey.currentState!.validate()) {
-                                            cubit.login(context);
-                                          }
-                                        },
-                                        text: 'Login',
-                                      ),
-                              ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 0, 24),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Don\'t have an account?',
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                        fontFamily: 'Lexend Deca',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.grey,
-                                      ),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    cubit.clearTextFormFields();
-                                    Navigator.push(context, MaterialPageRoute(builder: (builder) => const SignUp()));
-                                  },
-                                  child: const Text('Create Account'),
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 0, 24),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Don\'t have an account?',
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                      fontFamily: 'Lexend Deca',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      cubit.clearTextFormFields();
+                                      Navigator.push(context, MaterialPageRoute(builder: (builder) => const SignUp()));
+                                    },
+                                    child: const Text('Create Account'),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
+          ),
+            ],
           );
+
+
         },
       ),
     );

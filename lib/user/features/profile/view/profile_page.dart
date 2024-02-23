@@ -5,7 +5,6 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
-import 'package:intelligent_pharmacy/shared/utils/images.dart';
 import 'package:intelligent_pharmacy/user/features/profile/manager/profile_cubit/profile_cubit.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/chats_page.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/edit_profile_page.dart';

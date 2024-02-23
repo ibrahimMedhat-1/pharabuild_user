@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/user/features/doctors_list/manager/doctor_list_cubit/doctor_list_cubit.dart';
 import 'package:intelligent_pharmacy/user/features/doctors_list/view/widgets/doctor_widget.dart';
 
 
@@ -15,13 +13,13 @@ class DoctorsListView extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              'Doctors',
+              'Contractors',
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontSize: 30,
                   ),
             ),
           ),
-          body: Column(
+          body: const Column(
             children: [
              DoctorListWidget(),
             ],

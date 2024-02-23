@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/doctor/features/settings/manager/doctor_edit_profile_cubit.dart';
 
+import '../../../../shared/styles/colors.dart';
 import '../../../../shared/utils/constants.dart';
 
 class DoctorEditProfile extends StatelessWidget {
@@ -64,13 +65,23 @@ class DoctorEditProfile extends StatelessWidget {
                       ),
                       controller: cubit.specialityController,
                     ),
-                  ElevatedButton(onPressed: (){
-                    cubit.uploadListImagesPost(description: cubit.joDescribtionController.text,images:cubit.listImagesUrl );
-
-                  }, child: const Text("Upload images")),
 
                     const SizedBox(height: 20),
-                    const Text("My Portfolio",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("My Portfolio",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
+                        ElevatedButton(
+                            style: const ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(ColorsAsset.mainColor),
+                                padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 30))),
+                            onPressed: (){
+                          cubit.uploadListImagesPost(description: cubit.joDescribtionController.text,images:cubit.listImagesUrl );
+
+                        }, child: const Text("Upload images",style: TextStyle(color: Colors.white),)),
+
+                      ],
+                    ),
 
 
                     const SizedBox(height: 20),
@@ -97,17 +108,19 @@ class DoctorEditProfile extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 60,),
+                    const SizedBox(height: 10,),
                     Align(
                       alignment: Alignment.center,
-                      child: MaterialButton(
-                        textColor: Colors.white,
-                        color: Colors.blue,
-                        child: const Text('Save'),
-                        onPressed: () {
+                      child: ElevatedButton(
+                        style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(ColorsAsset.mainColor),
+                            padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 60))),
+                        onPressed: (){
                           cubit.saveData(context);
                         },
-                      ),
+                      child: const Text("Save",style: TextStyle(color: Colors.white),),
+                      )
+
                     ),
 
                   ],

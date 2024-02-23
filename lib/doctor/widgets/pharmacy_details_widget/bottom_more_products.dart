@@ -15,9 +15,9 @@ class BottomWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-      decoration: const BoxDecoration(
-          color: Colors.black87,
-          borderRadius: BorderRadius.only(
+      decoration:  BoxDecoration(
+          color: Colors.amberAccent.shade100,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           )),

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/user/features/product_details/view/product_details.dart';
 import 'package:intelligent_pharmacy/user/features/home_page/view/widget/home_page_search.dart';
 
-import '../../../../authentication/view/widgets/welcome_widget.dart';
 import '../manager/home_page_cubit.dart';
 
 class PharmaciesPage extends StatelessWidget {
@@ -20,7 +19,7 @@ class PharmaciesPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               leading: Image.asset("assets/logos/Home Build Construction Logo (4).png"),
-              title: Text("Products"),
+              title: const Text("Products"),
             ),
             body: SingleChildScrollView(
               child: Padding(

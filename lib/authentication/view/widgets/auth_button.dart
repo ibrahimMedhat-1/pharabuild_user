@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intelligent_pharmacy/shared/styles/colors.dart';
 
 class AuthButton extends StatelessWidget {
   final Function() onTap;
@@ -11,7 +12,7 @@ class AuthButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textSize = MediaQuery.of(context).size.width * 0.05;
+    var textSize = MediaQuery.of(context).size.width * 0.04;
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
@@ -22,7 +23,7 @@ class AuthButton extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width * 0.35,
         height: MediaQuery.of(context).size.width * 0.13,
         elevation: 3,
-        color: Colors.blueAccent,
+        color: ColorsAsset.mainColor,
         textColor: Colors.white,
         child: Text(
           text,

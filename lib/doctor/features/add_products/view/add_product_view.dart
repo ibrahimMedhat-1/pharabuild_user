@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/doctor/features/add_products/manager/add_product__cubit.dart';
+import 'package:intelligent_pharmacy/shared/styles/colors.dart';
 
 import '../../../../authentication/view/widgets/custom_text_form.dart';
 
@@ -64,7 +65,7 @@ class AddProductView extends StatelessWidget {
                 minWidth: MediaQuery.of(context).size.width * 0.35,
                 height: MediaQuery.of(context).size.width * 0.13,
                 elevation: 3,
-                color: Colors.blueAccent,
+                color: ColorsAsset.mainColor,
                 textColor: Colors.white,
                 child: const Text(
                   "Upload Product",
