@@ -44,7 +44,8 @@ class DoctorListWidget extends StatelessWidget {
                     BoxShadow(
                       blurRadius: 5,
                       color: Colors.grey,
-                    )
+                    ),
+
                   ],
                   borderRadius: BorderRadius.circular(20),
                 ),

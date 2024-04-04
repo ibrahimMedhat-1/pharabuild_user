@@ -29,12 +29,7 @@ class ChatPage extends StatelessWidget {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage('https:${chatUserModel.image ?? ''}'),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+
                   Text(chatUserModel.name!),
                 ],
               ),

@@ -42,14 +42,18 @@ class PharmaciesPage extends StatelessWidget {
                     SizedBox(
                       height: 800,
                       child: GridView.builder(
-                        itemCount: cubit.products.length,
+
+                        itemCount: state is IsSearchingInMedicineInCategory?
+                        cubit.searchMedicineProducts.length:
+                        cubit.products.length,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10.0,
                           mainAxisSpacing: 10.0,
                         ),
                         itemBuilder: (BuildContext context, int index) {
-                          var product = cubit.products[index];
+                          var product =state is IsSearchingInMedicineInCategory?
+                          cubit.searchMedicineProducts[index]: cubit.products[index];
                           return GestureDetector(
                             onTap: () {
                               // Navigate to the detailed view passing the selected product

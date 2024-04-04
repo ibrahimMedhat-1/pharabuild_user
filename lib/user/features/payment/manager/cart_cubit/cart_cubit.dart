@@ -26,8 +26,10 @@ class CartCubit extends Cubit<CartState> {
         DocumentReference<Map<String, dynamic>> productReference = await element.data()['reference'];
         var product = await productReference.get();
         print(product.data());
-        cartProducts.add(ProductsModel.fromJson(product.data()));
-        price += int.parse(product.data()!['price']);
+        DocumentReference<Map<String, dynamic>> productReference2 = await product.data()!['reference'];
+        var productData = await productReference2.get();
+        cartProducts.add(ProductsModel.fromJson(productData.data()));
+        price += int.parse(productData.data()!['price']);
       }
       emit(GetAllCartProductsSuccessfully());
     }).catchError((onError) {
