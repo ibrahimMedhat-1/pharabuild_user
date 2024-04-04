@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/doctor/features/add_products/manager/add_product__cubit.dart';
 import '../../../../models/product_model.dart';
 import '../../../../shared/utils/constants.dart';
 
@@ -21,23 +20,23 @@ class MyProductsCubit extends Cubit<MyProductsState> {
   void onChangePrice(String? value){
     price=value;
   }
-  void updateProducts(String docId){
-    FirebaseFirestore.instance
+
+  void updateProducts(String docId, nameInitialValue, priceInitialValue,BuildContext context) async{
+    await FirebaseFirestore.instance
         .collection('doctors')
         .doc(Constants.doctorModel!.id)
         .collection('Product')
         .doc(docId)
-        .update({
-      'price':price?? productsModel?.price,
-      'name':name?? productsModel?.name
-    });
-    getProducts();
-    emit(UpdateProduct());
+        .update({'price': price ?? priceInitialValue, 'name': name ?? nameInitialValue});
+   await getProducts();
+    Navigator.pop(context);
 
+    emit(UpdateProduct());
   }
 
+
   List<ProductsModel> products = [];
-  void getProducts() async {
+  Future<void> getProducts() async {
      await FirebaseFirestore.instance.collection('doctors')
         .doc(Constants.doctorModel!.id)
         .collection('Product')

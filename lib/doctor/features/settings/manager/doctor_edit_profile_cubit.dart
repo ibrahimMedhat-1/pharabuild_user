@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +11,6 @@ import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 import 'package:intelligent_pharmacy/shared/utils/image_helper/image_helper.dart';
 
 import '../../../../models/doctor_model.dart';
-import '../../../../shared/network/cache_keys.dart';
 import '../../../../shared/network/cached_preference.dart';
 
 part 'doctor_edit_profile_state.dart';
@@ -82,8 +80,7 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
       'speciality': specialityController.text,
     }).then((value) {
       doctorDoc.get().then((value) async {
-        await cachingUser(value, CacheKeys.doctorId);
-        Constants.doctorModel = DoctorModel.fromCache(jsonDecode(await CacheHelper.getData(key: CacheKeys.doctorId)));
+        Constants.doctorModel = DoctorModel.fromJson(value.data());
         initialize();
         Phoenix.rebirth(context);
       });

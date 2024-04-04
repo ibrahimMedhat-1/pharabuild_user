@@ -34,6 +34,11 @@ class AddProductCubit extends Cubit<AddProductState> {
       FirebaseFirestore.instance.collection("all products")
       .doc(docRef.id).set({
         "reference" : docRef
+      }).then((value) {
+        productNameCntroller.clear();
+        productPriceCntroller.clear();
+        imageUrl = null;
+        emit(AddProductSuccessfully());
       });
 
     });

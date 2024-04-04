@@ -20,62 +20,68 @@ class AddProductView extends StatelessWidget {
   builder: (context, state) {
     AddProductCubit cubit = AddProductCubit.get(context);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Add Product"),
+        centerTitle: true,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 200,
-              width: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.grey.shade300,
+        padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 50),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: 200,
+                width: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.grey.shade300,
+                ),
+                child: Center(
+                  child: cubit.imageUrl==null ? IconButton(onPressed: () {
+                    cubit.imgFromGallery();
+                  }, icon: const Icon(Icons.add),)
+                      :Image.network(cubit.imageUrl!.toString())
+                  ,
+                ),
               ),
-              child: Center(
-                child: cubit.imageUrl==null ? IconButton(onPressed: () {
-                  cubit.imgFromGallery();
-                }, icon: const Icon(Icons.add),)
-                    :Image.network(cubit.imageUrl!.toString())
-                ,
+              CustomTextForm(
+                controller:cubit.productNameCntroller,
+                hintText: "Product Name",
+                obscure: false,
+                keyboardType: TextInputType.text,
               ),
-            ),
-            CustomTextForm(
-              controller:cubit.productNameCntroller,
-              hintText: "Product Name",
-              obscure: false,
-              keyboardType: TextInputType.text,
-            ),
-            CustomTextForm(
-              controller:cubit.productPriceCntroller,
-              hintText: "Product Price",
-              obscure: false,
-              keyboardType: TextInputType.text,
-            ),
-            const SizedBox(height: 30,),
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
-              child: MaterialButton(
-                onPressed: () async {
-                  cubit.addProduct(
-                      image: cubit.imageUrl.toString(), name: cubit.productNameCntroller.text, price: cubit.productPriceCntroller.text);
-                },
-                minWidth: MediaQuery.of(context).size.width * 0.35,
-                height: MediaQuery.of(context).size.width * 0.13,
-                elevation: 3,
-                color: ColorsAsset.mainColor,
-                textColor: Colors.white,
-                child: const Text(
-                  "Upload Product",
-                  style: TextStyle(
+              CustomTextForm(
+                controller:cubit.productPriceCntroller,
+                hintText: "Product Price",
+                obscure: false,
+                keyboardType: TextInputType.text,
+              ),
+              const SizedBox(height: 30,),
+              Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                child: MaterialButton(
+                  onPressed: () async {
+                    cubit.addProduct(
+                        image: cubit.imageUrl.toString(), name: cubit.productNameCntroller.text, price: cubit.productPriceCntroller.text);
+                  },
+                  minWidth: MediaQuery.of(context).size.width * 0.35,
+                  height: MediaQuery.of(context).size.width * 0.13,
+                  elevation: 3,
+                  color: ColorsAsset.mainColor,
+                  textColor: Colors.white,
+                  child: const Text(
+                    "Upload Product",
+                    style: TextStyle(
 
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

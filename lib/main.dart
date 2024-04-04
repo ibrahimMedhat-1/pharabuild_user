@@ -8,7 +8,6 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 import 'package:intelligent_pharmacy/doctor/layout/view/doctor_layout.dart';
 import 'package:intelligent_pharmacy/firebase_options.dart';
-import 'package:intelligent_pharmacy/models/doctor_model.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
@@ -31,7 +30,7 @@ void main() async {
   if ((await CacheHelper.getData(key: CacheKeys.userId)) != null) {
     Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
   } else if ((await CacheHelper.getData(key: CacheKeys.doctorId)) != null) {
-    Constants.doctorModel = DoctorModel.fromCache(jsonDecode(await CacheHelper.getData(key: CacheKeys.doctorId)));
+
   }
   runApp(Phoenix(child: const MyApp()));
 }

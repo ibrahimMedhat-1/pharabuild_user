@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intelligent_pharmacy/shared/styles/colors.dart';
 
 import '../../../../models/product_model.dart';
 import '../manager/my_products_cubit.dart';
@@ -32,67 +31,68 @@ class MyProductDetailPage extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-
-                          children: [
-                            Align(
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                  height: 400,
-                                  child: Image.network(product.image!)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              height: 400,
+                              child: Image.network(product.image!),
                             ),
-                            const SizedBox(height: 16.0),
-                            const Text("Product Name",
-                              style: TextStyle(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 8.0),
-
-                            TextFormField(
-                              initialValue: product.name!,
-                              keyboardType: TextInputType.name,
-                              onChanged: cubit.onChangeName,
-                              decoration: const InputDecoration(
-
-                              ),
-                            ),
-                            const SizedBox(height: 20.0),
-                            const Text(
-                              'Price',
-                              style: TextStyle(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 8.0),
-                            TextFormField(
-                              initialValue: product.price!,
-                              keyboardType: TextInputType.number,
-                              onChanged: cubit.onChangePrice,
-                              decoration: const InputDecoration(
-
-                              ),
-                            ),
-                            const SizedBox(height: 20.0),
-                            Align(
-                              alignment: Alignment.center,
-                              child: ElevatedButton(
-
-                                  style: const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(ColorsAsset.mainColor),
-                                      padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 60))),
-                                  onPressed: (){
-                                cubit.updateProducts(product.tag!);
-                              }, child: const Text("Save",style: TextStyle(color: Colors.white),)),
-                            )
-
-
-
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 16.0),
+                          const Text(
+                            "Product Name",
+                            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8.0),
+                          TextFormField(
+                            initialValue: product.name ?? '',
+                            keyboardType: TextInputType.name,
+                            onChanged: (value) {
+                              cubit.onChangeName(value);
+                            },
+                            decoration: const InputDecoration(),
+                          ),
+                          const SizedBox(height: 20.0),
+                          const Text(
+                            'Price',
+                            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8.0),
+                          TextFormField(
+                            initialValue: product.price ?? '',
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              cubit.onChangePrice(value);
+                            },
+                            decoration: const InputDecoration(),
+                          ),
+                          const SizedBox(height: 20.0),
+                          Align(
+                            alignment: Alignment.center,
+                            child:  ElevatedButton(
+                                style: const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(Colors.blue),
+                                    padding:
+                                    MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 60))),
+                                onPressed: () {
+                                  cubit.updateProducts(
+                                    product.tag!,
+                                    product.name ?? '',
+                                    product.price ?? '',
+                                    context
+                                  );
+                                },
+                                child: const Text(
+                                  "Save",
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ),
+                        ],
                       ),
                     ),
-
                   ],
                 ),
               ),

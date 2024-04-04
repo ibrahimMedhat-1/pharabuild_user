@@ -27,13 +27,6 @@ class DoctorModel {
     speciality = json['speciality'];
 
   }
-  DoctorModel.fromCache(Map<String, dynamic>? json, {this.lastMessage}) {
-    id = json!['id'];
-    name = json['name'];
-    phoneNo = json['phoneNo'];
-    images = List<String>.from(json['images'] ?? []);
-    description = json['description'];
-    speciality = json['speciality'];
-  }
+
 }
 

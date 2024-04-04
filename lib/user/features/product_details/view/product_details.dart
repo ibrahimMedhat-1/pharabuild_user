@@ -28,23 +28,24 @@ class ProductDetailPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Expanded(
+                  Expanded(
+                    child: SingleChildScrollView(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: SizedBox(
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
                                 height: 400,
-                                child: Image.network(product.image!)),
+                                child: Image.network(product.image!),
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 16.0),
-                          Text("Product Name : ${product.name!}",
-                            style: const TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                          Text(
+                            "Product Name : ${product.name!}",
+                            style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 8.0),
                           Text(
@@ -57,27 +58,27 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Spacer(),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-                    decoration:  BoxDecoration(
-                        color: Colors.amberAccent.shade100,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        )),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Price",
-                          style: Theme.of(context).textTheme.titleLarge,
+                        const Text(
+                          "Price : 85 LE",
+                          style: TextStyle(color: Colors.black),
                         ),
                         MaterialButton(
-                          height: MediaQuery.sizeOf(context).width * 0.1,
+                          height: MediaQuery.of(context).size.width * 0.1,
                           textColor: Colors.white,
-                          color: Colors.blueAccent,
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                          color: Colors.blue,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           onPressed: () {
                             cubit.addToCart(product);
                           },
@@ -85,7 +86,7 @@ class ProductDetailPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -95,3 +96,4 @@ class ProductDetailPage extends StatelessWidget {
     );
   }
 }
+

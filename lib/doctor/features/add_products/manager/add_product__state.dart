@@ -5,3 +5,4 @@ abstract class AddProductState {}
 
 class AddProductInitial extends AddProductState {}
 class UploadPhoto extends AddProductState {}
+class AddProductSuccessfully extends AddProductState {}
