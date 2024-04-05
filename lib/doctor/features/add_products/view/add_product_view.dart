@@ -38,7 +38,13 @@ class AddProductView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   color: Colors.grey.shade300,
                 ),
-                child: Center(
+                child:
+                    state is ProductImageLoading?
+              const Center(
+                child: CircularProgressIndicator(),
+              )
+              :
+                Center(
                   child: cubit.imageUrl==null ? IconButton(onPressed: () {
                     cubit.imgFromGallery();
                   }, icon: const Icon(Icons.add),)
@@ -59,6 +65,12 @@ class AddProductView extends StatelessWidget {
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 30,),
+              state is AddProductLoading?
+             const  Center(
+                child:
+                CircularProgressIndicator(),
+              )
+                  :
               Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),

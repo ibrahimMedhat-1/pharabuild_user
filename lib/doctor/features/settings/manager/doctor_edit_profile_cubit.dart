@@ -21,7 +21,7 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
   static DoctorEditProfileCubit get(context) => BlocProvider.of(context);
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController specialityController=TextEditingController();
+  TextEditingController specialityController = TextEditingController();
 
   void initialize() {
     nameController.text = Constants.doctorModel!.name!;
@@ -34,7 +34,8 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
   void changeImage(context) async {
     final files = await ImageHelper().pickImage();
     if (files.isNotEmpty) {
-      final croppedImage = await ImageHelper().crop(file: files.first!, cropStyle: CropStyle.circle);
+      final croppedImage = await ImageHelper()
+          .crop(file: files.first!, cropStyle: CropStyle.circle);
       if (croppedImage != null) {
         imageFile = File(croppedImage.path);
       } else {
@@ -70,10 +71,12 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
             ));
   }
 
-
-
   void saveData(context) {
-    var doctorDoc = FirebaseFirestore.instance.collection('doctors').doc(Constants.doctorModel!.id);
+    emit(SaveLoading());
+
+    var doctorDoc = FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(Constants.doctorModel!.id);
     doctorDoc.update({
       'name': nameController.text,
       'phoneNo': phoneController.text,
@@ -83,24 +86,28 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
         Constants.doctorModel = DoctorModel.fromJson(value.data());
         initialize();
         Phoenix.rebirth(context);
+        emit(SaveSuccess());
       });
     });
   }
 
-  Future<void> cachingUser(DocumentSnapshot<Map<String, dynamic>> value, String userType) async {
+  Future<void> cachingUser(
+      DocumentSnapshot<Map<String, dynamic>> value, String userType) async {
     List<String> map = [];
     dynamic array = value.data().toString().split('');
     await array.removeAt(0);
     await array.removeLast();
     array = await array.join('');
     array = await array.split(',');
-    await CacheHelper.setData(key: userType, value: (handlingMapResponse(array, map).toString()));
+    await CacheHelper.setData(
+        key: userType, value: (handlingMapResponse(array, map).toString()));
   }
 
   String handlingMapResponse(List array, List<String> map) {
     for (int i = 0; i < array.length; i++) {
       dynamic key = array[i].toString().trim().split(" ")[0].split("");
-      var value = array[i].toString().trim().split(" ").last == array[i].toString().trim().split(" ")[0]
+      var value = array[i].toString().trim().split(" ").last ==
+              array[i].toString().trim().split(" ")[0]
           ? ''
           : array[i].toString().trim().split(":").last.trim();
       debugPrint(array[i].toString().trim().split(":").last.trim());
@@ -116,12 +123,10 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
     return '{${map.join().toString()}}';
   }
 
-
   List<String> listImagesUrl = [];
 
   static Future<String> uploadImage(File file, String name) async {
-    Reference reference =
-    FirebaseStorage.instance.ref('Portfolio/$name');
+    Reference reference = FirebaseStorage.instance.ref('Portfolio/$name');
     UploadTask uploadTask = reference.putFile(file);
     TaskSnapshot taskSnapshot = await uploadTask;
     return await taskSnapshot.ref.getDownloadURL();
@@ -135,9 +140,10 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
   }) async {
     final ImagePicker picker = ImagePicker();
     List<String> listImagesUrl = [];
+    emit(UploadPortfolioImagesLoading());
 
     await picker.pickMultiImage(imageQuality: 50, maxWidth: 800).then(
-          (listImages) async {
+      (listImages) async {
         if (listImages.isEmpty) {
         } else {
           for (var oneFile in listImages) {
@@ -150,34 +156,32 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
           var portfolioData = {
             'images': listImagesUrl,
             'description': description,
-
-
-
           };
+          emit(UploadPortfolioImagesLoading());
 
           await FirebaseFirestore.instance
               .collection("doctors")
               .doc(Constants.doctorModel!.id)
               .update(portfolioData);
+          fetchPortfolioData();
 
           emit(UploadPortfolioImages());
         }
       },
     );
   }
+
   List<Map<String, dynamic>> portfolioDataList = [];
+
   Future<void> fetchPortfolioData() async {
+    await FirebaseFirestore.instance
+        .collection("doctors")
+        .doc(Constants.doctorModel!.id)
+        .get()
+        .then((value) {
+      Constants.doctorModel = DoctorModel.fromJson(value.data());
+    });
 
-      await FirebaseFirestore.instance
-          .collection("doctors")
-          .doc(Constants.doctorModel!.id)
-          .get().then((value) {
-        Constants.doctorModel = DoctorModel.fromJson(value.data());
-      });
-
-
-
-emit(GetPortfolioImages())  ;  }
+    emit(GetPortfolioImages());
   }
-
-
+}

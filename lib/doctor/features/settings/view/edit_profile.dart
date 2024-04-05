@@ -86,6 +86,11 @@ class DoctorEditProfile extends StatelessWidget {
 
                     const SizedBox(height: 20),
 
+                    state is UploadPortfolioImagesLoading?
+                   const Center(
+                      child: CircularProgressIndicator(),
+                    ):
+
                     SizedBox(
                       width: 400,
                       height: MediaQuery.of(context).size.height*0.6,
@@ -109,6 +114,10 @@ class DoctorEditProfile extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10,),
+                    state is SaveLoading?
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ):
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(

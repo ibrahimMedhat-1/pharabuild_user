@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intelligent_pharmacy/models/doctor_model.dart';
 import 'package:intelligent_pharmacy/models/product_model.dart';
+import 'package:intelligent_pharmacy/shared/toast.dart';
 
 import '../../../../shared/utils/constants.dart';
 
@@ -26,6 +27,7 @@ class AddProductCubit extends Cubit<AddProductState> {
 
   void addProduct({required String image,   String? tag,  required String name, required String price}) {
     product = ProductsModel(tag, image, name, price);
+    emit(AddProductLoading());
 
     var collectionRef = FirebaseFirestore.instance.collection('doctors').doc(Constants.doctorModel!.id).collection('Product');
     collectionRef.add(product!.toMap()).then((DocumentReference docRef) {
@@ -39,12 +41,14 @@ class AddProductCubit extends Cubit<AddProductState> {
         productPriceCntroller.clear();
         imageUrl = null;
         emit(AddProductSuccessfully());
+        showToast("Uploaded Successfully");
       });
 
     });
   }
   String? imageUrl;
   imgFromGallery() async {
+    emit(ProductImageLoading());
     await picker.pickImage(source: ImageSource.gallery, imageQuality: 50).then((value) {
       FirebaseStorage.instance.ref().child('Merchant/${Constants.doctorModel!.id}Products/${DateTime.now()}').putFile(File(value!.path)).then((value) {
         value.ref.getDownloadURL().then((value) {
