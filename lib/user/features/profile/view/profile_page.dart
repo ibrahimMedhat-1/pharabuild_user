@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
@@ -28,7 +27,6 @@ class ProfilePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
                     Text(
                       cubit.nameController.text,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),
@@ -66,9 +64,7 @@ class ProfilePage extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (builder) => const LoginPage(),
                                 ),
-                                (route) => false).then((value) {
-                              Phoenix.rebirth(context);
-                            });
+                                (route) => false);
                           });
                         });
                       },

@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intelligent_pharmacy/shared/utils/constants.dart';
@@ -34,8 +33,7 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
   void changeImage(context) async {
     final files = await ImageHelper().pickImage();
     if (files.isNotEmpty) {
-      final croppedImage = await ImageHelper()
-          .crop(file: files.first!, cropStyle: CropStyle.circle);
+      final croppedImage = await ImageHelper().crop(file: files.first!, cropStyle: CropStyle.circle);
       if (croppedImage != null) {
         imageFile = File(croppedImage.path);
       } else {
@@ -74,9 +72,7 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
   void saveData(context) {
     emit(SaveLoading());
 
-    var doctorDoc = FirebaseFirestore.instance
-        .collection('doctors')
-        .doc(Constants.doctorModel!.id);
+    var doctorDoc = FirebaseFirestore.instance.collection('doctors').doc(Constants.doctorModel!.id);
     doctorDoc.update({
       'name': nameController.text,
       'phoneNo': phoneController.text,
@@ -85,29 +81,26 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
       doctorDoc.get().then((value) async {
         Constants.doctorModel = DoctorModel.fromJson(value.data());
         initialize();
-        Phoenix.rebirth(context);
+        Navigator.pop(context);
         emit(SaveSuccess());
       });
     });
   }
 
-  Future<void> cachingUser(
-      DocumentSnapshot<Map<String, dynamic>> value, String userType) async {
+  Future<void> cachingUser(DocumentSnapshot<Map<String, dynamic>> value, String userType) async {
     List<String> map = [];
     dynamic array = value.data().toString().split('');
     await array.removeAt(0);
     await array.removeLast();
     array = await array.join('');
     array = await array.split(',');
-    await CacheHelper.setData(
-        key: userType, value: (handlingMapResponse(array, map).toString()));
+    await CacheHelper.setData(key: userType, value: (handlingMapResponse(array, map).toString()));
   }
 
   String handlingMapResponse(List array, List<String> map) {
     for (int i = 0; i < array.length; i++) {
       dynamic key = array[i].toString().trim().split(" ")[0].split("");
-      var value = array[i].toString().trim().split(" ").last ==
-              array[i].toString().trim().split(" ")[0]
+      var value = array[i].toString().trim().split(" ").last == array[i].toString().trim().split(" ")[0]
           ? ''
           : array[i].toString().trim().split(":").last.trim();
       debugPrint(array[i].toString().trim().split(":").last.trim());
@@ -174,11 +167,7 @@ class DoctorEditProfileCubit extends Cubit<DoctorEditProfileState> {
   List<Map<String, dynamic>> portfolioDataList = [];
 
   Future<void> fetchPortfolioData() async {
-    await FirebaseFirestore.instance
-        .collection("doctors")
-        .doc(Constants.doctorModel!.id)
-        .get()
-        .then((value) {
+    await FirebaseFirestore.instance.collection("doctors").doc(Constants.doctorModel!.id).get().then((value) {
       Constants.doctorModel = DoctorModel.fromJson(value.data());
     });
 
