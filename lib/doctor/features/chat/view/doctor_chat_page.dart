@@ -70,7 +70,7 @@ class ChatPage extends StatelessWidget {
                               receiverId: chatUserModel.id,
                               senderId: Constants.doctorModel!.id,
                             );
-                            cubit.sendMessage(message);
+                            cubit.sendMessage(message,chatUserModel.name!,chatUserModel.id!);
                             cubit.messageController.clear();
                           },
                           icon: const Icon(Icons.send),

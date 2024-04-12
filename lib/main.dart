@@ -15,6 +15,7 @@ import 'package:intelligent_pharmacy/user/features/profile/manager/profile_cubit
 import 'package:intelligent_pharmacy/user/layout/layout.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'doctor/features/my_products/manager/my_products_cubit.dart';
 import 'models/user_model.dart';
 
 void main() async {
@@ -40,11 +41,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()..getUserData()),
+
+          BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()),
+          BlocProvider<MyProductsCubit>( create: (context) => MyProductsCubit()),
         ],
         child: MaterialApp(
           title: 'Pharmacy App',

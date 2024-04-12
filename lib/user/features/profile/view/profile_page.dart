@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intelligent_pharmacy/authentication/view/login_page.dart';
 import 'package:intelligent_pharmacy/shared/network/cache_keys.dart';
 import 'package:intelligent_pharmacy/shared/network/cached_preference.dart';
-import 'package:intelligent_pharmacy/user/features/profile/manager/profile_cubit/profile_cubit.dart';
+import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/chats_page.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/edit_profile_page.dart';
 
@@ -14,11 +13,7 @@ class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<ProfileCubit, ProfileState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        final ProfileCubit cubit = ProfileCubit.get(context);
+  Widget build(BuildContext context){
         return Scaffold(
           body: SafeArea(
             child: Padding(
@@ -28,7 +23,7 @@ class ProfilePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      cubit.nameController.text,
+                      Constants.userModel?.name?? "",
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 4),
                     ),
                     ProfileButton(
@@ -59,6 +54,7 @@ class ProfilePage extends StatelessWidget {
                       onTap: () async {
                         await CacheHelper.removeData(key: CacheKeys.userId).then((value) async {
                           await FirebaseAuth.instance.signOut().then((value) {
+                            Constants.userModel=null;
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -75,7 +71,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         );
-      },
-    );
+
   }
 }

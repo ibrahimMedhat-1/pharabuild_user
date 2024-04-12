@@ -10,3 +10,5 @@ class GetUserDataSuccessfully extends ProfileState {}
 class ChangeProfileImageLoading extends ProfileState {}
 
 class ChangeProfileImageSuccessfully extends ProfileState {}
+class ChangeDataLoading extends ProfileState {}
+class ChangeData extends ProfileState {}

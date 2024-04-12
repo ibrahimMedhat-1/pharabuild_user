@@ -10,6 +10,7 @@ class EditProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProfileCubit.get(context).getUserData();
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -50,6 +51,10 @@ class EditProfilePage extends StatelessWidget {
                       isEnabled: false,
                     ),
                     const SizedBox(height: 10,),
+                    state is ChangeDataLoading?
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ):
                     ElevatedButton(
                       style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(ColorsAsset.mainColor),

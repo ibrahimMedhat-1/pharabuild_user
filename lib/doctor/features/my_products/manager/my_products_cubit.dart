@@ -29,9 +29,9 @@ class MyProductsCubit extends Cubit<MyProductsState> {
         .doc(docId)
         .update({'price': price ?? priceInitialValue, 'name': name ?? nameInitialValue});
    await getProducts();
+    emit(UpdateProduct());
     Navigator.pop(context);
 
-    emit(UpdateProduct());
   }
 
 
@@ -41,6 +41,7 @@ class MyProductsCubit extends Cubit<MyProductsState> {
         .doc(Constants.doctorModel!.id)
         .collection('Product')
         .get().then((value) {
+       products.clear();
       for (var element in value.docs) {
         element.reference.get().then((value){
           products.add(ProductsModel.fromJson(value.data()));

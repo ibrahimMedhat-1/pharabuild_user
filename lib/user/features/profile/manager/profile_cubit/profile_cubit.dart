@@ -35,11 +35,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void changeUserData() {
+    emit(ChangeDataLoading());
     FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).update({
       'name': nameController.text.trim(),
       'phoneNo': phoneController.text.trim(),
     }).then((value) {
       getUserData();
+      emit(ChangeData());
     });
   }
 

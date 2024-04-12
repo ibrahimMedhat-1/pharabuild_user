@@ -17,13 +17,15 @@ class ChatCubit extends Cubit<ChatState> {
   List<MessageModel> reversedChatMessage = [];
   ScrollController scrollController = ScrollController();
 
-  void sendMessage(MessageModel message) {
+  void sendMessage(MessageModel message,String name,String id) {
     FirebaseFirestore.instance
         .collection('doctors')
         .doc(message.senderId)
         .collection('chat')
         .doc(message.receiverId)
         .set({
+      'name': name,
+      'id': id,
       'lastMessage': message.text,
       'lastMessageDate': DateFormat('hh:mm').format(DateTime.now()),
     });
