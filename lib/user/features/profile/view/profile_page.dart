@@ -7,6 +7,7 @@ import 'package:intelligent_pharmacy/shared/utils/constants.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/chats_page.dart';
 import 'package:intelligent_pharmacy/user/features/profile/view/edit_profile_page.dart';
 
+import '../manager/profile_cubit/profile_cubit.dart';
 import 'widgets/profile_button.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -14,7 +15,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-        return Scaffold(
+    ProfileCubit.get(context).getUserData();
+
+    return Scaffold(
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(10),

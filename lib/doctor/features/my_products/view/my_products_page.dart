@@ -12,7 +12,6 @@ class MyProductsPage extends StatelessWidget {
     MyProductsCubit.get(context).getProducts();
     return BlocConsumer<MyProductsCubit, MyProductsState>(
       listener: (context, state) {
-       
       },
       builder: (context, state) {
         MyProductsCubit cubit = MyProductsCubit.get(context);
@@ -60,8 +59,7 @@ class MyProductsPage extends StatelessWidget {
                             const SizedBox(height: 5.0),
                             Text(
                               "price ${ product.price!} LE",
-
-                              style: const TextStyle(fontSize: 14.0),
+                               style: const TextStyle(fontSize: 14.0),
                             ),
                           ],
                         ),

@@ -40,8 +40,10 @@ class ProfileCubit extends Cubit<ProfileState> {
       'name': nameController.text.trim(),
       'phoneNo': phoneController.text.trim(),
     }).then((value) {
-      getUserData();
+      // Constants.userModel!.name=nameController.text.trim();
+
       emit(ChangeData());
+      getUserData();
     });
   }
 
