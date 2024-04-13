@@ -30,17 +30,19 @@ class ProfileCubit extends Cubit<ProfileState> {
       phoneController.text = Constants.userModel!.phoneNo!;
       emailController.text = Constants.userModel!.email!;
       imageUrl = Constants.userModel!.image!.split(':').last;
+      name=Constants.userModel!.name!;
       emit(GetUserDataSuccessfully());
     });
   }
-
+String? name = Constants.userModel?.name;
   void changeUserData() {
     emit(ChangeDataLoading());
     FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).update({
       'name': nameController.text.trim(),
       'phoneNo': phoneController.text.trim(),
     }).then((value) {
-      // Constants.userModel!.name=nameController.text.trim();
+      Constants.userModel?.name =nameController.text.trim();
+      name = Constants.userModel?.name;
 
       emit(ChangeData());
       getUserData();
